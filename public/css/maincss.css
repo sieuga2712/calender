@@ -1,0 +1,82 @@
+.main-menu-cal{
+display: grid;
+grid-template-columns: 200px auto;
+}
+#menu{
+ font-size: 20px;
+background-color: rgb(145, 168, 168);
+}
+#calendar-event{
+    display: grid;
+    grid-template-columns:  auto 400px;
+}
+.event-menu{
+   display: block;
+   position: absolute;
+   transition: all 0.3s;
+   width: 400px;
+   top: 50px;
+   right: -400px;
+   bottom: 0;
+   z-index: 999;
+   background-color: blue;
+  
+}
+
+.wrap-menuin{
+    display: flex;
+    position: absolute;
+    transition: all 0.3s;
+    top:350px;
+    bottom: 0;
+    right: 400px;
+    height: 100px;
+    width:15px;
+    background-color:white;
+    border:solid;
+    
+    align-items: center;
+    z-index: 999;
+
+}
+
+
+.tough:checked + .wrap-menuin{
+    right: 400px;
+}
+
+.tough:checked ~ .event-menu{
+   right: 0px;
+}
+
+.tough{
+   display: none;
+
+}
+.wrap-menu:hover{
+    background-color: bisque;
+}
+#menu ul li{
+
+    border-width: 2px;
+    background-color: aquamarine;
+    border-style: solid;
+}
+#menu ul li a{
+    text-align: center;
+    display: grid;
+    grid-template-columns: 200px;
+    
+    display: block;
+}
+#menu ul li:hover{
+    background-color: aqua;
+}
+#menu ul li a img{
+    width: 70px;
+    height: 70px;
+}
+.right-area{
+display: block;
+ 
+}
