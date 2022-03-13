@@ -1,22 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+   }
+
 .main-menu-cal{
 display: grid;
 grid-template-columns: 200px auto;
 }
 #menu{
+ 
  font-size: 20px;
 background-color: rgb(145, 168, 168);
 }
+
+
 #calendar-event{
     display: grid;
     grid-template-columns:  auto 400px;
 }
 .event-menu{
    display: block;
-   position: absolute;
+   position: fixed;
    transition: all 0.3s;
    width: 400px;
    top: 50px;
    right: -400px;
+   overflow: visible;
    bottom: 0;
    z-index: 999;
    background-color: blue;
@@ -24,7 +33,7 @@ background-color: rgb(145, 168, 168);
 }
 
 .wrap-menuin{
-    display: flex;
+    display: block;
     position: absolute;
     transition: all 0.3s;
     top:350px;
@@ -56,16 +65,19 @@ background-color: rgb(145, 168, 168);
 .wrap-menu:hover{
     background-color: bisque;
 }
+#menu{
+    grid-template-columns: 200px;
+    display: grid;
+}
 #menu ul li{
-
+    list-style-type: none;
+    
     border-width: 2px;
     background-color: aquamarine;
     border-style: solid;
 }
 #menu ul li a{
     text-align: center;
-    display: grid;
-    grid-template-columns: 200px;
     
     display: block;
 }
@@ -76,7 +88,20 @@ background-color: rgb(145, 168, 168);
     width: 70px;
     height: 70px;
 }
-.right-area{
-display: block;
- 
+
+
+
+.details tr th{
+    background-color: #6c7ae0;
+    border: solid 2px;
+}
+
+
+.detail-event{
+    display: grid;
+    grid-template-rows:  50px auto;
+
+}
+.table-details{
+    margin-left: 30px;
 }

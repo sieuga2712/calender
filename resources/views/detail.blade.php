@@ -3,12 +3,12 @@
 <body>
     <!--menu left-->
     <div class="main-menu-cal">
-        @include('layouts.menu')
+       @include('layouts.menu')
         <!-- end menu left-->
 
         <div id="right-menu">
             
-            @include('MenuRight.calendarEvent')
+        @include('MenuRight.detailsEvent')
 
 
         </div>

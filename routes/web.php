@@ -11,6 +11,8 @@
 |
 */
 
+use App\Http\Controllers\CreateController;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -18,9 +20,14 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-/*
-Route::get('/home', 'HomeController@index')->name('home');
-*/
+
+
+
+Route::get('/home', function () {
+    return view('home');
+});
+Route::get('/create','CreateController@index')->name('create');
+Route::get('/detail','DetailController@index')->name('detail');
 /*Route::get('/cal',function(){
     return view('index');
 });*/
