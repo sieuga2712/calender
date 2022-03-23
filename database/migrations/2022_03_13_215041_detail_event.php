@@ -14,15 +14,15 @@ class DetailEvent extends Migration
     public function up()
     {
         //
-        Schema::create('detailEvent', function (Blueprint $table) {
+        Schema::create('detail_Events', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('email');
             $table->string('nameEvent');
-            $table->string('timeStart');
-            $table->string('timeEnd');
+            $table->string('timeStart')->nullable();
+            $table->string('timeEnd')->nullable();
             $table->date('dateOfEvent');
-            $table->string('group');
-            $table->longText('Note');
+            $table->string('group')->nullable();
+            $table->longText('Note')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -36,6 +36,6 @@ class DetailEvent extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('detailEvent');
+        Schema::dropIfExists('detail_Events');
     }
 }

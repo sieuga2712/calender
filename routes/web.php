@@ -25,11 +25,11 @@ Auth::routes();
 
 Route::get('/home', function () {
     return view('home');
-});
+})->name('home');
 Route::get('/create','CreateController@index')->name('create');
 Route::get('/detail','DetailController@index')->name('detail');
 /*Route::get('/cal',function(){
     return view('index');
 });*/
-
+Route::post('/createPersonalEvent','CreateController@createPersonalEvent');
 

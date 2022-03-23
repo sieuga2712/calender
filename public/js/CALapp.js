@@ -42,6 +42,7 @@ generateCalendar = (month, year) => {
             day.setAttribute('id',y);
             day.setAttribute('onClick',"clickMe(this)");
             day.innerHTML = i - first_day.getDay() + 1
+            
             day.innerHTML += `
 
             <div class="calendar-days event">222222222222222222222222</div>

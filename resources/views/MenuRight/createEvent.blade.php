@@ -24,7 +24,8 @@
     input[type=submit]:hover {
         background-color: #58DF24;
     }
-    input[type=button]{
+
+    input[type=button] {
         background-color: #58DF24;
         border: none;
         color: white;
@@ -36,7 +37,8 @@
         margin: 4px 2px;
         cursor: pointer;
     }
-    input[type=button]:hover{
+
+    input[type=button]:hover {
         background-color: #3CA314;
         border: none;
         color: white;
@@ -48,6 +50,7 @@
         margin: 4px 2px;
         cursor: pointer;
     }
+
     button {
         background-color: #58DF24;
         border: none;
@@ -60,7 +63,8 @@
         margin: 4px 2px;
         cursor: pointer;
     }
-    button:hover{
+
+    button:hover {
         background-color: #3CA314;
         border: none;
         color: white;
@@ -73,15 +77,25 @@
         cursor: pointer;
     }
 </style>
-<form action="" method="POST" style="margin-left:300px;margin-top:20px;">
 
+@php
+$use="";
+
+$che=\App\Http\Controllers\Auth\loginController::checklogin();
+if($che==1)
+$use=\App\Http\Controllers\Auth\loginController::userlogin();
+
+
+@endphp
+<form action="/createPersonalEvent" method="POST" style="margin-left:300px;margin-top:20px;">
+{{csrf_field()}}
     <h2>nhap thong tin su kien</h2>
 
     <div>
         <label for="Eventname">ten su kien(*): </label>
         <input type="text" class="text" id="Eventname" name="Eventname">
         <br><br>
-        
+
         <br><br>
         <label for="startname">thoi gian bat dau: </label>
         <input type="time" class="text" id="startname" name="startname">
@@ -94,14 +108,15 @@
 
         <div id="chuky" style="visibility: hidden; display:none;">
             <label for="datestart">ngay bat dau(*) </label>
-            <input type="date" class="text" id="datestart" >
+            <input type="date" class="text" id="datestart">
             <br><br>
             <label for="dateend">ngay ket thuc(*) </label>
-            <input type="date" class="text" id="dateend" >
+            <input type="date" class="text" id="dateend">
         </div>
+
         <div id="trongngay" style="visibility: visible;">
             <label for="Eventdate">ngay(*) </label>
-            <input type="date" class="text" id="Eventdate" >
+            <input type="date" class="text" id="Eventdate" name="Eventdate">
 
         </div>
         <br><br>
@@ -119,48 +134,61 @@
                                     </textarea>
         </label>
         <br>
+        @if ($che==1)
         <input type="submit" id="sudmit">
+        @else
+        <input type="submit" id="sudmit"  disabled>
+        
+        @endif
+        
         <input type="button" onclick="lammoi()" value="lam moi">
-            
+        @if ($che!=1)
+       <div>ban chua dang nhap</div>
+        
+        @endif
     </div>
 
 
-    
+
 
 
 </form>
 <script>
-        function checkg() {
-            var g = document.getElementById("group");
+    function checkg() {
+        var g = document.getElementById("group");
 
-            g.disabled = !g.disabled;
+        g.disabled = !g.disabled;
 
+    }
+
+    function checkck() {
+        var ck = document.getElementById("chuky");
+        var n = document.getElementById("trongngay");
+
+        if (ck.style.visibility.toString() == "hidden") {
+            ck.style.visibility = "visible";
+            n.style.visibility = "hidden";
+            ck.style.display = "inline-block";
+            n.style.display = "none";
+        } else {
+            ck.style.visibility = "hidden";
+            n.style.visibility = "visible";
+            ck.style.display = "none";
+            n.style.display = "inline-block";
         }
 
-        function checkck() {
-            var ck = document.getElementById("chuky");
-            var n = document.getElementById("trongngay");
 
-            if (ck.style.visibility.toString() == "hidden") {
-                ck.style.visibility = "visible";
-                n.style.visibility = "hidden";
-                ck.style.display = "inline-block";
-                n.style.display = "none";
-            } else {
-                ck.style.visibility = "hidden";
-                n.style.visibility = "visible";
-                ck.style.display = "none";
-                n.style.display = "inline-block";
-            }
+    }
 
+    function lammoi() {
+       /* document.getElementById("Eventname").value = "";
 
-        }
-        function lammoi(){
-            document.getElementById("Eventname").value="";
-            
-            document.getElementById("startname").value=null;
-            document.getElementById("endname").value=null;
-            
-            document.getElementById("Eventdate").value=null;
-        }
-    </script>
+        document.getElementById("startname").value = null;
+        document.getElementById("endname").value = null;
+
+        document.getElementById("Eventdate").value = null;*/
+        alert(document.getElementById("startname").value)
+        alert(document.getElementById("startname").value)
+        alert(document.getElementById("Eventdate").value);
+    }
+</script>

@@ -14,7 +14,7 @@ class DetailUser extends Migration
     public function up()
     {
         //
-        Schema::create('detailUsers', function (Blueprint $table) {
+        Schema::create('detail_Users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
@@ -35,6 +35,6 @@ class DetailUser extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('detailUsers');
+        Schema::dropIfExists('detail_Users');
     }
 }

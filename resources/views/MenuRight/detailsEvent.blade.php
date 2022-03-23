@@ -1,10 +1,22 @@
+@php
+$use="";
+
+$che=\App\Http\Controllers\Auth\loginController::checklogin();
+if($che==1)
+$use=\App\Http\Controllers\Auth\loginController::userlogin();
+
+
+@endphp
+
 <div class="detail-event">
 
     <div class="filter-tool" style="background-color: red;">
-        <button type="button" ><a href="/create">tao su kien</a> </button>
+        <button type="button" style="background-color: green;" ><a href="/create">tao su kien</a> </button>
     </div>
 
-
+    @if ($che==1)
+        
+       
     <div class="table-details">
 
         <div class="wrap-table100">
@@ -14,8 +26,8 @@
                         <thead>
                             <tr class="row100 head">
                                 <th class="cell100 column1">ten su kien</th>
-                                <th class="cell100 column2">loai</th>
-                                <th class="cell100 column3">thoi gian</th>
+                                <th class="cell100 column2">bat dau</th>
+                                <th class="cell100 column3">ket thuc</th>
                                 <th class="cell100 column4">date</th>
                                 <th class="cell100 column5">group</th>
                                 <th class="cell100 column6">ghi chu</th>
@@ -27,22 +39,19 @@
                 <div class="table100-body js-pscroll">
                     <table>
                         <tbody>
-                            <tr class="row100 body" id="123" onclick="clickMe(this)">
-                                <td class="cell100 column1">Like a butterfly</td>
-                                
-                                <td class="cell100 column3">9:00 AM - 11:00 AM</td>
-                                <td class="cell100 column4">13/02/2000</td>
-                                <td class="cell100 column5">none</td>
-                                <td class="cell100 column6">none</td>
+                            @php
+                                $listEvent=\App\Models\detailEvents::getEvent();
+                            @endphp
+                            @foreach($listEvent as $event)                
+                            <tr class="row100 body" id="{{$event->id}}" onclick="clickMe(this)">
+                                <td class="cell100 column1">{{$event->nameEvent}}</td>
+                                <td class="cell100 column2">{{$event->timeStart}} </td>
+                                <td class="cell100 column3">{{$event->timeEnd}}</td>
+                                <td class="cell100 column4">{{$event->dateOfEvent}}</td>
+                                <td class="cell100 column5">{{$event->group}}</td>
+                                <td class="cell100 column6">{{$event->Note}}</td>
                             </tr>
-                            <tr class="row100 body" id="321"onclick="clickMe(this)">
-                                <td class="cell100 column1">Like a butterfly</td>
-                                
-                                <td class="cell100 column3">9:00 AM - 11:00 AM</td>
-                                <td class="cell100 column4">13/02/2000</td>
-                                <td class="cell100 column5">none</td>
-                                <td class="cell100 column6">none</td>
-                            </tr>
+                            @endforeach
 
 
                         </tbody>
@@ -55,7 +64,10 @@
     </div>
 
 
-
+    @else
+        <div>ban chua dang nhap</div>
+        
+    @endif
 
 
 
