@@ -6,11 +6,17 @@ use App\Models\detailEvents;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
+use App\Models\Group;
+use App\Models\memberGroup;
+
 class CreateController extends Controller
 {
     //
-    public function index(){
+    public function indexPersonal(){
         return view('create');
+    }
+    public function indexGroup(){
+        return view('createGroup');
     }
     public function createPersonalEvent(Request $request){
         $name= $request->Eventname;
@@ -35,4 +41,15 @@ class CreateController extends Controller
         return redirect("home");
 
     }  
+    public function createGroup(Request $request){
+            $group=new Group;
+            $group->name=$request->namegroup;
+            $group->save();
+            $member=new memberGroup;
+            $member->email=LoginController::userlogin();
+            $member->idGroup=$group->id;
+            $member->level=1;
+            $member->save();
+            return redirect("group");
+    }
 }

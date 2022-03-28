@@ -14,18 +14,28 @@
         </a>
     </li>
     <li>
-        <a href=""><img src="{{ asset('images/calendar.jpg') }}">
+        <a href="/group"><img src="{{ asset('images/calendar.jpg') }}">
             <p>quan ly nhom</p>
         </a>
     </li>
     <li>
-        <a href=""><img src="{{ asset('images/calendar.jpg') }}">
+        <a href="/detailgroup"><img src="{{ asset('images/calendar.jpg') }}">
             <p>thong tin ca nhan</p>
         </a>
     </li>
     <li>
-        <a href=""><img src="{{ asset('images/calendar.jpg') }}">
-            <p>dang xuat</p>
+        
+            
+            <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                                     <img src="{{ asset('images/calendar.jpg') }}"><br>
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                    </form>
         </a>
     </li>
 

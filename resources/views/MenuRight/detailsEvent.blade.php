@@ -101,16 +101,3 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 }
     
 </script>
-<style>
-    button {
-  border: 2px solid;
-  color: black;
-  padding: 5px 3px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 2px 2px;
-  cursor: pointer;
-}
-</style>
