@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Exception;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,6 +47,11 @@ class LoginController extends Controller
         return $check;
     }
     public static function userlogin(){
+        try{
         return Auth::user()->email;
+        }
+        catch( Exception $e){
+            return 1;
+        }
     }
 }

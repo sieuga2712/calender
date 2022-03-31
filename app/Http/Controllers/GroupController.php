@@ -13,5 +13,7 @@ class GroupController extends Controller
     public function index(){
         return view('detailGroup');
     }
-   
+   public function goGroup(){
+       return view('detailGroup');
+   }
 }

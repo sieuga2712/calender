@@ -19,7 +19,7 @@
         </a>
     </li>
     <li>
-        <a href="/detailgroup"><img src="{{ asset('images/calendar.jpg') }}">
+        <a href="/information"><img src="{{ asset('images/calendar.jpg') }}">
             <p>thong tin ca nhan</p>
         </a>
     </li>

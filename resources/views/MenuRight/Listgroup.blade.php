@@ -91,9 +91,8 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 <script>
     function clickMe(e){
        
-   
-   alert(e);
-   
+    window.location.href="/group/"+e;
+  
 }
     
 </script>
