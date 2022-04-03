@@ -7,10 +7,10 @@
             <table>
                 <thead>
                     <tr class="row100 head">
-                        <th class="cell100 column1">ten</th>
-                        <th class="cell100 column2">chuc vu</th>
+                        <th class="cell100 column1">email</th>
+                        <th class="cell100 column2">name</th>
                         
-                        <th class="cell100 column4">nickname</th>
+                        <th class="cell100 column4">level</th>
                         <th class="cell100 column5">so nhiem vu</th>
                         <th class="cell100 column6">tinh trang</th>
                     </tr>
@@ -22,25 +22,21 @@
             <table>
                 <tbody>
                     @php
-                        $listgroup=\App\Models\Group::getGroup();
+                        $listgroup=\App\Models\Group::ListMember();
                     @endphp
                     @foreach($listgroup as $group)
-                    @php
-                        $numbermember=\App\Models\Group::numberMember($group->id);
-                        $level1=\App\Models\Group::level1Group($group->id);
-                        $ismem=\App\Models\Group::isMember($group->id);
-                    @endphp         
+                     @php
+                        $informem=\App\Models\detailUsers::inforMember($group->email);
+                     @endphp    
                     <tr class="row100 body"  onclick="clickMe({{$group->id}})">
-                        <td class="cell100 column1">{{$group->name}}</td>
-                        <td class="cell100 column2">{{$level1}} </td>
+                        <td class="cell100 column1">{{$group->email}}</td>
+                        <td class="cell100 column2">{{$informem[0]->name}} </td>
                         
-                        <td class="cell100 column4">{{$numbermember}}</td>
-                        <td class="cell100 column5">ghi chu</td>
-                        @if($ismem==0)
+                        <td class="cell100 column4">{{$group->level}}</td>
+                        <td class="cell100 column5">so nhiem vu</td>
+                        
                         <td class="cell100 column6"><button>chua tham gia</button></td>
-                        @else
-                        <td class="cell100 column6"><button>da tham gia</button></td>
-                        @endif
+                       
                     </tr>
                     @endforeach
 

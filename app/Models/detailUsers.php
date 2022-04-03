@@ -21,4 +21,8 @@ class detailUsers extends Model
         $member=DB::table('detail_users')->where('email',LoginController::userlogin())->first();
         return $member;
     }
+    public static function inforMember($email){
+        $member=DB::table("detail_users")->where("email",$email)->get();
+        return $member;
+    }
 }

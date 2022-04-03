@@ -30,4 +30,14 @@ class Group extends Model
         $ismem=DB::table('member_Groups')->where('idGroup',$idgroup)->where('email',LoginController::userlogin())->count();
         return $ismem;
     }
+    public static function ListMember(){
+        $id=$_GET["id"];
+        $list=DB::table('member_Groups')->where("idGroup",$id)->get();
+        return $list;
+    }
+    public static function checkMember(){
+        $id=$_GET["id"];
+        $list=DB::table('applications')->where("idgroup",$id)->get();
+        return $list;
+    }
 }

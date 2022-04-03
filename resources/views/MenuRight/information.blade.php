@@ -95,7 +95,6 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
 $member=\App\Models\detailUsers::showmember();
 
-echo $member->name;
 @endphp
 @if ($che==1)
 <form action="/changInformation" method="POST" style="margin-left:300px;margin-top:20px;">
@@ -109,23 +108,21 @@ echo $member->name;
         <img src="{{ asset('images/calendar.jpg') }}">
         <br>
         <label >email: </label>
-        <input type="text" class="text" value={{$member->email}} id="email" name ="email" disabled>
+        <input type="text" class="text" value='{{$member->email}}' id="email" name ="email" disabled>
         <br><br>
+
+        
         <label >name: </label>
-        <input type="text" class="text"id="name" name="name" value={{$member->name}} >
+        <input type="text" class="text"id="name" name="name" value='{{$member->name}}' >
+
+
+
+        
         <br><br>
       
-            
-
-       
             <label for="birthday">birthday(*) </label>
-            <input type="date" class="text" id="birthday" name="birthday" value={{$member->birthday}}>
+            <input type="date" class="text" id="birthday" name="birthday" value='{{$member->birthday}}'>
 
-      
-       
-       
-    
-      
         <input type="submit" id="sudmit">
       
         

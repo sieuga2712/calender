@@ -32,9 +32,10 @@ Route::get('/detail','DetailController@index')->name('detail');
 Route::get('/group','GroupController@Listindex')->name('group');
 Route::get('/detailgroup','GroupController@index');
 Route::get('/createGroup','CreateController@indexGroup')->name('createGroup');
-Route::get('/group/{id}','GroupController@goGroup');
+Route::get('/gogroup','GroupController@goGroup');
 Route::get('/information','UserController@index')->name('information');
-
+Route::get('/ApplicationGroup','GroupController@appGroup');
+Route::get('/checkApplication','GroupController@checkApplication');
 /*Route::get('/cal',function(){
     return view('index');
 });*/
