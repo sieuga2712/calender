@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Models\Group;
 use App\Models\memberGroup;
+use App\Models\MissionGroups;
 
 class CreateController extends Controller
 {
@@ -52,4 +53,32 @@ class CreateController extends Controller
             $member->save();
             return redirect("group");
     }
+    public function createGroupMission(Request $request){
+        $name= $request->MissionName;
+        $start= $request->startTime;
+        $end=$request->endTime;
+        $checklimit=$request->limitMember;
+        $limit=$request->quanityMember;
+        $day=$request->MissionDate;
+        $group=$request->GroupMission;
+        $note=$request->noteMission;
+        
+        $mission =new MissionGroups;
+        $mission->idgroup=$group;
+        $mission->NameMission=$name;
+        $mission->StartTime=$start;
+        $mission->EndTime=$end;
+        $mission->dateMission=$day;
+        
+        $mission->Note=$note;
+        if($checklimit==true)
+            $mission->limit=$limit;
+        else
+            $mission->limit=null;
+        $mission->save();
+       
+       
+        return redirect("/gogroup?id=".$group);
+    } 
+    
 }

@@ -3,7 +3,15 @@
         <ul>
             <li class="menugroup" onclick="changeMenuGuild('member')">thanh vien</li>
             <li class="menugroup" onclick="changeMenuGuild('mission')">nhiem vu</li>
+            @php
+            $informem=\App\Models\memberGroup::checkMember();
+
+            @endphp
+            @if($informem[0]->level<=2)
             <li class="menugroup" onclick="changeMenuGuild('createMission')">tao nhiem vu</li>
+            @else
+            <li class="menugroup" disabled>tao nhiem vu</li>
+            @endif
             <li class="menugroup" onclick="changeMenuGuild('application')">don xin</li>
             <li class="menugroup" onclick="changeMenuGuild('setting')">thiet lap</li>
 

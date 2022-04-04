@@ -19,7 +19,7 @@ class Group extends Model
         return $group;
     }
     public static function numberMember($idgroup){
-        $member=DB::table('groups')->where('id',$idgroup)->count();
+        $member=DB::table('member_Groups')->where('idGroup',$idgroup)->count();
         return $member;
     }
     public static function level1Group($idgroup){

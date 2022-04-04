@@ -87,7 +87,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
 
 @endphp
-<form action="/createPersonalEvent" method="POST" style="margin-left:300px;margin-top:20px;">
+<form action="/createPersonalEvent" id="FormCreate" method="POST" style="margin-left:300px;margin-top:20px;">
 {{csrf_field()}}
     <h2>nhap thong tin su kien</h2>
 
@@ -181,14 +181,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
     }
 
     function lammoi() {
-       /* document.getElementById("Eventname").value = "";
+        document.getElementById("FormCreate").reset();
 
-        document.getElementById("startname").value = null;
-        document.getElementById("endname").value = null;
-
-        document.getElementById("Eventdate").value = null;*/
-        alert(document.getElementById("startname").value)
-        alert(document.getElementById("startname").value)
-        alert(document.getElementById("Eventdate").value);
     }
 </script>
