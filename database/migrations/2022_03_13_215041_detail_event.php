@@ -22,6 +22,7 @@ class DetailEvent extends Migration
             $table->string('timeEnd')->nullable();
             $table->date('dateOfEvent');
             $table->string('group')->nullable();
+            $table->string('ChainOfId');
             $table->longText('Note')->nullable();
             $table->rememberToken();
             $table->timestamps();

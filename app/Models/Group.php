@@ -12,7 +12,8 @@ class Group extends Model
 {
     //
     protected $group=[
-        'name'
+        'name',
+        'limitMember'
     ];
     public static function getGroup(){
         $group=DB::table('groups')->get();
@@ -39,5 +40,9 @@ class Group extends Model
         $id=$_GET["id"];
         $list=DB::table('applications')->where("idgroup",$id)->get();
         return $list;
+    }
+    public static function limitMember($idgroup){
+        $limit=DB::table('groups')->where('id',$idgroup)->first();
+        return $limit->limitMember;
     }
 }

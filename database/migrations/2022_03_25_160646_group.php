@@ -17,7 +17,7 @@ class Group extends Migration
         Schema::create('Groups', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            
+            $table->integer('limitMember')->nullable();
         
             $table->rememberToken();
             $table->timestamps();

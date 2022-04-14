@@ -98,10 +98,10 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
         <br><br>
         <label for="startname">thoi gian bat dau: </label>
-        <input type="time" class="text" id="startname" name="startname">
+        <input type="time" class="text" id="startname" name="startname" onchange="checktime()">
         <br><br>
         <label for="endname">thoi gian ket thuc:</label>
-        <input type="time" class="text" id="endname" name="endname">
+        <input type="time" class="text" id="endname" name="endname" onchange="checktime()">
         <br>
         <label for="cycle" style="margin-left:20px;" disabled>su kien co chu ky</label>
         <input type="checkbox" style="margin-left:20px;" id="cycle" onchange="checkck()" disabled><br>
@@ -183,5 +183,10 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
     function lammoi() {
         document.getElementById("FormCreate").reset();
 
+    }
+    function checktime(){
+        var start=document.getElementById("startname");
+        var end=document.getElementById("endname");
+        
     }
 </script>

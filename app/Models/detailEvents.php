@@ -18,6 +18,7 @@ class detailEvents extends Model
         'timeStart',
         'timeEnd',
         'dateOfEvent',
+        'ChainOfId',
         'group',
         'Note'
     ];

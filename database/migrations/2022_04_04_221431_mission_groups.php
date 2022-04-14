@@ -14,15 +14,15 @@ class MissionGroups extends Migration
     public function up()
     {
         //
-        Schema::create('Mission_Group', function (Blueprint $table) {
+        Schema::create('Mission_Groups', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('NameMission');
             $table->string('idgroup');
-            $table->integer('limit');
+            $table->integer('limit')->nullable();
             $table->string('StartTime')->nullable();
             $table->string('EndTime')->nullable();
             $table->date('dateMission');
-           
+            $table->string('ChainOfId');
             $table->longText('Note')->nullable();
             $table->rememberToken();
             $table->timestamps();
@@ -37,6 +37,6 @@ class MissionGroups extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('Mission_Group');
+        Schema::dropIfExists('Mission_Groups');
     }
 }

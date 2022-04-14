@@ -17,7 +17,7 @@ class MissionMembers extends Migration
         Schema::create('Mission_Members', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('idMission');
-            $table->integer('email');
+            $table->string('email');
            
          
             $table->rememberToken();

@@ -15,7 +15,13 @@ class MissionGroups extends Model
         'StartTime',
         'EndTime',
         'dateMission',
+        'ChainOfId',
         'limit',
         'Note'
     ];
+    public static function showMission(){
+        $idgroup=$_GET['id'];
+        $mem=DB::table('mission_groups')->where('idgroup',$idgroup)->get();
+        return $mem;
+    }
 }

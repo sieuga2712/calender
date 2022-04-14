@@ -22,7 +22,7 @@ class detailUsers extends Model
         return $member;
     }
     public static function inforMember($email){
-        $member=DB::table("detail_users")->where("email",$email)->get();
+        $member=DB::table("detail_users")->where("email",$email)->first();
         return $member;
     }
 }

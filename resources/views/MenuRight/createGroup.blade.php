@@ -92,11 +92,11 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
     <h2>nhap thong tin su kien</h2>
 
     <div>
-        <label for="namegroup">ten su kien(*): </label>
+        <label for="namegroup">ten nhom(*): </label>
         <input type="text" class="text" id="namegroup" name="namegroup">
         <br><br>
         <label for="maxmember">so thanh vien toi da: </label>
-        <input type="text" class="text" id="maxmember" name="maxmenber">
+        <input type="number" class="text" id="maxmember" name="maxmenber">
         <br><br>
 
         

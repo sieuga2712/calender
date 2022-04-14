@@ -12,4 +12,12 @@ class MissionMembers extends Model
         'idMission',
         'Email'
     ];
+    public static function showLimit($id){
+        $limit=DB::table('mission_members')->where('idMission',$id)->count();
+        return $limit;
+    }
+    public static function joined($id){
+        $member=DB::table('mission_members')->where('idMission',$id)->where('email',LoginController::userlogin())->count();
+        return $member;
+    }
 }

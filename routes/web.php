@@ -34,8 +34,14 @@ Route::get('/detailgroup','GroupController@index');
 Route::get('/createGroup','CreateController@indexGroup')->name('createGroup');
 Route::get('/gogroup','GroupController@goGroup');
 Route::get('/information','UserController@index')->name('information');
+
 Route::get('/ApplicationGroup','GroupController@appGroup');
 Route::get('/checkApplication','GroupController@checkApplication');
+Route::get('/joinMission','CreateController@joinMission');
+Route::get('/quitMission','CreateController@quitMission');
+Route::get('/changelv','GroupController@changelevel');
+Route::get('/deletePersonalEvent','CreateController@deletePersonalEvent');
+Route::get('/deleteGroupMission','CreateController@deleteGroupMission');
 /*Route::get('/cal',function(){
     return view('index');
 });*/

@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Models\Group;
 use App\Models\memberGroup;
 use App\Models\MissionGroups;
+use App\Models\MissionMembers;
+use Illuminate\Support\Facades\DB;
 
 class CreateController extends Controller
 {
@@ -36,8 +38,10 @@ class CreateController extends Controller
         $event->dateOfEvent=$day;
         $event->group=$group;
         $event->Note=$note;
+        $event->ChainOfid=1;
         $event->save();
-       
+        $event->ChainOfid='P'.$event->id;
+        $event->save();
         //echo $event.$start.$end.$day;
         return redirect("home");
 
@@ -45,6 +49,7 @@ class CreateController extends Controller
     public function createGroup(Request $request){
             $group=new Group;
             $group->name=$request->namegroup;
+            $group->limitMember=$request->maxmember;
             $group->save();
             $member=new memberGroup;
             $member->email=LoginController::userlogin();
@@ -69,16 +74,61 @@ class CreateController extends Controller
         $mission->StartTime=$start;
         $mission->EndTime=$end;
         $mission->dateMission=$day;
-        
+        $mission->ChainOfId=1;
         $mission->Note=$note;
         if($checklimit==true)
             $mission->limit=$limit;
         else
             $mission->limit=null;
         $mission->save();
+        $mission->ChainOfId='G-'.$mission->id;
+        $mission->save();
        
        
         return redirect("/gogroup?id=".$group);
     } 
+    public function joinMission(){
+        
+        $mission=$_GET['idMission'];
+        $missionDetail=DB::table('mission_groups')->where('id',$mission)->first();
+        $count=DB::table('mission_members')->where('idMission',$mission)->where('email',LoginController::userlogin())->count();
+        if($count==0){
+        $mm=new MissionMembers;
+        $mm->idMission=$mission;
+        $mm->email=LoginController::userlogin();
+        $mm->save();
+        $event=new detailEvents;
+        $email=LoginController::userlogin();
+        
+        
+        $event->email=$email;
+        $event->nameEvent=$missionDetail->NameMission;
+        $event->timeStart=$missionDetail->StartTime;
+        $event->timeEnd=$missionDetail->EndTime;
+        $event->dateOfEvent=$missionDetail->dateMission;
+        $event->group=$missionDetail->idgroup;
+        $event->Note=$missionDetail->Note;
+        $event->ChainOfid=1;
+        $event->save();
+        $event->ChainOfid='P-'.$event->id;
+        $event->save();
+        }
+
+        return redirect()->back();
+    }
+    public function quitMission(){
+        $mission=$_GET['idMission'];
+        
+        DB::update('delete from Mission_Members where idMission ='.$mission.' && email = "'.LoginController::userlogin().'"');
+        $mission='P-'.$mission;
+        DB::update('delete from detail_events where ChainOfId ="'.$mission.'" && email = "'.LoginController::userlogin().'"');
+        return redirect()->back();
+    }
+    public function deletePersonalEvent(){
+        
+    }
+    public function deleteGroupMission(){
+        
+    }
     
 }

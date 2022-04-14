@@ -30,7 +30,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                                 <th class="cell100 column2">nhom truong</th>
 
                                 <th class="cell100 column4">thanh vien</th>
-                                <th class="cell100 column5">ghi chu</th>
+                                <th class="cell100 column5">gioi han</th>
                                 <th class="cell100 column6">tinh trang</th>
                             </tr>
                         </thead>
@@ -46,6 +46,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                             @foreach($listgroup as $group)
                             @php
                             $numbermember=\App\Models\Group::numberMember($group->id);
+                            $limitMember=\App\Models\Group::limitMember($group->id);
                             $level1=\App\Models\Group::level1Group($group->id);
                             $ismem=\App\Models\Group::isMember($group->id);
                             $application="/ApplicationGroup?id=".$group->id."&email=".$use;
@@ -55,7 +56,11 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                                 <td class="cell100 column2" onclick="clickMe({{$group->id}})">{{$level1}} </td>
 
                                 <td class="cell100 column4" onclick="clickMe({{$group->id}})">{{$numbermember}}</td>
-                                <td class="cell100 column5" onclick="clickMe({{$group->id}})">ghi chu</td>
+                                @if($limitMember==null)
+                                <td class="cell100 column5" onclick="clickMe({{$group->id}})">khong gioi han</td>
+                                @else
+                                <td class="cell100 column5" onclick="clickMe({{$group->id}})">{{$limitMember}}</td>
+                                @endif
                                 @if($ismem==0)
                                 @php
                                 $ischeck=\App\Models\Applications::checked($group->id);

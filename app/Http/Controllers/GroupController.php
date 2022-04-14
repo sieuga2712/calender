@@ -44,4 +44,10 @@ class GroupController extends Controller
     DB::table("applications")->where("id",$id)->delete();;
 
    }
+   public function changelevel(){
+    $id=$_GET["idgroup"];
+    $email=$_GET["email"];
+    $lv=$_GET["level"];
+    DB::update('update member_groups set level ='.$lv.' where email = "'.$email.'" and idGroup='.$id);
+   }
 }
