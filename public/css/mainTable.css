@@ -176,6 +176,10 @@ th, td {
   padding-right: 10px;
   text-align: center;
 }
+.column0 {
+  width: 5%;
+
+}
 
 .column1 {
   width: 30%;

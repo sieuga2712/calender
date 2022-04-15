@@ -12,7 +12,8 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
     <div class="filter-tool" style="background-color: grey;">
         <button type="button" style="background-color: green;"><a href="/create">tao su kien</a> </button>
-        <button type="button" id="g" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chon</button>
+        <button type="button" id="chon" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chon</button>
+        <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9;" onclick="deleteEvent()">xoa</button>
     </div>
 
     @if ($che==1)
@@ -46,8 +47,10 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                             @endphp
                             @foreach($listEvent as $event)
                             <tr class="row100 body" id="{{$event->id}}">
-                                <td class="cell100 column0 hidden" onchange="addList({{$event->id}})">
-                                    <input type="checkbox">
+                                <td class="cell100 column0 hidden" >
+                                    @if($event->group==NULL)
+                                    <input type="checkbox"onchange="addList({{$event->id}})">
+                                    @endif
 
                                 </td>
                                 <td class="cell100 column1" onclick="clickMe(this)">{{$event->nameEvent}}</td>
@@ -106,20 +109,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
     }
 
-    function hexToRgb(hex) {
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        if (result) {
-            var r = parseInt(result[1], 16);
-            var g = parseInt(result[2], 16);
-            var b = parseInt(result[3], 16);
-            return r + ", " + g + ", " + b; //return 23,14,45 -> reformat if needed 
-        }
-        return null;
-    }
-
-    function rgbToHex(r, g, b) {
-        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-    }
+   
     const listevent = [];
 
     function addList(id) {
@@ -136,41 +126,29 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
    
 
-    function chonev() {
+    
 
-        var chon = document.getElementById("g");
-
-        var C2 = "rgb(" + hexToRgb("#C20000") + ")";
-        var D9 = "rgb(" + hexToRgb("#D9D9D9") + ")";
-        if (chon.style.backgroundColor == C2) {
-
-
-            chon.style.backgroundColor = "red";
-            chon.style.color = "grey";
-            showchon();
-        } else {
-
-            chon.style.backgroundColor = C2;
-            chon.style.color = D9;
-            hiddenchon();
-
+   
+    function deleteEvent() {
+        
+        var userdata = {
+            'list':listevent
+        };
+        
+        $.ajax({
+            url: "/deletePersonalEvent",
+            type: "GET",
+            data:userdata,
+           
+        }).done(function(Response) {
+           
+            
         }
-
-    }
-
-    function showchon() {
-        const elements = document.querySelectorAll(".column0");
-
-        for (let i = 0; i < elements.length; i++)
-            elements[i].classList.remove('hidden');
-    }
-
-    function hiddenchon() {
-        const elements = document.querySelectorAll(".column0");
-        for (let i = 0; i < elements.length; i++)
-            elements[i].classList.add('hidden');
-
-    }
+        );
+        location.reload(true);
+          
+    
+        }
 </script>
 <style>
     .column0 {
@@ -178,9 +156,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
     }
 
-    .hidden {
-        display: none;
-    }
+    
 
 
     .column1 {

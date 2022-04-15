@@ -1,6 +1,10 @@
 <div class="main-group">
     <div class="table-details">
-
+    <div class="filter-tool" style="background-color: grey;">
+        
+        <button type="button" id="chon" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chon</button>
+        <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9;" onclick="deleteGroupEvent()">xoa</button>
+    </div>
         <div class="wrap-table100">
             <div class="table100 ver1 m-b-110">
                 
@@ -8,6 +12,7 @@
                     <table>
                         <thead>
                             <tr class="row100 head">
+                                <th class="cell100 column0 hidden"></th>
                                 <th class="cell100 column1" style="width: 25%;">ten nhiem vu</th>
                                 <th class="cell100 column2"style="width: 20%;">ngay</th>
 
@@ -31,7 +36,13 @@
                             $limit=\App\Models\MissionMembers::showLimit($mission->id);
                             $isjoin=\App\Models\MissionMembers::joined($mission->id);
                             @endphp
-                            <tr class="row100 body" onclick="clickMe({{$mission->id}})">
+                            <tr class="row100 body" >
+                                <td class="cell100 column0 hidden"  style="width: 5%;">
+                                 
+                                    <input type="checkbox"onchange="addList({{$mission->id}})">
+                                  
+
+                                </td>
                                 <td class="cell100 column1"style="width: 25%;">{{$mission->NameMission}}</td>
                                 <td class="cell100 column2"style="width:20%;">{{$mission->dateMission}} </td>
 
@@ -116,7 +127,38 @@
         });
     }
 
-    function clickMe(id) {
+    const listevent = [];
 
+    function addList(id) {
+
+        for (let i = 0; i < listevent.length; i++)
+            if (listevent[i] == id) {
+                listevent.splice(i,1);
+                
+                return;
+            }
+            listevent.push(id);
+          
     }
+
+    function deleteGroupEvent() {
+        
+        var userdata = {
+            'list':listevent
+        };
+        
+        $.ajax({
+            url: "/deleteGroupMission",
+            type: "GET",
+            data:userdata,
+           
+        }).done(function(Response) {
+           
+            
+        }
+        );
+        location.reload(true);
+          
+    
+        }
 </script>
