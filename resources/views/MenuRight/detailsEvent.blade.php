@@ -21,55 +21,66 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
     <div class="table-details">
 
-        <div class="wrap-table100">
-            <div class="table100 ver1 m-b-110">
-                <div class="table100-head">
-                    <table>
-                        <thead>
-                            <tr class="row100 head">
-                                <th class="cell100 column0 hidden"></th>
-                                <th class="cell100 column1">ten su kien</th>
-                                <th class="cell100 column2">bat dau</th>
-                                <th class="cell100 column3">ket thuc</th>
-                                <th class="cell100 column4">date</th>
-                                <th class="cell100 column5">group</th>
-                                <th class="cell100 column6">ghi chu</th>
-                            </tr>
-                        </thead>
-                    </table>
+
+
+
+
+        @php
+        $listEvent=\App\Models\detailEvents::getEvent();
+        @endphp
+        @foreach($listEvent as $event)
+
+        
+
+        <div class="a1">
+            <div class=" a2 left-calen">
+
+                @if($event->group==NULL)
+                <div class="chon hidden">
+                    <input type="checkbox" onchange="addList({{$event->id}})">
                 </div>
-
-                <div class="table100-body js-pscroll">
-                    <table>
-                        <tbody>
-                            @php
-                            $listEvent=\App\Models\detailEvents::getEvent();
-                            @endphp
-                            @foreach($listEvent as $event)
-                            <tr class="row100 body" id="{{$event->id}}">
-                                <td class="cell100 column0 hidden" >
-                                    @if($event->group==NULL)
-                                    <input type="checkbox"onchange="addList({{$event->id}})">
-                                    @endif
-
-                                </td>
-                                <td class="cell100 column1" onclick="clickMe(this)">{{$event->nameEvent}}</td>
-                                <td class="cell100 column2" onclick="clickMe(this)">{{$event->timeStart}} </td>
-                                <td class="cell100 column3" onclick="clickMe(this)">{{$event->timeEnd}}</td>
-                                <td class="cell100 column4" onclick="clickMe(this)">{{$event->dateOfEvent}}</td>
-                                <td class="cell100 column5" onclick="clickMe(this)">{{$event->group}}</td>
-                                <td class="cell100 column6" onclick="clickMe(this)">{{$event->Note}}</td>
-                            </tr>
-                            @endforeach
+                @endif
+                12 ngày nữa bắt đầu
 
 
-                        </tbody>
-                    </table>
-                </div>
             </div>
+            <div class=" a2 calen">
+                <div class="top-calen">
+                    {{$event->nameEvent}}
+                </div>
+                <div class="mid-calen">
+                    time:{{$event->timeStart}}-{{$event->timeEnd}}
+                    <div style="float:right">
+                        date:{{$event->dateOfEvent}}
+                    </div>
+                </div>
 
+                @if($event->group!=NULL)
+                @php
+                $name=\App\Models\Group::getNameGroup($event->group);
+                @endphp
+                <div class="under-calen">
+                   group:{{$name}}
+                </div>
+                @endif
 
+            </div>
+            <div class=" a2">
+                <span class="right-calen">
+                    NOTE:
+                </span>
+                <br>
+                {{$event->Note}}
+            </div>
         </div>
+
+        @endforeach
+
+
+
+
+
+
     </div>
 
 
@@ -109,78 +120,43 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
     }
 
-   
+
     const listevent = [];
 
     function addList(id) {
 
         for (let i = 0; i < listevent.length; i++)
             if (listevent[i] == id) {
-                listevent.splice(i,1);
-                
+                listevent.splice(i, 1);
+
                 return;
             }
-            listevent.push(id);
-           
+        listevent.push(id);
+
     }
 
-   
 
-    
 
-   
+
+
+
     function deleteEvent() {
-        
+
         var userdata = {
-            'list':listevent
+            'list': listevent
         };
-        
+
         $.ajax({
             url: "/deletePersonalEvent",
             type: "GET",
-            data:userdata,
-           
+            data: userdata,
+
         }).done(function(Response) {
-           
-            
-        }
-        );
+
+
+        });
         location.reload(true);
-          
-    
-        }
+
+
+    }
 </script>
-<style>
-    .column0 {
-        width: 5%;
-
-    }
-
-    
-
-
-    .column1 {
-        width: 25%;
-        padding-left: 40px;
-    }
-
-    .column2 {
-        width: 8%;
-    }
-
-    .column3 {
-        width: 8%;
-    }
-
-    .column4 {
-        width: 18%;
-    }
-
-    .column5 {
-        width: 18%;
-    }
-
-    .column6 {
-        width: 18%;
-    }
-</style>

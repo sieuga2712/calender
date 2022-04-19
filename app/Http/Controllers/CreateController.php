@@ -110,7 +110,7 @@ class CreateController extends Controller
         $event->Note=$missionDetail->Note;
         $event->ChainOfid=1;
         $event->save();
-        $event->ChainOfid='P-'.$mm->idMission;
+        $event->ChainOfid='G-'.$mm->idMission;
         $event->save();
         }
 
@@ -122,7 +122,7 @@ class CreateController extends Controller
         
         DB::update('delete from Mission_Members where idMission ='.$mission.' && email = "'.LoginController::userlogin().'"');
       
-        DB::update('delete from detail_events where ChainOfId ="P-'.$mission.'" && email = "'.LoginController::userlogin().'"');
+        DB::update('delete from detail_events where ChainOfId ="G-'.$mission.'" && email = "'.LoginController::userlogin().'"');
         return redirect()->back();
     }
     public function deletePersonalEvent(){
@@ -137,7 +137,7 @@ class CreateController extends Controller
         foreach($list as $idevent){
             DB::update('delete from mission_groups where id ='.$idevent );
             DB::update('delete from mission_members where idMission ='.$idevent );
-            DB::update('delete from detail_events where id ='.$idevent );
+            DB::update('delete from detail_events where ChainOfId ="G-'.$idevent.'"' );
         }
         return redirect()->back();
     }

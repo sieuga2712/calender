@@ -12,7 +12,7 @@
                     <table>
                         <thead>
                             <tr class="row100 head">
-                                <th class="cell100 column0 hidden"></th>
+                                <th class="cell100 column0 chon hidden"></th>
                                 <th class="cell100 column1" style="width: 25%;">ten nhiem vu</th>
                                 <th class="cell100 column2"style="width: 20%;">ngay</th>
 
@@ -37,7 +37,7 @@
                             $isjoin=\App\Models\MissionMembers::joined($mission->id);
                             @endphp
                             <tr class="row100 body" >
-                                <td class="cell100 column0 hidden"  style="width: 5%;">
+                                <td class="cell100 column0 chon hidden"  style="width: 5%;">
                                  
                                     <input type="checkbox"onchange="addList({{$mission->id}})">
                                   

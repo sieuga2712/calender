@@ -52,14 +52,14 @@
 
 	}
 	function showchon() {
-        const elements = document.querySelectorAll(".column0");
+        const elements = document.querySelectorAll(".chon");
 
         for (let i = 0; i < elements.length; i++)
             elements[i].classList.remove('hidden');
     }
 
     function hiddenchon() {
-        const elements = document.querySelectorAll(".column0");
+        const elements = document.querySelectorAll(".chon");
         for (let i = 0; i < elements.length; i++)
             elements[i].classList.add('hidden');
 

@@ -19,6 +19,10 @@ class Group extends Model
         $group=DB::table('groups')->get();
         return $group;
     }
+    public static function getNameGroup($idgroup){
+        $name=DB::table('groups')->where('id',$idgroup)->first();
+        return $name->name;
+    }
     public static function numberMember($idgroup){
         $member=DB::table('member_Groups')->where('idGroup',$idgroup)->count();
         return $member;

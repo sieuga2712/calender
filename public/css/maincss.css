@@ -142,3 +142,40 @@ button {
   div.group{
       display: grid;
   }
+  .a1{
+    padding-right:300px;
+    margin:1px;
+    display:grid;
+    grid-template-columns:20% 50% 30%;
+  }
+  .a2{
+    padding:3px;
+    border:solid;
+    
+  }
+  .right-calen{
+    display:inline;
+    position: relative;
+  float: left;
+  
+  left: 40%;
+  }
+  .left-calen{
+    
+    display: grid;
+    place-items: center;
+    grid-template-columns:auto auto;
+    
+  }
+  .calen{
+    display: grid;
+    grid-template-rows:auto auto;
+  }
+  .top-calen{
+    display:flex;
+    align-items: center;
+     justify-content: center;
+  }
+  .under-calen{
+    
+  }
