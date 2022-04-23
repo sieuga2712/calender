@@ -51,19 +51,21 @@
 		}
 
 	}
+
 	function showchon() {
-        const elements = document.querySelectorAll(".chon");
+		const elements = document.querySelectorAll(".chon");
 
-        for (let i = 0; i < elements.length; i++)
-            elements[i].classList.remove('hidden');
-    }
+		for (let i = 0; i < elements.length; i++)
+			elements[i].classList.remove('hidden');
+	}
 
-    function hiddenchon() {
-        const elements = document.querySelectorAll(".chon");
-        for (let i = 0; i < elements.length; i++)
-            elements[i].classList.add('hidden');
+	function hiddenchon() {
+		const elements = document.querySelectorAll(".chon");
+		for (let i = 0; i < elements.length; i++)
+			elements[i].classList.add('hidden');
 
-    }
+	}
+
 </script>
 <!--===============================================================================================-->
 <script src="js/mainTable.js"></script>

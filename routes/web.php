@@ -42,6 +42,8 @@ Route::get('/quitMission','CreateController@quitMission');
 Route::get('/changelv','GroupController@changelevel');
 Route::get('/deletePersonalEvent','CreateController@deletePersonalEvent');
 Route::get('/deleteGroupMission','CreateController@deleteGroupMission');
+Route::get('/loadMoreEvent','EventController@loadmore');
+//Route::get('/tao','EventController@tao');
 /*Route::get('/cal',function(){
     return view('index');
 });*/
