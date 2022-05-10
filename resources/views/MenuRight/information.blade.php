@@ -93,7 +93,7 @@ $che=\App\Http\Controllers\Auth\loginController::checklogin();
 if($che==1)
 $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
-$member=\App\Models\detailUsers::showmember();
+$member=\App\Http\Controllers\DetailController::showmember();
 
 @endphp
 @if ($che==1)

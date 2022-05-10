@@ -14,9 +14,5 @@ class memberGroup extends Model
         'idGroup',
         'level'
     ];
-    public static function checkMember(){
-        $idGroup=$_GET['id'];
-        $mem=DB::table('member_Groups')->where('idGroup',$idGroup)->where('email',LoginController::userlogin())->get();
-        return $mem;
-    }
+  
 }

@@ -22,18 +22,18 @@
                     <table>
                         <tbody>
                             @php
-                            $listmember=\App\Models\Group::ListMember();
+                            $listmember=\App\Http\Controllers\GroupController::ListMember();
                             @endphp
                             @foreach($listmember as $group)
                             @php
-                            $informem=\App\Models\detailUsers::inforMember($group->email);
+                            $informem=\App\Http\Controllers\DetailController::inforMember($group->email);
                             @endphp
                             <tr class="row100 body" onclick="clickMe({{$group->id}})">
                                 <td class="cell100 column1">{{$group->email}}</td>
                                 <td class="cell100 column2">{{$informem->name}} </td>
 
                                 <td class="cell100 column4">
-                                    <input id="level_Member_{{$group->email}}" onchange="changelv('{{$group->email}}',{{$group->idGroup}})" type="number" min="1" max="3" step="1" value="{{$group->level}}">
+                                    <input id="level_Member_{{$group->email}}" onchange="changelv('{{$group->email}}',{{$group->idGroup}})" type="number" min="2" max="3" step="1" value="{{$group->level}}">
 
                                 </td>
                                 <td class="cell100 column5">so nhiem vu</td>

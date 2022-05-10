@@ -4,7 +4,7 @@
             <li class="menugroup" onclick="changeMenuGuild('member')">thanh vien</li>
             <li class="menugroup" onclick="changeMenuGuild('mission')">nhiem vu</li>
             @php
-            $informem=\App\Models\memberGroup::checkMember();
+            $informem=\App\Http\Controllers\GroupController::checkMembers();
 
             @endphp
             @if($informem[0]->level<=2)

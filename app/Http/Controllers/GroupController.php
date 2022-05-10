@@ -50,4 +50,69 @@ class GroupController extends Controller
     $lv=$_GET["level"];
     DB::update('update member_groups set level ='.$lv.' where email = "'.$email.'" and idGroup='.$id);
    }
+   public function searchgroup(){
+       $name=$_GET["group"];
+       if($name!='')
+       $groups=DB::table('groups')->where('name','LIKE',"%$name%")->get();
+        else
+        $groups=DB::table('groups')->limit(30)->get();
+       
+       return view('ForAjax.listgroup',compact('groups'));
+   }
+   public static function getGroup(){
+    $group=DB::table('groups')->get();
+    return $group;
+}
+public static function getNameGroup($idgroup){
+    $name=DB::table('groups')->where('id',$idgroup)->first();
+    return $name->name;
+}
+public static function numberMember($idgroup){
+    $member=DB::table('member_Groups')->where('idGroup',$idgroup)->count();
+    return $member;
+}
+public static function level1Group($idgroup){
+    $member=DB::table('member_Groups')->where('idGroup',$idgroup)->first();
+    return $member->email;
+}
+public static function isMember($idgroup){
+    $ismem=DB::table('member_Groups')->where('idGroup',$idgroup)->where('email',LoginController::userlogin())->count();
+    return $ismem;
+}
+public static function ListMember(){
+    $id=$_GET["id"];
+    $list=DB::table('member_Groups')->where("idGroup",$id)->get();
+    return $list;
+}
+public static function checkMember(){
+    $id=$_GET["id"];
+    $list=DB::table('applications')->where("idgroup",$id)->get();
+    return $list;
+}
+public static function limitMember($idgroup){
+    $limit=DB::table('groups')->where('id',$idgroup)->first();
+    return $limit->limitMember;
+}
+public static function checked($idgroup){
+    $ismem=DB::table('Applications')->where('idGroup',$idgroup)->where('email',LoginController::userlogin())->count();
+    return $ismem;
+}
+public static function checkMembers(){
+    $idGroup=$_GET['id'];
+    $mem=DB::table('member_Groups')->where('idGroup',$idGroup)->where('email',LoginController::userlogin())->get();
+    return $mem;
+}
+public static function showMission(){
+    $idgroup=$_GET['id'];
+    $mem=DB::table('mission_groups')->where('idgroup',$idgroup)->get();
+    return $mem;
+}
+public static function showLimitMission($id){
+    $limit=DB::table('mission_members')->where('idMission',$id)->count();
+    return $limit;
+}
+public static function Missionjoined($id){
+    $member=DB::table('mission_members')->where('idMission',$id)->where('email',LoginController::userlogin())->count();
+    return $member;
+}
 }

@@ -19,9 +19,5 @@ class MissionGroups extends Model
         'limit',
         'Note'
     ];
-    public static function showMission(){
-        $idgroup=$_GET['id'];
-        $mem=DB::table('mission_groups')->where('idgroup',$idgroup)->get();
-        return $mem;
-    }
+    
 }

@@ -58,7 +58,7 @@
 
             @if($event->group!=NULL)
             @php
-            $name=\App\Models\Group::getNameGroup($event->group);
+            $name=\App\Http\Controllers\GroupController::getNameGroup($event->group);
             @endphp
             <div class="under-calen">
                 group:{{$name}}

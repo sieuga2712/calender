@@ -13,8 +13,5 @@ class Applications extends Model
         'idgroup',
         'email'
     ];
-    public static function checked($idgroup){
-        $ismem=DB::table('Applications')->where('idGroup',$idgroup)->where('email',LoginController::userlogin())->count();
-        return $ismem;
-    }
+   
 }

@@ -13,12 +13,14 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
     <div class="filter-tool" style="background-color: red;">
         <button type="button" style="background-color: green;"><a href="/createGroup">tao nhom</a> </button>
+        <input id="search_group" type="text" onchange="searchgroup()">
+        <button type="button"><i class="fa fa-search" onclick="searchgroup()"></i></button>
     </div>
 
     @if ($che==1)
 
 
-    <div class="table-details">
+    <div class="table-details" id="listgroup">
 
         <div class="wrap-table100">
             <div class="table100 ver1 m-b-110">
@@ -41,14 +43,14 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                     <table>
                         <tbody>
                             @php
-                            $listgroup=\App\Models\Group::getGroup();
+                            $listgroup=\App\Http\Controllers\GroupController::getGroup();
                             @endphp
                             @foreach($listgroup as $group)
                             @php
-                            $numbermember=\App\Models\Group::numberMember($group->id);
-                            $limitMember=\App\Models\Group::limitMember($group->id);
-                            $level1=\App\Models\Group::level1Group($group->id);
-                            $ismem=\App\Models\Group::isMember($group->id);
+                            $numbermember=\App\Http\Controllers\GroupController::numberMember($group->id);
+                            $limitMember=\App\Http\Controllers\GroupController::limitMember($group->id);
+                            $level1=\App\Http\Controllers\GroupController::level1Group($group->id);
+                            $ismem=\App\Http\Controllers\GroupController::isMember($group->id);
                             $application="/ApplicationGroup?id=".$group->id."&email=".$use;
                             @endphp
                             <tr class="row100 body" id="listgroup">
@@ -63,7 +65,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                                 @endif
                                 @if($ismem==0)
                                 @php
-                                $ischeck=\App\Models\Applications::checked($group->id);
+                                $ischeck=\App\Http\Controllers\GroupController::checked($group->id);
                                 @endphp
                                 <td class="cell100 column6">
                                     @if($ischeck==0)
@@ -141,6 +143,19 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
           
     
         }
+    function searchgroup(){
+        var e=document.getElementById("search_group").value;
+        $.ajax({
+            url: '/searchgroup?group='+e ,
+            type: 'GET',
+        }).done(function(response){
+            $("#listgroup").empty();
+            $("#listgroup").html(response);
+            
+        });
+    }
+
+
 </script>
 
 <style>

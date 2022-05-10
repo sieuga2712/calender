@@ -30,7 +30,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
 
         @php
-        $listEvent=\App\Models\detailEvents::getEvent();
+        $listEvent=\App\Http\Controllers\EventController::getEvent();
         @endphp
         @foreach($listEvent as $event)
 
@@ -86,7 +86,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
                 @if($event->group!=NULL)
                 @php
-                $name=\App\Models\Group::getNameGroup($event->group);
+                $name=\App\Http\Controllers\GroupController::getNameGroup($event->group);
                 @endphp
                 <div class="under-calen">
                     group:{{$name}}

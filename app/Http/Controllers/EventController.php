@@ -45,4 +45,8 @@ class EventController extends Controller
        
         }
     }
+    public static function getEvent(){
+        $event=DB::table('detail_events')->where('email',LoginController::userlogin())->limit(10)->get();
+        return $event;
+    }
 }

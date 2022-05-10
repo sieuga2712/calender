@@ -40,11 +40,11 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                     <table>
                         <tbody>
                             @php
-                            $listgroup=\App\Models\Group::checkMember();
+                            $listgroup=\App\Http\Controllers\GroupController::checkMember();
                             @endphp
                             @foreach($listgroup as $group)
                             @php
-                            $informem=\App\Models\detailUsers::inforMember($group->email);
+                            $informem=\App\Http\Controllers\DetailController::inforMember($group->email);
                             @endphp
                             <tr class="row100 body" id='{{$group->id}}'>
                                 <td class="cell100 column1" >{{$group->email}}</td>

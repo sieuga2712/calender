@@ -28,13 +28,13 @@
                     <table>
                         <tbody>
                             @php
-                            $listMission=\App\Models\MissionGroups::showMission();
+                            $listMission=\App\Http\Controllers\GroupController::showMission();
                             @endphp
                             @foreach($listMission as $mission)
                             @php
                             $idgroup=$_GET['id'];
-                            $limit=\App\Models\MissionMembers::showLimit($mission->id);
-                            $isjoin=\App\Models\MissionMembers::joined($mission->id);
+                            $limit=\App\Http\Controllers\GroupController::showLimitMission($mission->id);
+                            $isjoin=\App\Http\Controllers\GroupController::Missionjoined($mission->id);
                             @endphp
                             <tr class="row100 body" >
                                 <td class="cell100 column0 chon hidden"  style="width: 5%;">
