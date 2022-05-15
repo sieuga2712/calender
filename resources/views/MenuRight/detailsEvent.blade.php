@@ -31,37 +31,52 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
         @php
         $listEvent=\App\Http\Controllers\EventController::getEvent();
+
         @endphp
         @foreach($listEvent as $event)
+        @php
+        $na=$event->nameEvent;
+
+        $dat= $event->dateOfEvent;
+
+        $st=$event->timeStart;
+        if($st==NULL)
+        $st="-1";
+        $et=$event->timeEnd;
+        if($et==NULL)
+        $et="-1";
+        $no=$event->Note;
+        if($no==NULL)
+        $no="-1";
+        @endphp
 
 
-
-        <div class="a1">
+        <div class="a1" onclick="clickevent(this.id,'{{$na}}','{{$dat}}','{{$st}}','{{$et}}','{{$no}}')" id='{{$event->id}}'>
             <div class=" a2 left-calen">
 
                 @if($event->group==NULL)
                 <div class="chon hidden">
-                    <input type="checkbox" onchange="addList({{$event->id}})">
+                    <input type="checkbox" onchange="addList('{{$event->id}}')">
                 </div>
                 @endif
                 @php
-            $date = new DateTime($event->dateOfEvent);
-            $g= $t->diff($date)->format('%R%a days');
-            $e= $t->diff($date)->format('%d');
-            @endphp
-           
-           
-            @if($g>0)
-           
-            su kien con <?php echo $e ?>  ngay nua bat dau"
-            
-            @elseif($g==0)
-            su kien dang dien ra
-            @else
-           
-           
-             su kien da qua
-            @endif
+                $date = new DateTime($event->dateOfEvent);
+                $g= $t->diff($date)->format('%R%a days');
+                $e= $t->diff($date)->format('%d');
+                @endphp
+
+
+                @if($g>0)
+
+                su kien con <?php echo $e ?> ngay nua bat dau"
+
+                @elseif($g==0)
+                su kien dang dien ra
+                @else
+
+
+                su kien da qua
+                @endif
 
 
             </div>
@@ -107,7 +122,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
 
         <div class="loadmore">
-            <button type="button" class="buttonload"onclick="loadmore()" style="background-color:#318ab7;">Tai them</button>
+            <button type="button" class="buttonload" onclick="loadmore()" style="background-color:#318ab7;">Tai them</button>
         </div>
     </div>
 
@@ -127,7 +142,38 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
     <div class="event-menu">
 
         <label for="wrap" class="wrap-menuin">a</label>
+        <div style="padding-left:20px ; padding-top:20px">
+            <form action="/UpdatePersonalEvent" id="FormPUpdate" method="POST">
+                {{csrf_field()}}
+                <h2>chinh sua su kien</h2>
+                <input type="text" class="text" id="Id_Update" name="Id_Update" style="display:none;">
+                <label for="Update_Event_Name">ten su kien(*): </label>
+                <input type="text" class="text" id="Update_Event_Name" name="Update_Event_Name">
+                <br><br>
 
+                <br><br>
+                <label for="Update_Start_Time">thoi gian bat dau: </label>
+                <input type="time" class="text" id="Update_Start_Time" name="Update_Start_Time" onchange="checktime()">
+                <br><br>
+                <label for="Update_End_Time">thoi gian ket thuc:</label>
+                <input type="time" class="text" id="Update_End_Time" name="Update_End_Time" onchange="checktime()">
+                <br>
+
+
+                <label for="Update_Event_Date">ngay(*) </label>
+                <input type="date" class="text" id="Update_Event_Date" name="Update_Event_Date">
+
+
+                <br>
+
+                <label>ghi chu: <textarea id="Update_Note" class="text" name="Update_Note" rows="4" cols="38">
+
+                                    </textarea>
+                </label>
+                <br>
+                <button type="submit"  onclick="return checkid()"class="btn btn-primary"> update</button>
+            </form>
+        </div>
 
 
 
@@ -136,20 +182,62 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 </div>
 
 <script>
-    function clickMe(elm) {
+    var idcheck = null;
+
+    function clickevent(elm, na, da, st, et, no) {
 
         var check = document.querySelector('#wrap');
-        if (check.checked == false)
-            check.checked = true;
 
-        else
-            check.checked = false;
+
+        if (check.checked == false) {
+            check.checked = true;
+            ChangeInfoRightArea(elm,na, da, st, et, no);
+
+        } else {
+            if (idcheck == elm)
+                check.checked = false;
+            else {
+                ChangeInfoRightArea(elm,na, da, st, et, no);
+            }
+        }
+
+        idcheck = elm;
 
 
     }
 
+    function ChangeInfoRightArea(elm,na, da, st, et, no) {
+        document.getElementById("Id_Update").value = elm;
+        document.getElementById("Update_Event_Name").value = na;
 
-    const listevent = [];
+        document.getElementById('Update_Event_Date').value = da;
+        if (st != "-1")
+            document.getElementById("Update_Start_Time").value = st;
+        if (et != "-1")
+            document.getElementById("Update_End_Time").value = et;
+
+        document.getElementById("Update_Note").value = no;
+
+    }
+
+    function checkid() {
+        var d = document.getElementById('Update_Event_Date').value;
+        var n=document.getElementById("Update_Event_Name").value = na;
+        if (idcheck == null)
+            return false;
+        if (d == null){
+            alert("ngay su kien khong duoc de trong");
+            return false;
+        }
+        if (n == ''){
+            alert("ten su kien khong duoc de trong");
+            return false;
+        }
+        return true;
+    }
+
+
+    var listevent = [];
 
     function addList(id) {
 
@@ -162,20 +250,21 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         listevent.push(id);
 
     }
-    var load=10;
-    function loadmore(){
-        load+=10;
-       
+    var load = 10;
+
+    function loadmore() {
+        load += 10;
+
         $.ajax({
-            url: '/loadMoreEvent?load='+load ,
+            url: '/loadMoreEvent?load=' + load,
             type: 'GET',
-        }).done(function(response){
+        }).done(function(response) {
             $("#listevent").empty();
             $("#listevent").html(response);
-            
+
         });
-            
-        
+
+
     }
 
 
@@ -192,7 +281,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
         }).done(function(Response) {
 
-            
+
         });
         location.reload(true);
 

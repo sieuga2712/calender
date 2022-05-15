@@ -28,7 +28,7 @@ background-color: rgb(145, 168, 168);
    overflow: visible;
    bottom: 0;
    z-index: 999;
-   background-color: blue;
+   background-color: #B2D3A5;
   
 }
 
@@ -187,3 +187,4 @@ button {
     background-color: #3A576A;
     color: #CAE5BF;
   }
+  

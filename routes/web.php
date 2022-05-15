@@ -44,6 +44,7 @@ Route::get('/deletePersonalEvent','CreateController@deletePersonalEvent');
 Route::get('/deleteGroupMission','CreateController@deleteGroupMission');
 Route::get('/loadMoreEvent','EventController@loadmore');
 Route::get('/searchgroup','GroupController@searchgroup');
+
 //Route::get('/tao','EventController@tao');
 /*Route::get('/cal',function(){
     return view('index');
@@ -52,5 +53,5 @@ Route::post('/createPersonalEvent','CreateController@createPersonalEvent');
 Route::post('/createGroupMission','CreateController@createGroupMission');
 Route::post('/createGroup','CreateController@createGroup');
 Route::post('/changInformation','UserController@changeInformation');
-
+Route::post('/UpdatePersonalEvent','EventController@UpdatePersonalEvent');
 
