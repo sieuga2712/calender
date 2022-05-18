@@ -98,16 +98,19 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         <label for="cycle" style="margin-left:20px;" disabled>su kien dai ngay</label>
         <input type="checkbox" style="margin-left:20px;" id="cycle" onchange="checkck()"><br>
 
-        <br><br>
+
 
 
         <div id="daingay" style="visibility: hidden; display:none;">
-            <label for="radio_chuky" style="margin-left:20px;" >su kien co chu ky</label>
+            <label for="radio_chuky" style="margin-left:20px;">su kien co chu ky</label>
             <input type="radio" name="radio_chuky" style="margin-left:20px;" id="radio_chuky" onchange="check_chuky()" checked>
-            <br>
-            <label for="radio_khongchuky" style="margin-left:20px;" >su kien khong chu ky</label>
+
+            <label for="radio_khongchuky" style="margin-left:20px;">su kien khong chu ky</label>
             <input type="radio" name="radio_chuky" style="margin-left:20px;" id="radio_khongchuky" onchange="check_chuky()">
             <br>
+            <!-- su kien co chu ky-->
+
+
             <div id="cochuky">
                 <label for="datestart">ngay bat dau(*) </label>
                 <input type="date" class="text" id="datestart" onchange="StartDayCheck(this.id)">
@@ -115,22 +118,54 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
                 <label for="dateend">ngay ket thuc(*) </label>
                 <input type="date" class="text" id="dateend" onchange="EndDayCantBePast(this.id)">
+                <br>
+                chon thu:<select name="weekday" id="weekday">
+                    <option value="mon" selected>thu 2</option>
+                    <option value="tue">thu 3</option>
+                    <option value="wed">thu 4</option>
+                    <option value="thu">thu 5</option>
+                    <option value="fri">thu 6</option>
+                    <option value="sat">thu 7</option>
+                    <option value="sun">chu nhat</option>
+                </select>
+                <br>
+                <label for="ck_starttime">thoi gian bat dau: </label>
+                <input type="time" class="text" id="ck_starttime" name="ck_starttime" onchange="checktimeck(this.id)">
+                <br><br>
+                <label for="ck_endtime">thoi gian ket thuc:</label>
+                <input type="time" class="text" id="ck_endtime" name="ck_endtime" onchange="checktimeck(this.id)">
+             
+                <br>
+                <input type="button" onclick="writecodeck()" value="nhap" id="nhap_codeck">
+                <input type="button" value="clear" onclick="clearlistck()">
+                <br>danh sach:<br>
+                <div id="write-codeck" class="write-codeck" >
+
+                </div>
             </div>
+            <!--END  su kien co chu ky-->
+
+
+            <!-- su kien khong chu ky-->
             <div id="khongchuky" style="display: none;">
                 <label for="kck_starttime">thoi gian bat dau: </label>
                 <input type="time" class="text" id="kck_starttime" name="kck_starttime" onchange="checktimekck(this.id)">
                 <br><br>
                 <label for="kck_endtime">thoi gian ket thuc:</label>
-                <input type="time" class="text" id="kck_endtime" name="kck_endtime"onchange="checktimekck(this.id)">
+                <input type="time" class="text" id="kck_endtime" name="kck_endtime" onchange="checktimekck(this.id)">
                 <br>
                 <label for="kck_date">ngay(*) </label>
                 <input type="date" class="text" id="kck_date" name="kck_date" onchange="EndDayCantBePast(this.id)">
-            </div>
-            <br>
-            <input type="button" onclick="writecode()" value="nhap">
-            <div id="write-code">
+                <input type="button" onclick="writecodekck()" value="nhap" id="nhap_codekck" >
+                <input type="button" value="clear" onclick="clearlistkck()">
+                <br>danh sach:<br>
+                <div id="write-codekck" class="write-codekck" >
 
+                </div>
             </div>
+
+
+            <!--END su kien khong  chu ky-->
         </div>
 
         <div id="trongngay" style="visibility: visible;">
@@ -196,33 +231,55 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         document.getElementById("FormCreate").reset();
 
     }
-    function check_chuky(){
+
+    function check_chuky() {
         var ck = document.getElementById("cochuky");
         var n = document.getElementById("khongchuky");
-
         if (ck.style.visibility.toString() == "hidden") {
             ck.style.visibility = "visible";
             n.style.visibility = "hidden";
             ck.style.display = "inline-block";
             n.style.display = "none";
+           
         } else {
             ck.style.visibility = "hidden";
             n.style.visibility = "visible";
             ck.style.display = "none";
             n.style.display = "inline-block";
+            
         }
     }
-   
 
-    function writecode() {
-
-        var i = document.getElementById("Eventname");
-        var node = document.getElementById('write-code');
-        var newNode = document.createElement('p');
-        var start=document.getElementById("startname").value;
-        var end=document.getElementById("endname").value;
-        var date=document.getElementById("Eventdate").value;
-        newNode.appendChild(document.createTextNode(start+"-"+end+" "+date));
-        node.appendChild(newNode);
+    function clearlistkck() {
+        document.querySelector('#write-codekck').innerHTML = '';
     }
+
+    function writecodekck() {
+        var start = document.getElementById("kck_starttime").value;
+        var end = document.getElementById("kck_endtime").value;
+        var date = document.getElementById("kck_date").value;
+        if (date != "") {
+
+            $(".write-codekck").append("<div><span style='color:red;'  onclick='updatelist(this.id)'> x </span>  " + start + "-" + end + " " + date + "</div>");
+        } else
+            alert("ban chua chon ngay");
+
+    }
+    function clearlistck() {
+        document.querySelector('#write-codeck').innerHTML = '';
+    }
+    var idlist=0;
+    function writecodeck() {
+        var start = document.getElementById("ck_starttime").value;
+        var end = document.getElementById("ck_endtime").value;
+        var thu=document.getElementById("weekday").value;
+        $(".write-codeck").append("<div><span style='color:red;' id="+idlist+" onclick='updatelist(this.id)'> x </span>" + start + "-" + end + " " + thu + "</div>");
+       
+        idlist++;
+
+    }
+    function updatelist(e){
+       document.getElementById(e).parentElement.style.display="none";
+    }
+   
 </script>
