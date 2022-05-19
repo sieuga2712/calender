@@ -33,7 +33,7 @@
 	function chonev() {
 
 		var chon = document.getElementById("chon");
-
+		
 		var C2 = "rgb(" + hexToRgb("#C20000") + ")";
 		var D9 = "rgb(" + hexToRgb("#D9D9D9") + ")";
 		if (chon.style.backgroundColor == C2) {
@@ -53,14 +53,17 @@
 	}
 
 	function showchon() {
+		var xoa= document.getElementById("xoa");
 		const elements = document.querySelectorAll(".chon");
-
+		xoa.disabled=false;
 		for (let i = 0; i < elements.length; i++)
 			elements[i].classList.remove('hidden');
 	}
 
 	function hiddenchon() {
 		const elements = document.querySelectorAll(".chon");
+		var xoa= document.getElementById("xoa");
+		xoa.disabled=true;
 		for (let i = 0; i < elements.length; i++)
 			elements[i].classList.add('hidden');
 

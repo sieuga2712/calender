@@ -13,7 +13,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
     <div class="filter-tool" style="background-color: grey;">
         <button type="button" style="background-color: green;"><a href="/create">tao su kien</a> </button>
         <button type="button" id="chon" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chon</button>
-        <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9;" onclick="deleteEvent()">xoa</button>
+        <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9;" onclick="deleteEvent()" disabled>xoa</button>
     </div>
 
     @if ($che==1)

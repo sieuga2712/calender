@@ -96,28 +96,28 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         <input type="text" class="text" id="Eventname" name="Eventname">
         <br><br>
         <label for="cycle" style="margin-left:20px;" disabled>su kien dai ngay</label>
-        <input type="checkbox" style="margin-left:20px;" id="cycle" onchange="checkck()"><br>
+        <input type="checkbox" style="margin-left:20px;" id="cycle" name="cycle" onchange="checkck(this.id)"><br>
 
 
 
 
         <div id="daingay" style="visibility: hidden; display:none;">
             <label for="radio_chuky" style="margin-left:20px;">su kien co chu ky</label>
-            <input type="radio" name="radio_chuky" style="margin-left:20px;" id="radio_chuky" onchange="check_chuky()" checked>
+            <input type="radio" name="radio_chuky" style="margin-left:20px;" id="radio_chuky" name="radio_chuky" onchange="check_chuky()" checked>
 
             <label for="radio_khongchuky" style="margin-left:20px;">su kien khong chu ky</label>
-            <input type="radio" name="radio_chuky" style="margin-left:20px;" id="radio_khongchuky" onchange="check_chuky()">
+            <input type="radio" name="radio_chuky" style="margin-left:20px;" id="radio_khongchuky" name="radio_khongchuky" onchange="check_chuky()">
             <br>
             <!-- su kien co chu ky-->
 
 
             <div id="cochuky">
                 <label for="datestart">ngay bat dau(*) </label>
-                <input type="date" class="text" id="datestart" onchange="StartDayCheck(this.id)">
+                <input type="date" class="text" id="datestart" name="datestart" onchange="StartDayCheck(this.id)">
                 <br><br>
 
                 <label for="dateend">ngay ket thuc(*) </label>
-                <input type="date" class="text" id="dateend" onchange="EndDayCantBePast(this.id)">
+                <input type="date" class="text" id="dateend" name="dateend" onchange="EndDayCantBePast(this.id)">
                 <br>
                 chon thu:<select name="weekday" id="weekday">
                     <option value="mon" selected>thu 2</option>
@@ -134,14 +134,15 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                 <br><br>
                 <label for="ck_endtime">thoi gian ket thuc:</label>
                 <input type="time" class="text" id="ck_endtime" name="ck_endtime" onchange="checktimeck(this.id)">
-             
+
                 <br>
                 <input type="button" onclick="writecodeck()" value="nhap" id="nhap_codeck">
                 <input type="button" value="clear" onclick="clearlistck()">
                 <br>danh sach:<br>
-                <div id="write-codeck" class="write-codeck" >
-
-                </div>
+                
+                <ul id="write-codeck" name="listevck" class="write-codeck">
+               <li> <input type="text" class="text" id="texttest" name="textt" value="test"></li>
+                </ul>
             </div>
             <!--END  su kien co chu ky-->
 
@@ -156,12 +157,13 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                 <br>
                 <label for="kck_date">ngay(*) </label>
                 <input type="date" class="text" id="kck_date" name="kck_date" onchange="EndDayCantBePast(this.id)">
-                <input type="button" onclick="writecodekck()" value="nhap" id="nhap_codekck" >
+                <input type="button" onclick="writecodekck()" value="nhap" id="nhap_codekck">
                 <input type="button" value="clear" onclick="clearlistkck()">
                 <br>danh sach:<br>
-                <div id="write-codekck" class="write-codekck" >
+              
+                <ul id="write-codekck"  class="write-codekck">
 
-                </div>
+                </ul>
             </div>
 
 
@@ -208,11 +210,11 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
 </form>
 <script>
-    function checkck() {
+    function checkck(e) {
         var ck = document.getElementById("daingay");
         var n = document.getElementById("trongngay");
-
-        if (ck.style.visibility.toString() == "hidden") {
+       
+        if (document.getElementById(e).checked==true) {
             ck.style.visibility = "visible";
             n.style.visibility = "hidden";
             ck.style.display = "inline-block";
@@ -240,13 +242,13 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
             n.style.visibility = "hidden";
             ck.style.display = "inline-block";
             n.style.display = "none";
-           
+
         } else {
             ck.style.visibility = "hidden";
             n.style.visibility = "visible";
             ck.style.display = "none";
             n.style.display = "inline-block";
-            
+
         }
     }
 
@@ -260,26 +262,28 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         var date = document.getElementById("kck_date").value;
         if (date != "") {
 
-            $(".write-codekck").append("<div><span style='color:red;'  onclick='updatelist(this.id)'> x </span>  " + start + "-" + end + " " + date + "</div>");
+            $(".write-codekck").append("<li><span style='color:red;'  onclick='updatelist(this.id)'> x </span><input type='text' style='display:none;'  name='listevkck[]' value='"+ start + "-" + end + " " + date + "' >"+start + "-" + end + " " + date+"</li>");
         } else
             alert("ban chua chon ngay");
 
     }
+
     function clearlistck() {
         document.querySelector('#write-codeck').innerHTML = '';
     }
-    var idlist=0;
+    var idlist = 0;
+
     function writecodeck() {
         var start = document.getElementById("ck_starttime").value;
         var end = document.getElementById("ck_endtime").value;
-        var thu=document.getElementById("weekday").value;
-        $(".write-codeck").append("<div><span style='color:red;' id="+idlist+" onclick='updatelist(this.id)'> x </span>" + start + "-" + end + " " + thu + "</div>");
-       
+        var thu = document.getElementById("weekday").value;
+        $(".write-codeck").append("<li><span style='color:red;' id=" + idlist + " onclick='updatelist(this.id)'> x </span><input type='text' style='display:none;'  name='listevck[]' value='" + start + "-" + end + " " + thu + "' >"+start + "-" + end + " " + thu+"</li>");
+
         idlist++;
 
     }
-    function updatelist(e){
-       document.getElementById(e).parentElement.style.display="none";
+
+    function updatelist(e) {
+        document.getElementById(e).parentElement.style.display = "none";
     }
-   
 </script>

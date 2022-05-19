@@ -3,7 +3,7 @@
     <div class="filter-tool" style="background-color: grey;">
         
         <button type="button" id="chon" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chon</button>
-        <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9;" onclick="deleteGroupEvent()">xoa</button>
+        <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9;" onclick="deleteGroupEvent()" disabled>xoa</button>
     </div>
         <div class="wrap-table100">
             <div class="table100 ver1 m-b-110">

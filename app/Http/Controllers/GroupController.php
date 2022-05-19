@@ -115,4 +115,17 @@ public static function Missionjoined($id){
     $member=DB::table('mission_members')->where('idMission',$id)->where('email',LoginController::userlogin())->count();
     return $member;
 }
+public static function deletegroup(Request $request){
+    $id=$request->id;
+    DB::table('groups')->where('id',$id)->delete();
+    DB::table('member_groups')->where('idGroup',$id)->delete();
+    $mem=DB::table('mission_groups')->where('idgroup',$id)->get();
+    foreach($mem as $m){
+        DB::table('mission_members')->where('idMission',$m->id)->delete();
+    }
+    DB::table('mission_groups')->where('idgroup',$id)->delete();
+    
+   
+    return redirect("home");
+}
 }

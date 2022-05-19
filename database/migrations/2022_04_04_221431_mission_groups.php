@@ -27,6 +27,10 @@ class MissionGroups extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+        Schema::table('Mission_Groups', function ($table) {
+            $table->string('type');//ckc or ck or Day
+            
+        });
     }
 
     /**

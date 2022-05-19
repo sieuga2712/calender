@@ -18,7 +18,7 @@ class EventController extends Controller
     public function loadmore()
     {
         $load = $_GET["load"];
-        $events = DB::table('detail_events')->where('email', LoginController::userlogin())->limit($load)->get();
+        $events = DB::table('detail_events')->where('email', LoginController::userlogin())->orderBy('dateOfEvent', 'desc')->limit($load)->get();
         $limit = DB::table('detail_events')->where('email', LoginController::userlogin())->count();
 
         return view('ForAjax.event', compact('events', 'limit', 'load'));
@@ -48,7 +48,7 @@ class EventController extends Controller
     }
     public static function getEvent()
     {
-        $event = DB::table('detail_events')->where('email', LoginController::userlogin())->limit(10)->get();
+        $event = DB::table('detail_events')->where('email', LoginController::userlogin())->orderBy('dateOfEvent', 'desc')->limit(10)->get();
         return $event;
     }
     public static function UpdatePersonalEvent(Request $request)
