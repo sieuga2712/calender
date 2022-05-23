@@ -87,7 +87,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
 
 @endphp
-<form action="/createPersonalEvent" id="FormCreate" method="POST" style="margin-left:300px;margin-top:20px;">
+<form action="/createPersonalEvent" id="FormCreate" method="POST" style="margin-left:300px;margin-top:20px;" onsubmit="return validateForm()">
     {{csrf_field()}}
     <h2>nhap thong tin su kien</h2>
 
@@ -96,7 +96,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         <input type="text" class="text" id="Eventname" name="Eventname">
         <br><br>
         <label for="cycle" style="margin-left:20px;" disabled>su kien dai ngay</label>
-        <input type="checkbox" style="margin-left:20px;" id="cycle" name="cycle" onchange="checkck(this.id)"><br>
+        <input type="checkbox" style="margin-left:20px;" id="cycle" name="cycle" value="cycle" onchange="checkck(this.id)"><br>
 
 
 
@@ -139,9 +139,9 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                 <input type="button" onclick="writecodeck()" value="nhap" id="nhap_codeck">
                 <input type="button" value="clear" onclick="clearlistck()">
                 <br>danh sach:<br>
-                
+
                 <ul id="write-codeck" name="listevck" class="write-codeck">
-               <li> <input type="text" class="text" id="texttest" name="textt" value="test"></li>
+                    <li> <input type="text" class="text" id="texttest" name="textt" value="test"></li>
                 </ul>
             </div>
             <!--END  su kien co chu ky-->
@@ -160,8 +160,8 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                 <input type="button" onclick="writecodekck()" value="nhap" id="nhap_codekck">
                 <input type="button" value="clear" onclick="clearlistkck()">
                 <br>danh sach:<br>
-              
-                <ul id="write-codekck"  class="write-codekck">
+
+                <ul id="write-codekck" class="write-codekck">
 
                 </ul>
             </div>
@@ -210,80 +210,35 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
 </form>
 <script>
-    function checkck(e) {
-        var ck = document.getElementById("daingay");
-        var n = document.getElementById("trongngay");
-       
-        if (document.getElementById(e).checked==true) {
-            ck.style.visibility = "visible";
-            n.style.visibility = "hidden";
-            ck.style.display = "inline-block";
-            n.style.display = "none";
-        } else {
-            ck.style.visibility = "hidden";
-            n.style.visibility = "visible";
-            ck.style.display = "none";
-            n.style.display = "inline-block";
+    var idlist=0;
+    function validateForm() {
+        var name = document.getElementById("Eventname");
+      
+        if (name.value == "") {
+            alert("chua dien ten");
+            return false;
         }
-
-
-    }
-
-    function lammoi() {
-        document.getElementById("FormCreate").reset();
-
-    }
-
-    function check_chuky() {
-        var ck = document.getElementById("cochuky");
-        var n = document.getElementById("khongchuky");
-        if (ck.style.visibility.toString() == "hidden") {
-            ck.style.visibility = "visible";
-            n.style.visibility = "hidden";
-            ck.style.display = "inline-block";
-            n.style.display = "none";
-
-        } else {
-            ck.style.visibility = "hidden";
-            n.style.visibility = "visible";
-            ck.style.display = "none";
-            n.style.display = "inline-block";
-
+        if (document.getElementById("Eventdate").value =="" && document.getElementById("cycle").checked==false) {
+            alert("chua chon ngay");
+            return false;
         }
-    }
+        if (document.getElementById("datestart").value ==""&& document.getElementById("cycle").checked==true && document.getElementById("radio_chuky").checked==true) {
 
-    function clearlistkck() {
-        document.querySelector('#write-codekck').innerHTML = '';
-    }
-
-    function writecodekck() {
-        var start = document.getElementById("kck_starttime").value;
-        var end = document.getElementById("kck_endtime").value;
-        var date = document.getElementById("kck_date").value;
-        if (date != "") {
-
-            $(".write-codekck").append("<li><span style='color:red;'  onclick='updatelist(this.id)'> x </span><input type='text' style='display:none;'  name='listevkck[]' value='"+ start + "-" + end + " " + date + "' >"+start + "-" + end + " " + date+"</li>");
-        } else
-            alert("ban chua chon ngay");
-
-    }
-
-    function clearlistck() {
-        document.querySelector('#write-codeck').innerHTML = '';
-    }
-    var idlist = 0;
-
-    function writecodeck() {
-        var start = document.getElementById("ck_starttime").value;
-        var end = document.getElementById("ck_endtime").value;
-        var thu = document.getElementById("weekday").value;
-        $(".write-codeck").append("<li><span style='color:red;' id=" + idlist + " onclick='updatelist(this.id)'> x </span><input type='text' style='display:none;'  name='listevck[]' value='" + start + "-" + end + " " + thu + "' >"+start + "-" + end + " " + thu+"</li>");
-
-        idlist++;
-
-    }
-
-    function updatelist(e) {
-        document.getElementById(e).parentElement.style.display = "none";
+            alert("chua chon ngay bat dau chu ky");
+            return false;
+        }
+        if (document.getElementById("dateend").value ==""&& document.getElementById("cycle").checked==true && document.getElementById("radio_chuky").checked==true) {
+            alert("chua chon ngay ket thuc chu ky");
+            return false;
+        }
+        if (document.getElementById("kck_starttime").value ==""&& document.getElementById("cycle").checked==true && document.getElementById("radio_khongchuky").checked==true) {
+            alert("chua chon ngay bat dau");
+            return false;
+        }
+        if (document.getElementById("kck_endtime").value ==""&& document.getElementById("cycle").checked==true && document.getElementById("radio_khongchuky").checked==true) {
+            alert("chua chon ngay ket thuc");
+            return false;
+        }
+        return true;
     }
 </script>

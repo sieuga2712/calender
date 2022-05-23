@@ -13,7 +13,8 @@ class Group extends Model
     //
     protected $group=[
         'name',
-        'limitMember'
+        'limitMember',
+        'passwordGroup'
     ];
   
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Group extends Migration
+class LongEvent extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,12 @@ class Group extends Migration
     public function up()
     {
         //
-        Schema::create('Groups', function (Blueprint $table) {
+        Schema::create('long_Events', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->integer('limitMember')->nullable();
-            $table->string('passwordGroup')->nullable();
+            $table->string('email');
+            $table->string('nameEvent');
+            $table->String('TypeEvent');
+            $table->longText('ListEvent')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -32,6 +33,7 @@ class Group extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('Groups');
+         //
+         Schema::dropIfExists('long_Events');
     }
 }

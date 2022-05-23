@@ -170,6 +170,88 @@
 			timeend.value = timestart.value;
 		}
 	}
+	//create
+	function checkck(e) {
+        var ck = document.getElementById("daingay");
+        var n = document.getElementById("trongngay");
+
+        if (document.getElementById(e).checked == true) {
+            ck.style.visibility = "visible";
+            n.style.visibility = "hidden";
+            ck.style.display = "inline-block";
+            n.style.display = "none";
+        } else {
+            ck.style.visibility = "hidden";
+            n.style.visibility = "visible";
+            ck.style.display = "none";
+            n.style.display = "inline-block";
+        }
+
+
+    }
+
+    function lammoi() {
+        document.getElementById("FormCreate").reset();
+
+    }
+
+    function check_chuky() {
+        var ck = document.getElementById("cochuky");
+        var n = document.getElementById("khongchuky");
+        var radiock = document.getElementById("radio_chuky");
+
+        if (radiock.checked == true) {
+            ck.style.visibility = "visible";
+            n.style.visibility = "hidden";
+            ck.style.display = "inline-block";
+            n.style.display = "none";
+
+        } else {
+            ck.style.visibility = "hidden";
+            n.style.visibility = "visible";
+            ck.style.display = "none";
+            n.style.display = "inline-block";
+
+        }
+    }
+
+    function clearlistkck() {
+        document.querySelector('#write-codekck').innerHTML = '';
+    }
+
+    function writecodekck() {
+        var start = document.getElementById("kck_starttime").value;
+        var end = document.getElementById("kck_endtime").value;
+        var date = document.getElementById("kck_date").value;
+        if (date != "") {
+
+            $(".write-codekck").append("<li><span style='color:red;'  onclick='updatelist(this.id)'> x </span><input type='text' style='display:none;'  name='listevkck[]' value='" + start + "-" + end + " " + date + "' >" + start + "-" + end + " " + date + "</li>");
+        } else
+            alert("ban chua chon ngay");
+
+    }
+
+    function clearlistck() {
+        document.querySelector('#write-codeck').innerHTML = '';
+    }
+
+	var idlist=0;
+    function writecodeck() {
+        var start = document.getElementById("ck_starttime").value;
+        var end = document.getElementById("ck_endtime").value;
+        var thu = document.getElementById("weekday").value;
+        $(".write-codeck").append("<li><span style='color:red;' id=" + idlist + " onclick='updatelist(this.id)'> x </span><input type='text' style='display:none;'  name='listevck[]' value='" + start + "-" + end + " " + thu + "' >" + start + "-" + end + " " + thu + "</li>");
+
+        idlist++;
+
+    }
+
+    function updatelist(e) {
+        document.getElementById(e).parentElement.style.display = "none";
+    }
+
+
+	//end create
 </script>
 <!--===============================================================================================-->
 <script src="js/mainTable.js"></script>

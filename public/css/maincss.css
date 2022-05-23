@@ -113,13 +113,13 @@ button {
     color: black;
     padding: 5px 3px;
     text-align: center;
-    text-decoration: none;
+    text-decoration: none;  
     display: inline-block;
     font-size: 16px;
     margin: 2px 2px;
     cursor: pointer;
   }
-
+  
   li.menugroup{
 
     float:left;
@@ -141,6 +141,7 @@ button {
   }
   div.group{
       display: grid;
+      grid-template-rows: auto auto;
   }
   .a1{
     padding-right:300px;
@@ -148,18 +149,31 @@ button {
     display:grid;
     grid-template-columns:20% 50% 30%;
   }
+  .a1-group{
+    padding-right:300px;
+    margin:1px;
+    display:grid;
+    grid-template-columns: 5% 50% 30% 15%;
+  }
   .a2{
     padding:3px;
     border:solid;
     
   }
   .right-calen{
-    display:inline;
+    display:inline-block;
     position: relative;
-  float: left;
+    float: left;
   
-  left: 40%;
+    left: 40%;
   }
+  .submit-calen{
+    display: flex;
+    justify-content: center;
+    align-items: center
+
+  }
+
   .left-calen{
     
     display: grid;
@@ -172,7 +186,7 @@ button {
     grid-template-rows:auto auto;
   }
   .top-calen{
-    display:flex;
+    
     align-items: center;
      justify-content: center;
   }
@@ -187,4 +201,6 @@ button {
     background-color: #3A576A;
     color: #CAE5BF;
   }
-  
+  .hidden-listcalen{
+    display:none;
+  }

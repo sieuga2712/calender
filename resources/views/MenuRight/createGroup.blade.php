@@ -97,6 +97,8 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         <br><br>
         <label for="maxmember">so thanh vien toi da: </label>
         <input type="number" class="text" id="maxmember" name="maxmenber">
+        <label for="password">mat khau nhom truong: </label>
+        <input type="number" class="text" id="password" name="password">
         <br><br>
 
         

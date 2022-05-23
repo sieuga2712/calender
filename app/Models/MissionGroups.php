@@ -12,11 +12,14 @@ class MissionGroups extends Model
         
         'idgroup',
         'NameMission',
+        'TypeOfMission',
         'StartTime',
         'EndTime',
         'dateMission',
-        'ChainOfId',
+        'dateStart',
+        'dateEnd',
         'limit',
+        'listCalen',
         'Note'
     ];
     

@@ -13,6 +13,7 @@ use App\Models\MissionMembers;
 use DateTime;
 use Hamcrest\Core\HasToString;
 use Illuminate\Support\Facades\DB;
+use App\Models\longEvent;
 
 class CreateController extends Controller
 {
@@ -27,7 +28,7 @@ class CreateController extends Controller
     }
     public function createPersonalEvent(Request $request)
     {
-        if ($request->cycle != "on") {
+        if (!isset($_POST['cycle'])) {
             $name = $request->Eventname;
             $start = $request->startname;
             $end = $request->endname;
@@ -49,69 +50,85 @@ class CreateController extends Controller
             $event->ChainOfid = 'P' . $event->id;
             $event->save();
         } else {
+            $longevent = new longEvent;
+            $longevent->nameEvent = $request->Eventname;
+            $longevent->email = LoginController::userlogin();
+            $listevent = "";
             $i = 1;
-            if ($request->radio_chuky == "radio_chuky") {
-                foreach ($_POST['listevck'] as $le) {
-                    $name = $request->Eventname . "(" . $i . ")";
-                    $i++;
+            if ($request->radio_chuky ==true) {
+                $longevent->TypeEvent = 1;
+                $longevent->save();
+                if (isset($_POST['listevck']))
+                    foreach ($_POST['listevck'] as $le) {
+                        $name = $request->Eventname . "(" . $i . ")";
+                        $i++;
 
-                    $ev = $this->detachedStringCycle($le);
-                    $start = $ev["start"];
-                    $end = $ev["end"];
-                    $date = new DateTime($request->datestart);
-                    $dateend = new DateTime($request->dateend);
+                        $ev = $this->detachedStringCycle($le);
+                        $start = $ev["start"];
+                        $end = $ev["end"];
+                        $date = new DateTime($request->datestart);
+                        $dateend = new DateTime($request->dateend);
+                        $listevent = $listevent . $le . "@";
+                        for ($date; $date <= $dateend; $date = $date->modify('+1 day')) {
 
-                    for ($date; $date <= $dateend; $date = $date->modify('+1 day')) {
+                            if ($this->datetoweek($date) == $ev["weekday"]) {
 
-                        if ($this->datetoweek($date) == $ev["weekday"]) {
+                                $note = $request->note;
+                                $day = $date;
+                                $email = LoginController::userlogin();
 
-                            $note = $request->note;
-                            $day = $date;
-                            $email = LoginController::userlogin();
+                                $event = new detailEvents;
+                                $event->email = $email;
+                                $event->nameEvent = $name;
+                                $event->timeStart = $start;
+                                $event->timeEnd = $end;
+                                $event->dateOfEvent = $day;
 
-                            $event = new detailEvents;
-                            $event->email = $email;
-                            $event->nameEvent = $name;
-                            $event->timeStart = $start;
-                            $event->timeEnd = $end;
-                            $event->dateOfEvent = $day;
-
-                            $event->Note = $note;
-                            $event->ChainOfid = 1;
-                            $event->save();
-                            $event->ChainOfid = 'P' . $event->id;
-                            $event->save();
+                                $event->Note = $note;
+                                $event->ChainOfid = 1;
+                                $event->save();
+                                $event->ChainOfid = $longevent->id;
+                                $event->save();
+                            }
                         }
                     }
-                }
+                $longevent->ListEvent = $listevent;
+                $longevent->save();
             } else {
-                foreach ($_POST['listevkck'] as $le) {
-                $lisytevent = $this->detachedStringUncycle($le);
-               
-                $start = $lisytevent["start"];
-                $end = $lisytevent["end"];
-                $name = $request->Eventname . "(" . $i . ")";
-                $i++;
+                $longevent->TypeEvent = 2;
+                $longevent->nameEvent = $request->Eventname;
+
+                if (isset($_POST['listevkck']))
+                    foreach ($_POST['listevkck'] as $le) {
+                        $lisytevent = $this->detachedStringUncycle($le);
+
+                        $start = $lisytevent["start"];
+                        $end = $lisytevent["end"];
+                        $name = $request->Eventname . "(" . $i . ")";
+                        $i++;
 
 
 
-                $note = $request->note;
-                $day = $lisytevent["date"];
-                $email = LoginController::userlogin();
+                        $note = $request->note;
+                        $day = $lisytevent["date"];
+                        $email = LoginController::userlogin();
 
-                $event = new detailEvents;
-                $event->email = $email;
-                $event->nameEvent = $name;
-                $event->timeStart = $start;
-                $event->timeEnd = $end;
-                $event->dateOfEvent = $day;
+                        $event = new detailEvents;
+                        $event->email = $email;
+                        $event->nameEvent = $name;
+                        $event->timeStart = $start;
+                        $event->timeEnd = $end;
+                        $event->dateOfEvent = $day;
 
-                $event->Note = $note;
-                $event->ChainOfid = 1;
-                $event->save();
-                $event->ChainOfid = 'P' . $event->id;
-                $event->save();
-                }
+                        $event->Note = $note;
+                        $event->ChainOfid = 1;
+                        $event->save();
+                        $event->ChainOfid =  $longevent->id;
+                        $event->save();
+                        $listevent = $listevent . $le . "@";
+                    }
+                $longevent->ListEvent = $listevent;
+                $longevent->save();
             }
         }
 
@@ -126,6 +143,7 @@ class CreateController extends Controller
         $group = new Group;
         $group->name = $request->namegroup;
         $group->limitMember = $request->maxmember;
+        $group->passwordGroup = $request->password;
         $group->save();
         $member = new memberGroup;
         $member->email = LoginController::userlogin();
@@ -134,7 +152,7 @@ class CreateController extends Controller
         $member->save();
         return redirect("group");
     }
-    public function createGroupMission(Request $request)
+    /*public function reateGroupMission(Request $request)
     {
         $name = $request->MissionName;
         $start = $request->startTime;
@@ -163,36 +181,206 @@ class CreateController extends Controller
 
 
         return redirect("/gogroup?id=" . $group);
+    }*/
+    public function createGroupMission(Request $request)
+    {
+        $name = $request->Group_Mission_Name;
+        $group = $request->GroupMission;
+        $checklimit = $request->limitMember;
+        $note = $request->note;
+        $limit = $request->quanityMember;
+        $event = new MissionGroups;
+        $event->idgroup = $group;
+        $event->NameMission = $name;
+        $event->Note = $note;
+
+        if ($checklimit == true)
+            $event->limit = $limit;
+        else
+            $event->limit = null;
+        if (!isset($_POST['cycle'])) {
+
+            $start = $request->startname;
+            $end = $request->endname;
+            $day = $request->Missiondate;
+
+            $event->StartTime = $start;
+            $event->EndTime = $end;
+            $event->dateMission = $day; 
+            $event->TypeOfMission = 0;
+            $event->save();
+        } else {
+
+            $listmission = "";
+
+            if ($request->radio_chuky == true) {
+
+                if (isset($_POST['listevck']))
+                    foreach ($_POST['listevck'] as $le) {
+
+                        $listmission = $listmission . $le . "@";
+                    }
+                $start = $request->datestart;
+                $end = $request->dateend;
+
+
+                $event->dateStart = $start;
+                $event->dateEnd = $end;
+
+                $event->TypeOfMission = 1;
+                $event->ListCalen = $listmission;
+                $event->save();
+            } else {
+
+                if (isset($_POST['listevkck']))
+                    foreach ($_POST['listevkck'] as $le) {
+                        $listmission = $listmission . $le . "@";
+                    }
+                $event->TypeOfMission = 2;
+                $event->ListCalen = $listmission;
+                $event->save();
+            }
+        }
+
+
+
+
+        //return redirect("home");
+        return redirect("home");
     }
     public function joinMission()
     {
 
-        $mission = $_GET['idMission'];
-        $missionDetail = DB::table('mission_groups')->where('id', $mission)->first();
-        $count = DB::table('mission_members')->where('idMission', $mission)->where('email', LoginController::userlogin())->count();
+        $idmission = $_GET['idMission'];
+        
+            
+        $mission = DB::table('mission_groups')->where('id', $idmission)->first();
+        $count = DB::table('mission_members')->where('idMission', $idmission)->where('email', LoginController::userlogin())->count();
+        echo "count=".$count;
+        
         if ($count == 0) {
-            $mm = new MissionMembers;
-            $mm->idMission = $mission;
-            $mm->email = LoginController::userlogin();
-            $mm->save();
-            $event = new detailEvents;
-            $email = LoginController::userlogin();
-
-
-            $event->email = $email;
-            $event->nameEvent = $missionDetail->NameMission;
-            $event->timeStart = $missionDetail->StartTime;
-            $event->timeEnd = $missionDetail->EndTime;
-            $event->dateOfEvent = $missionDetail->dateMission;
-            $event->group = $missionDetail->idgroup;
-            $event->Note = $missionDetail->Note;
-            $event->ChainOfid = 1;
-            $event->save();
-            $event->ChainOfid = 'G-' . $mm->idMission;
-            $event->save();
+            if ($mission->TypeOfMission==0) {
+             
+                $name = $mission->NameMission;
+                $start = $mission->StartTime;
+                $end = $mission->EndTime;
+                $day = $mission->dateMission;
+                $group = $mission->idgroup;
+                $note = $mission->note;
+                $email = LoginController::userlogin();
+    
+                $event = new detailEvents;
+                $event->email = $email;
+                $event->nameEvent = $name;
+                $event->timeStart = $start;
+                $event->timeEnd = $end;
+                $event->dateOfEvent = $day;
+                $event->group = $group;
+                $event->Note = $note;
+                $event->ChainOfid = 1;
+                $event->save();
+                $event->ChainOfid = 'G-' . $idmission;
+                $event->save();
+            } else {
+                
+                $longevent = new longEvent;
+                $longevent->nameEvent = $mission->NameMission;
+                $longevent->email = LoginController::userlogin();
+                $listevent = "";
+                $i = 1;
+                if ($mission->TypeOfMission==1) {
+                   
+                    $longevent->TypeEvent = 1;
+                    $longevent->save();
+                    
+                    if ($mission->listCalen!=""){
+                        foreach ($this->ChangeMissionList($mission->listCalen) as $le) {
+                           
+                          
+    
+                            $ev = $this->detachedStringCycle($le);
+                            $start = $ev["start"];
+                            $end = $ev["end"];
+                            $date = new DateTime($mission->dateStart);
+                            $dateend = new DateTime($mission->dateEnd);
+                            $listevent = $listevent . $le . "@";
+                            for ($date; $date <= $dateend; $date = $date->modify('+1 day')) {
+    
+                                if ($this->datetoweek($date) == $ev["weekday"]) {
+                                    $name = $mission->NameMission . "(" . $i . ")";
+                                    $i++;
+                                    $note = $mission->Note;
+                                    $day = $date;
+                                    $group = $mission->idgroup;
+                                    $email = LoginController::userlogin();
+    
+                                    $event = new detailEvents;
+                                    $event->email = $email;
+                                    $event->nameEvent = $name;
+                                    $event->timeStart = $start;
+                                    $event->timeEnd = $end;
+                                    $event->dateOfEvent = $day;
+                                    $event->group = $group;
+                                    $event->Note = $note;
+                                    $event->ChainOfid = 1;
+                                    $event->save();
+                                    $event->ChainOfid = "G-".$idmission;
+                                    $event->save();
+                                }
+                            }
+                        }
+                    $longevent->ListEvent = $listevent;
+                    $longevent->save();
+                    }
+                } else {
+                    
+                    $longevent->TypeEvent = 2;
+                    $longevent->nameEvent = $mission->NameMission;
+                    
+                    if ($mission->listCalen!="")
+                        foreach ($this->ChangeMissionList($mission->listCalen) as $le) {
+                          
+                            $lisytevent = $this->detachedStringUncycle($le);
+    
+                            $start = $lisytevent["start"];
+                            $end = $lisytevent["end"];
+                            $name = $mission->NameMission . "(" . $i . ")";
+                            $i++;
+                            $group = $mission->idgroup;
+    
+    
+                            $note = $mission->Note;
+                            $day = $lisytevent["date"];
+                            $email = LoginController::userlogin();
+    
+                            $event = new detailEvents;
+                            $event->email = $email;
+                            $event->nameEvent = $name;
+                            $event->timeStart = $start;
+                            $event->timeEnd = $end;
+                            $event->dateOfEvent = $day;
+                            $event->group = $group;
+                            $event->Note = $note;
+                            $event->ChainOfid = 1;
+                            $event->save();
+                            $event->ChainOfid =  "G-".$idmission;
+                            $event->save();
+                            $listevent = $listevent . $le . "@";
+                        }
+                        
+                        
+                    $longevent->ListEvent = $listevent;
+                    $longevent->save();
+                }
+            }
         }
-
-        return redirect()->back();
+        $mm = new MissionMembers;
+        $mm->idMission = $idmission;
+        $mm->email = LoginController::userlogin();
+        $mm->save();
+        echo "g";
+        //return redirect()->back();
+        return view("MenuRight.pagetest");
     }
     public function quitMission()
     {
@@ -384,5 +572,18 @@ class CreateController extends Controller
         $e = date('w', strtotime($date->format('Y-m-d')));
         $days = array('sun', 'mon', 'tue', 'web', 'thu', 'fri', 'sat');
         return $days[$e];
+    }
+    public function ChangeMissionList($s){
+        $list= array();
+        $g="";
+        for($i=0;$i<strlen($s);$i++){
+            if($s[$i]!="@")
+                $g=$g.$s[$i];
+            else{
+                $list[]=$g;
+                $g="";
+            }
+        }
+        return $list;
     }
 }

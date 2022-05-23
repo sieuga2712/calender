@@ -25,19 +25,19 @@
 
     <div class="main-group">
 
-        <div id="member" style="visibility: visible;">
+        <div id="member" >
             @include('groupFolder.member')
         </div>
-        <div id="application" style="visibility: hidden;">
+        <div id="application" style="display:none;">
             @include('groupFolder.application')
         </div>
-        <div id="createMission" style="visibility: hidden;">
+        <div id="createMission" style="display:none;">
             @include('groupFolder.createMission')
         </div>
-        <div id="mission" style="visibility: hidden;">
+        <div id="mission" style="display:none;">
             @include('groupFolder.mission')
         </div>
-        <div id="setting" style="visibility: hidden;">
+        <div id="setting" style="display:none;">
             @include('groupFolder.setting')
 
 
@@ -48,8 +48,8 @@
             const listmenu = ["member", "application", "createMission", "mission", "setting"];
             for (let i = 0; i < 5; i++) {
                 var a = document.getElementById(listmenu[i]);
-                if (a.style.visibility != "hidden")
-                    a.style.visibility = "hidden";
+                if (a.style.display != "none")
+                    a.style.display = "none";
                 a.style.display = "none";
             }
 
@@ -59,8 +59,8 @@
         function changeMenuGuild(e) {
             allHidden();
             var a = document.getElementById(e);
-            a.style.visibility = "visible";
-            a.style.display="inline-block";
+            
+            a.style.display="block";
 
 
         }

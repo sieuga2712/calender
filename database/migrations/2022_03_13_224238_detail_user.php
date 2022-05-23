@@ -19,7 +19,7 @@ class DetailUser extends Migration
             $table->string('name');
             $table->string('email')->unique();
             
-            $table->string('img')->nullable();
+            
             $table->date("birthday")->nullable();
         
             $table->rememberToken();

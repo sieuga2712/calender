@@ -19,18 +19,18 @@ class MissionGroups extends Migration
             $table->string('NameMission');
             $table->string('idgroup');
             $table->integer('limit')->nullable();
+            $table->integer("TypeOfMission");
             $table->string('StartTime')->nullable();
             $table->string('EndTime')->nullable();
-            $table->date('dateMission');
-            $table->string('ChainOfId');
+            $table->date('dateMission')->nullable();
+            $table->date('dateStart')->nullable();
+            $table->date('dateEnd')->nullable();
+            $table->longText('listCalen')->nullable();
             $table->longText('Note')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
-        Schema::table('Mission_Groups', function ($table) {
-            $table->string('type');//ckc or ck or Day
-            
-        });
+       
     }
 
     /**
