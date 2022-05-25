@@ -102,11 +102,7 @@ $member=\App\Http\Controllers\DetailController::showmember();
     <h2>nhap thong tin su kien</h2>
 
     <div>
-        <label>
-            avatar:
-        </label>
-        <img src="{{ asset('images/calendar.jpg') }}">
-        <br>
+     
         <label >email: </label>
         <input type="text" class="text" value='{{$member->email}}' id="email" name ="email" disabled>
         <br><br>

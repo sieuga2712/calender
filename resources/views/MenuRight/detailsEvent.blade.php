@@ -14,6 +14,8 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         <button type="button" style="background-color: green;"><a href="/create">tao su kien</a> </button>
         <button type="button" id="chon" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chon</button>
         <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9;" onclick="deleteEvent()" disabled>xoa</button>
+        <input id="search_event"  type="text" onchange="searchevent()">
+        <button type="button"><i class="fa fa-search" onclick="searchevent()"></i></button>
     </div>
 
     @if ($che==1)
@@ -265,6 +267,17 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         });
 
 
+    }
+    function searchevent(){
+        var e=document.getElementById("search_event").value;
+        $.ajax({
+            url: '/searchevent?event='+e ,
+            type: 'GET',
+        }).done(function(response){
+            $("#listevent").empty();
+            $("#listevent").html(response);
+            
+        });
     }
 
 

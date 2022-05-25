@@ -44,6 +44,8 @@ Route::get('/deletePersonalEvent','CreateController@deletePersonalEvent');
 Route::get('/deleteGroupMission','CreateController@deleteGroupMission');
 Route::get('/loadMoreEvent','EventController@loadmore');
 Route::get('/searchgroup','GroupController@searchgroup');
+Route::get('/searchevent','EventController@searchevent');
+Route::get('/searchmission','GroupController@searchmission');
 Route::get("/test","CreateController@detachedStringCycle");
 Route::get('/deleteGroup','GroupController@deletegroup');
 //Route::get('/tao','EventController@tao');

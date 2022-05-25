@@ -20,7 +20,7 @@ class EventController extends Controller
         $load = $_GET["load"];
         $events = DB::table('detail_events')->where('email', LoginController::userlogin())->orderBy('dateOfEvent', 'desc')->limit($load)->get();
         $limit = DB::table('detail_events')->where('email', LoginController::userlogin())->count();
-
+        
         return view('ForAjax.event', compact('events', 'limit', 'load'));
     }
     //ham tao 50 event de test
@@ -47,7 +47,7 @@ class EventController extends Controller
         }
     }
     public static function getEvent()
-    {
+    {   
         $event = DB::table('detail_events')->where('email', LoginController::userlogin())->orderBy('dateOfEvent', 'desc')->limit(10)->get();
         return $event;
     }
@@ -68,5 +68,16 @@ class EventController extends Controller
 
 
         return redirect("detail");
+    }
+    public static function searchevent(){
+        $name=$_GET["event"];
+        if($name!='')
+        $event=DB::table('detail_events')->where('email', LoginController::userlogin())->where('nameEvent','LIKE',"%$name%")->orderBy('dateOfEvent', 'desc');
+         else
+         $event=DB::table('detail_events')->where('email', LoginController::userlogin())->limit(10);
+         $events=$event->get();
+        $load=$event->count();
+        $limit=$event->count();
+        return view('ForAjax.event',compact('events', 'limit', 'load'));
     }
 }

@@ -104,7 +104,7 @@ public static function checkMembers(){
 }
 public static function showMission(){
     $idgroup=$_GET['id'];
-    $mem=DB::table('mission_groups')->where('idgroup',$idgroup)->get();
+    $mem=DB::table('mission_groups')->where('idgroup',$idgroup)->orderBy('id', 'desc')->get();
     return $mem;
 }
 public static function showLimitMission($id){
@@ -127,5 +127,16 @@ public static function deletegroup(Request $request){
     
    
     return redirect("home");
+}
+public static function searchmission(){
+    $name=$_GET["mission"];
+    $idgroup=$_GET["idgroup"];
+    if($name!='')
+    $mission=DB::table('mission_groups')->where('NameMission','LIKE',"%$name%")->where('idgroup',$idgroup)->orderBy('id', 'desc');
+     else
+     $mission=DB::table('mission_groups')->where('idgroup',$idgroup)->orderBy('id', 'desc');
+     $listMission=$mission->get();
+     
+    return view('ForAjax.mission',compact('listMission','idgroup'));
 }
 }
