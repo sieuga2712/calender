@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Models\Group;
+use App\Models\Groupmessenge;
 use App\Models\memberGroup;
 use App\Models\MissionGroups;
 use App\Models\MissionMembers;
@@ -14,6 +15,8 @@ use DateTime;
 use Hamcrest\Core\HasToString;
 use Illuminate\Support\Facades\DB;
 use App\Models\longEvent;
+use App\Models\Messenge;
+use App\Models\Permessenge;
 
 class CreateController extends Controller
 {
@@ -55,7 +58,7 @@ class CreateController extends Controller
             $longevent->email = LoginController::userlogin();
             $listevent = "";
             $i = 1;
-            if ($request->radio_chuky ==true) {
+            if ($request->radio_chuky == true) {
                 $longevent->TypeEvent = 1;
                 $longevent->save();
                 if (isset($_POST['listevck']))
@@ -206,7 +209,7 @@ class CreateController extends Controller
 
             $event->StartTime = $start;
             $event->EndTime = $end;
-            $event->dateMission = $day; 
+            $event->dateMission = $day;
             $event->TypeOfMission = 0;
             $event->save();
         } else {
@@ -241,10 +244,12 @@ class CreateController extends Controller
                 $event->save();
             }
         }
-
-
-
-
+        $namegroup = DB::table('groups')->where('id', $group)->first()->name;
+        $idmess = $this->CreateMess($namegroup, "them su kien", $name);
+        $this->CreatePerMess("", $idmess, $group);
+        $email = LoginController::userlogin();
+        $idgroupmess = $this->CreateMess($email, "them su kien", $name);
+        $this->CreateGroupMess($group, $idgroupmess);
         //return redirect("home");
         return redirect("home");
     }
@@ -252,23 +257,23 @@ class CreateController extends Controller
     {
 
         $idmission = $_GET['idMission'];
-        
-            
+
+
         $mission = DB::table('mission_groups')->where('id', $idmission)->first();
-        $count = DB::table('mission_members')->where('idMission', $idmission)->where('email', LoginController::userlogin())->count();
-        echo "count=".$count;
-        
-        if ($count == 0) {
-            if ($mission->TypeOfMission==0) {
-             
+        $count = DB::table('mission_members')->where('idMission', $idmission)->where('email', LoginController::userlogin())->exists();
+        $name = $mission->NameMission;
+
+        if ($count == false) {
+            if ($mission->TypeOfMission == 0) {
+
                 $name = $mission->NameMission;
                 $start = $mission->StartTime;
                 $end = $mission->EndTime;
                 $day = $mission->dateMission;
                 $group = $mission->idgroup;
-                $note = $mission->note;
+                $note = $mission->Note;
                 $email = LoginController::userlogin();
-    
+
                 $event = new detailEvents;
                 $event->email = $email;
                 $event->nameEvent = $name;
@@ -282,22 +287,22 @@ class CreateController extends Controller
                 $event->ChainOfid = 'G-' . $idmission;
                 $event->save();
             } else {
-                
+
                 $longevent = new longEvent;
                 $longevent->nameEvent = $mission->NameMission;
                 $longevent->email = LoginController::userlogin();
                 $listevent = "";
                 $i = 1;
-                if ($mission->TypeOfMission==1) {
-                   
+                if ($mission->TypeOfMission == 1) {
+
                     $longevent->TypeEvent = 1;
                     $longevent->save();
-                    
-                    if ($mission->listCalen!=""){
+
+                    if ($mission->listCalen != "") {
                         foreach ($this->ChangeMissionList($mission->listCalen) as $le) {
-                           
-                          
-    
+
+
+
                             $ev = $this->detachedStringCycle($le);
                             $start = $ev["start"];
                             $end = $ev["end"];
@@ -305,7 +310,7 @@ class CreateController extends Controller
                             $dateend = new DateTime($mission->dateEnd);
                             $listevent = $listevent . $le . "@";
                             for ($date; $date <= $dateend; $date = $date->modify('+1 day')) {
-    
+
                                 if ($this->datetoweek($date) == $ev["weekday"]) {
                                     $name = $mission->NameMission . "(" . $i . ")";
                                     $i++;
@@ -313,7 +318,7 @@ class CreateController extends Controller
                                     $day = $date;
                                     $group = $mission->idgroup;
                                     $email = LoginController::userlogin();
-    
+
                                     $event = new detailEvents;
                                     $event->email = $email;
                                     $event->nameEvent = $name;
@@ -324,35 +329,35 @@ class CreateController extends Controller
                                     $event->Note = $note;
                                     $event->ChainOfid = 1;
                                     $event->save();
-                                    $event->ChainOfid = "G-".$idmission;
+                                    $event->ChainOfid = "G-" . $idmission;
                                     $event->save();
                                 }
                             }
                         }
-                    $longevent->ListEvent = $listevent;
-                    $longevent->save();
+                        $longevent->ListEvent = $listevent;
+                        $longevent->save();
                     }
                 } else {
-                    
+
                     $longevent->TypeEvent = 2;
                     $longevent->nameEvent = $mission->NameMission;
-                    
-                    if ($mission->listCalen!="")
+
+                    if ($mission->listCalen != "")
                         foreach ($this->ChangeMissionList($mission->listCalen) as $le) {
-                          
+
                             $lisytevent = $this->detachedStringUncycle($le);
-    
+
                             $start = $lisytevent["start"];
                             $end = $lisytevent["end"];
                             $name = $mission->NameMission . "(" . $i . ")";
                             $i++;
                             $group = $mission->idgroup;
-    
-    
+
+
                             $note = $mission->Note;
                             $day = $lisytevent["date"];
                             $email = LoginController::userlogin();
-    
+
                             $event = new detailEvents;
                             $event->email = $email;
                             $event->nameEvent = $name;
@@ -363,12 +368,12 @@ class CreateController extends Controller
                             $event->Note = $note;
                             $event->ChainOfid = 1;
                             $event->save();
-                            $event->ChainOfid =  "G-".$idmission;
+                            $event->ChainOfid =  "G-" . $idmission;
                             $event->save();
                             $listevent = $listevent . $le . "@";
                         }
-                        
-                        
+
+
                     $longevent->ListEvent = $listevent;
                     $longevent->save();
                 }
@@ -378,9 +383,11 @@ class CreateController extends Controller
         $mm->idMission = $idmission;
         $mm->email = LoginController::userlogin();
         $mm->save();
-        echo "g";
-        //return redirect()->back();
-        return view("MenuRight.pagetest");
+
+        $email = LoginController::userlogin();
+        $idgroupmess = $this->CreateMess($email, "tham gia su kien", $name);
+        $this->CreateGroupMess($mission->idgroup, $idgroupmess);
+        return redirect()->back();
     }
     public function quitMission()
     {
@@ -390,6 +397,12 @@ class CreateController extends Controller
         DB::update('delete from Mission_Members where idMission =' . $mission . ' && email = "' . LoginController::userlogin() . '"');
 
         DB::update('delete from detail_events where ChainOfId ="G-' . $mission . '" && email = "' . LoginController::userlogin() . '"');
+
+
+        $email = LoginController::userlogin();
+        $name = DB::table('mission_groups')->where("id", $mission)->first()->NameMission;
+        $idgroupmess = CreateController::CreateMess($email, "roi khoi su kien", $name);
+        CreateController::CreateGroupMess($name->idgroup, $idgroupmess);
         return redirect()->back();
     }
     public function deletePersonalEvent()
@@ -403,11 +416,24 @@ class CreateController extends Controller
     public function deleteGroupMission()
     {
         $list = $_GET['list'];
+        $email = LoginController::userlogin();
         foreach ($list as $idevent) {
+            $name = DB::table('mission_groups')->where("id", $idevent)->first();
+            $idgroupmess =  CreateController::CreateMess($email, "xoa  su kien", $name->NameMission);
+            CreateController::CreateGroupMess($name->idgroup, $idgroupmess);
+
+
+            $namegroup = DB::table('groups')->where('id', $name->idgroup)->first()->name;
+            $idmess =  CreateController::CreateMess($namegroup, "xoa su kien", $name);
+            CreateController::CreatePerMess("", $idmess, $name->idgroup);
             DB::update('delete from mission_groups where id =' . $idevent);
             DB::update('delete from mission_members where idMission =' . $idevent);
             DB::update('delete from detail_events where ChainOfId ="G-' . $idevent . '"');
         }
+
+
+
+
         return redirect()->back();
     }
 
@@ -573,17 +599,51 @@ class CreateController extends Controller
         $days = array('sun', 'mon', 'tue', 'web', 'thu', 'fri', 'sat');
         return $days[$e];
     }
-    public function ChangeMissionList($s){
-        $list= array();
-        $g="";
-        for($i=0;$i<strlen($s);$i++){
-            if($s[$i]!="@")
-                $g=$g.$s[$i];
-            else{
-                $list[]=$g;
-                $g="";
+    public function ChangeMissionList($s)
+    {
+        $list = array();
+        $g = "";
+        for ($i = 0; $i < strlen($s); $i++) {
+            if ($s[$i] != "@")
+                $g = $g . $s[$i];
+            else {
+                $list[] = $g;
+                $g = "";
             }
         }
         return $list;
+    }
+    public static function CreateMess($suba, $action, $subb)
+    {
+        $mess = new Messenge;
+        $mess->subjectA = $suba;
+        $mess->action = $action;
+        $mess->subjectB = $subb;
+        $mess->save();
+        return $mess->id;
+    }
+    public static function CreatePerMess($email, $id, $idgroup)
+    {
+        if ($idgroup == -1) {
+            $mess = new Permessenge;
+            $mess->email = $email;
+            $mess->idmess = $id;
+            $mess->save();
+        } else {
+            $members = DB::table('member_groups')->where('idGroup', $idgroup)->get();
+            foreach ($members as $member) {
+                $mess = new Permessenge;
+                $mess->email = $member->email;
+                $mess->idmess = $id;
+                $mess->save();
+            }
+        }
+    }
+    public static function CreateGroupMess($idgroup, $id)
+    {
+        $mess = new Groupmessenge;
+        $mess->idgroup = $idgroup;
+        $mess->idmess = $id;
+        $mess->save();
     }
 }

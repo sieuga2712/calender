@@ -123,7 +123,7 @@ $informem=\App\Http\Controllers\GroupController::checkMembers();
                                 </textarea>
     </label>
     <br>
-    @if($informem[0]->level<=2)
+    @if($informem->level<=2)
     <input type="submit" id="sudmit">
     @else
     ban khong co quyen tao nhiem vu<br>

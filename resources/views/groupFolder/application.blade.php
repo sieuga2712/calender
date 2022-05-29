@@ -48,7 +48,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                             @endphp
                             <tr class="row100 body" id='{{$group->id}}'>
                                 <td class="cell100 column1" >{{$group->email}}</td>
-                                <td class="cell100 column2">{{$informem[0]->name}} </td>
+                                <td class="cell100 column2">{{$informem->name}} </td>
 
                                 <td class="cell100 column4" >
                                  <div id="checkMember">

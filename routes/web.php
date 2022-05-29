@@ -48,6 +48,8 @@ Route::get('/searchevent','EventController@searchevent');
 Route::get('/searchmission','GroupController@searchmission');
 Route::get("/test","CreateController@detachedStringCycle");
 Route::get('/deleteGroup','GroupController@deletegroup');
+Route::get('/changeadmin','GroupController@changeadmin');
+Route::get('/changepass','GroupController@changepass');
 //Route::get('/tao','EventController@tao');
 /*Route::get('/cal',function(){
     return view('index');
@@ -57,5 +59,5 @@ Route::post('/createGroupMission','CreateController@createGroupMission');
 Route::post('/createGroup','CreateController@createGroup');
 Route::post('/changInformation','UserController@changeInformation');
 Route::post('/UpdatePersonalEvent','EventController@UpdatePersonalEvent');
-
+Route::get('/outgroup','GroupController@outgroup');
 

@@ -135,3 +135,4 @@ $member=\App\Http\Controllers\DetailController::showmember();
         ban chua dang nhap
         
         @endif
+        

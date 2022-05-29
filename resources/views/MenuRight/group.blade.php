@@ -7,12 +7,13 @@
             $informem=\App\Http\Controllers\GroupController::checkMembers();
 
             @endphp
-            @if($informem[0]->level<=2)
+            @if($informem->level<=2)
             <li class="menugroup" onclick="changeMenuGuild('createMission')">tao nhiem vu</li>
             @else
             <li class="menugroup" disabled>tao nhiem vu</li>
             @endif
             <li class="menugroup" onclick="changeMenuGuild('application')">don xin</li>
+            <li class="menugroup" onclick="changeMenuGuild('messenge')">thong bao</li>
             <li class="menugroup" onclick="changeMenuGuild('setting')">thiet lap</li>
 
         </ul>
@@ -37,6 +38,9 @@
         <div id="mission" style="display:none;">
             @include('groupFolder.mission')
         </div>
+        <div id="messenge" style="display:none;">
+            @include('groupFolder.messenge')
+        </div>
         <div id="setting" style="display:none;">
             @include('groupFolder.setting')
 
@@ -45,7 +49,7 @@
     </div>
     <script>
         function allHidden() {
-            const listmenu = ["member", "application", "createMission", "mission", "setting"];
+            const listmenu = ["member", "application", "createMission", "mission","messenge", "setting"];
             for (let i = 0; i < 5; i++) {
                 var a = document.getElementById(listmenu[i]);
                 if (a.style.display != "none")

@@ -60,10 +60,11 @@
 <script>
     function changelv(e,id) {
         var a = document.getElementById("level_Member_"+e);
+        
         if (a.value > 3)
             a.value = 3;
-        if (a.value < 1)
-            a.value = 1;
+        if (a.value < 2)
+            a.value = 2;
 
 
 
@@ -73,7 +74,8 @@
 
         }).done(function(Response) {
             
-           
+           if(Response=="false")
+                alert("level khong kha dung");
 
         });
 
