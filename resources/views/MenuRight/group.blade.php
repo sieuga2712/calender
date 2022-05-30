@@ -1,3 +1,9 @@
+@php
+$checkmem=\App\Http\Controllers\GroupController::isMember($_GET["id"]);
+
+
+@endphp
+@if($checkmem!=0)
 <div class="group">
     <div class="menu-for-group">
         <ul>
@@ -69,3 +75,7 @@
 
         }
     </script>
+</div>
+@else
+        ban khong phai thanh vien nhom
+@endif

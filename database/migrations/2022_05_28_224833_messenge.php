@@ -14,10 +14,10 @@ class Messenge extends Migration
     public function up()
     {
         //
-        Schema::create('messenge', function (Blueprint $table) {
+        Schema::create('messenges', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('subjectA');
-            
+            $table->string('ingroup')->nullable();
             $table->String('Action');
             $table->String('subjectB');
             $table->rememberToken();
@@ -33,6 +33,6 @@ class Messenge extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('messenge');
+        Schema::dropIfExists('messenges');
     }
 }

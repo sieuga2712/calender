@@ -10,6 +10,7 @@ class Messenge extends Model
     //
     protected $Message=[
         'subjectA',
+        'ingroup',
         'action',
         'subjectB'
 

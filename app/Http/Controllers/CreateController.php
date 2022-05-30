@@ -244,12 +244,11 @@ class CreateController extends Controller
                 $event->save();
             }
         }
-        $namegroup = DB::table('groups')->where('id', $group)->first()->name;
-        $idmess = $this->CreateMess($namegroup, "them su kien", $name);
-        $this->CreatePerMess("", $idmess, $group);
         $email = LoginController::userlogin();
-        $idgroupmess = $this->CreateMess($email, "them su kien", $name);
-        $this->CreateGroupMess($group, $idgroupmess);
+        $namegroup = DB::table('groups')->where('id', $group)->first()->name;
+        $idmess = $this->CreateMess($email,$namegroup, "them su kien", $name);
+        $this->CreatePerMess("", $idmess, $group);
+        $this->CreateGroupMess($group, $idmess);
         //return redirect("home");
         return redirect("home");
     }
@@ -385,7 +384,7 @@ class CreateController extends Controller
         $mm->save();
 
         $email = LoginController::userlogin();
-        $idgroupmess = $this->CreateMess($email, "tham gia su kien", $name);
+        $idgroupmess = $this->CreateMess($email,"", "tham gia su kien", $name);
         $this->CreateGroupMess($mission->idgroup, $idgroupmess);
         return redirect()->back();
     }
@@ -401,7 +400,7 @@ class CreateController extends Controller
 
         $email = LoginController::userlogin();
         $name = DB::table('mission_groups')->where("id", $mission)->first()->NameMission;
-        $idgroupmess = CreateController::CreateMess($email, "roi khoi su kien", $name);
+        $idgroupmess = CreateController::CreateMess($email,"", "roi khoi su kien", $name);
         CreateController::CreateGroupMess($name->idgroup, $idgroupmess);
         return redirect()->back();
     }
@@ -419,13 +418,15 @@ class CreateController extends Controller
         $email = LoginController::userlogin();
         foreach ($list as $idevent) {
             $name = DB::table('mission_groups')->where("id", $idevent)->first();
-            $idgroupmess =  CreateController::CreateMess($email, "xoa  su kien", $name->NameMission);
-            CreateController::CreateGroupMess($name->idgroup, $idgroupmess);
+           
+            
 
 
             $namegroup = DB::table('groups')->where('id', $name->idgroup)->first()->name;
-            $idmess =  CreateController::CreateMess($namegroup, "xoa su kien", $name);
+            $idmess =  CreateController::CreateMess($email,$namegroup, "xoa su kien", $name);
             CreateController::CreatePerMess("", $idmess, $name->idgroup);
+            CreateController::CreateGroupMess($name->idgroup, $idmess);
+
             DB::update('delete from mission_groups where id =' . $idevent);
             DB::update('delete from mission_members where idMission =' . $idevent);
             DB::update('delete from detail_events where ChainOfId ="G-' . $idevent . '"');
@@ -613,10 +614,11 @@ class CreateController extends Controller
         }
         return $list;
     }
-    public static function CreateMess($suba, $action, $subb)
+    public static function CreateMess($suba,$ingroup, $action, $subb)
     {
         $mess = new Messenge;
         $mess->subjectA = $suba;
+        $mess->ingroup=$ingroup;
         $mess->action = $action;
         $mess->subjectB = $subb;
         $mess->save();

@@ -14,7 +14,7 @@ class GroupMessenge extends Migration
     public function up()
     {
         //
-        Schema::create('GroupMessenge', function (Blueprint $table) {
+        Schema::create('GroupMessenges', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('idGroup');
             
@@ -33,6 +33,6 @@ class GroupMessenge extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('GroupMessenge');
+        Schema::dropIfExists('GroupMessenges');
     }
 }

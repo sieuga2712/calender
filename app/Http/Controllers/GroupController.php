@@ -8,6 +8,7 @@ use App\Models\memberGroup;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CreateController;
+use Exception;
 
 class GroupController extends Controller
 {
@@ -89,7 +90,11 @@ class GroupController extends Controller
     public static function getNameGroup($idgroup)
     {
         $name = DB::table('groups')->where('id', $idgroup)->first();
+        try{
         return $name->name;
+        }catch(Exception $e){
+            //return redirect("home");
+        }
     }
     public static function numberMember($idgroup)
     {
@@ -195,7 +200,7 @@ class GroupController extends Controller
             $email = $mem->first(  )->email;
 
             $name = DB::table('groups')->where("id", $id)->first()->name;
-            $idgroupmess = CreateController::CreateMess($email, "thanh truong nhom", $name);
+            $idgroupmess = CreateController::CreateMess($email,"", "thanh truong nhom", $name);
             CreateController::CreateGroupMess($id, $idgroupmess);
             return redirect("home");
         }
@@ -236,7 +241,7 @@ class GroupController extends Controller
             $email = LoginController::userlogin();
 
             $name = DB::table('groups')->where("id", $id)->first()->name;
-            $idgroupmess = CreateController::CreateMess($email, "roi khoi nhom", $name);
+            $idgroupmess = CreateController::CreateMess($email,"", "roi khoi nhom", $name);
             CreateController::CreateGroupMess($id, $idgroupmess);
 
 
