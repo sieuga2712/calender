@@ -1,6 +1,6 @@
 <div>
 
-    <div class="filter-tool" style="background-color: grey;">
+    <div class="filter-tool" style="background-color: #bcc1df;">
 
         <button type="button" id="chon" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chon</button>
         <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9;" onclick="deleteGroupEvent()" disabled>xoa</button>

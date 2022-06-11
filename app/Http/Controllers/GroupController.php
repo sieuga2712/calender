@@ -250,4 +250,27 @@ class GroupController extends Controller
             return redirect("home");
         }
     }
+    public static function kickmem(Request $request){
+        $id = $request->mem;
+        $group=$request->ig;
+        $mem = DB::table('member_Groups')->where('idGroup', $id)->where('email', LoginController::userlogin())->first();
+        if ($mem->level != 1) {
+           
+            return "false";
+        } else {
+            $email=DB::table('detail_users')->where('id',$id)->first()->email;
+            DB::table('member_groups')->where('idGroup', $group)->where('email', $email)->delete();
+            $listmission = DB::table('mission_groups')->where('idGroup', $id)->get();
+
+           
+            $name = DB::table('groups')->where("id", $id)->first()->name;
+            $idgroupmess = CreateController::CreateMess($email,"", "roi khoi nhom", $name);
+            CreateController::CreateGroupMess($id, $idgroupmess);
+
+
+            foreach ($listmission as $m)
+                DB::table('mission_members')->where('idMission', $m->id)->where('email', $email)->delete();
+            return redirect("home");
+        }
+    }
 }

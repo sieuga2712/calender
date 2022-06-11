@@ -5,15 +5,16 @@
     $s="";
     $out="disabled";
     if($member->level>1)
-    {$s="disabled";
+    {
         $out="";
     }
     $id=$_GET['id'];
     @endphp
 <div style="padding-left:100px ;">
-    <h1>doi nhom truong</h1>
+@if($member->level==1)
+    <h3>doi nhom truong</h3>
 
-
+    
     <div style="padding-left:50px ;" id="change-lv1">
         nhom truong moi:
         <input type="text" id="newlv1">
@@ -23,7 +24,7 @@
 
 
 
-    <h1>xoa group</h1>
+    <h3>xoa group</h3>
     <div style="padding-left:50px ;">
         bac xac nhap xoa group:
         <input type="password" id="passlv1">
@@ -31,7 +32,7 @@
     </div>
 
     <br>
-    <h1>doi mat khau nhom</h1>
+    <h3>doi mat khau nhom</h3>
     <div style="padding-left:50px ;">
         mat khau cu:
         <input type="password" id="oldpass"><br>
@@ -43,7 +44,8 @@
     </div>
 
     <br>
-    <h1>thoat group</h1>
+@endif
+    <h3>thoat group</h3>
     <div style="padding-left:50px ;">
     <form action="/outgroup" id="FormCreate" method="POST"  onsubmit="return validateForm()">
     {{csrf_field()}}

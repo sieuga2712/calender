@@ -50,6 +50,7 @@ Route::get("/test","CreateController@detachedStringCycle");
 Route::get('/deleteGroup','GroupController@deletegroup');
 Route::get('/changeadmin','GroupController@changeadmin');
 Route::get('/changepass','GroupController@changepass');
+Route::get('/kickmember','GroupController@kickmem');
 //Route::get('/tao','EventController@tao');
 /*Route::get('/cal',function(){
     return view('index');

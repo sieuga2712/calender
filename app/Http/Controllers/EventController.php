@@ -10,7 +10,7 @@ use App\Models\Group;
 use App\Models\memberGroup;
 use App\Models\MissionGroups;
 use App\Models\MissionMembers;
-
+use phpDocumentor\Reflection\Types\Null_;
 
 class EventController extends Controller
 {
@@ -71,10 +71,24 @@ class EventController extends Controller
     }
     public static function searchevent(){
         $name=$_GET["event"];
+        $date=$_GET["date"];
         if($name!='')
+        {
         $event=DB::table('detail_events')->where('email', LoginController::userlogin())->where('nameEvent','LIKE',"%$name%")->orderBy('dateOfEvent', 'desc');
+        if($date!=NULL)
+        $event=$event->where('dateOfEvent',$date)->orderBy('dateOfEvent', 'desc');
+        else
+        $event=$event->orderBy('dateOfEvent', 'desc');
+        }
          else
-         $event=DB::table('detail_events')->where('email', LoginController::userlogin())->limit(10);
+         {
+         $event=DB::table('detail_events')->where('email', LoginController::userlogin());
+         if($date!=NULL)
+         $event=$event->where('dateOfEvent',$date)->orderBy('dateOfEvent', 'desc')->limit(10);
+         else
+         $event=$event->orderBy('dateOfEvent', 'desc')->limit(10);
+
+         }
          $events=$event->get();
         $load=$event->count();
         $limit=$event->count();

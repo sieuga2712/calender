@@ -2,7 +2,7 @@
     @php
     $use=$_GET["id"];
     $mess=\App\Http\Controllers\messengeController::messGroup($use);
-    echo $mess;
+  
     @endphp
     
     @foreach($mess as $me)  

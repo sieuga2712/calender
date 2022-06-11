@@ -204,3 +204,7 @@ button {
   .hidden-listcalen{
     display:none;
   }
+  .my-btn-steel-blue{
+    background-color: #4b77be;
+    color: #fff;
+  }

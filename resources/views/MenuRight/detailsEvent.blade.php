@@ -10,10 +10,11 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
 <div class="detail-event">
 
-    <div class="filter-tool" style="background-color: grey;">
-        <button type="button" style="background-color: green;"><a href="/create">tao su kien</a> </button>
+    <div class="filter-tool" style="background-color: #bcc1df; padding-left: 5px;padding-top: 4px;">
+        <button type="button" class="my-btn-steel-blue" style="border:solid 1px;"><a href="/create" style="color:white;">tao su kien</a> </button>
         <button type="button" id="chon" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chon</button>
         <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9;" onclick="deleteEvent()" disabled>xoa</button>
+        <input type="date" class="text" id="searchDate" onchange="searchevent()">
         <input id="search_event"  type="text" onchange="searchevent()">
         <button type="button"><i class="fa fa-search" onclick="searchevent()"></i></button>
     </div>
@@ -103,10 +104,10 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
                 @if($event->group!=NULL)
                 @php
-                $name=\App\Http\Controllers\GroupController::getNameGroup($event->group);
+                $gname=\App\Http\Controllers\GroupController::getNameGroup($event->group);
                 @endphp
                 <div class="under-calen">
-                    group:{{$name}}
+                    group:{{$gname}}
                 </div>
                 @endif
 
@@ -270,8 +271,9 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
     }
     function searchevent(){
         var e=document.getElementById("search_event").value;
+        var date=document.getElementById("searchDate").value;
         $.ajax({
-            url: '/searchevent?event='+e ,
+            url: '/searchevent?event='+e +'&date='+date,
             type: 'GET',
         }).done(function(response){
             $("#listevent").empty();
@@ -279,6 +281,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
             
         });
     }
+    
 
 
     function deleteEvent() {

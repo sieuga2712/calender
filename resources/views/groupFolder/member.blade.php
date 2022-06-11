@@ -11,8 +11,8 @@
                                 <th class="cell100 column2">name</th>
 
                                 <th class="cell100 column4">level</th>
-                                <th class="cell100 column5">so nhiem vu</th>
-                                <th class="cell100 column6">tinh trang</th>
+
+                                <th class="cell100 column6">tuy chon</th>
                             </tr>
                         </thead>
                     </table>
@@ -22,23 +22,45 @@
                     <table>
                         <tbody>
                             @php
+                            $m= \App\Http\Controllers\GroupController::checkMembers();
                             $listmember=\App\Http\Controllers\GroupController::ListMember();
+
                             @endphp
                             @foreach($listmember as $group)
                             @php
                             $informem=\App\Http\Controllers\DetailController::inforMember($group->email);
+
                             @endphp
                             <tr class="row100 body" onclick="clickMe('{{$group->id}}')">
                                 <td class="cell100 column1">{{$group->email}}</td>
                                 <td class="cell100 column2">{{$informem->name}} </td>
-
+                                @if($m->level==1)
                                 <td class="cell100 column4">
+
                                     <input id="level_Member_{{$group->email}}" onchange="changelv('{{$group->email}}','{{$group->idGroup}}')" type="number" min="2" max="3" step="1" value="{{$group->level}}">
 
                                 </td>
-                                <td class="cell100 column5">so nhiem vu</td>
 
-                                <td class="cell100 column6"><button>chua tham gia</button></td>
+
+                                <td class="cell100 column6">
+                                    @if($informem->level!=1)
+                                    <button onclick="kickmem({{$informem->id}},'{{$group->idGroup}}')">xoa</button>
+                                    @endif
+                                </td>
+                                @else
+
+                                <td class="cell100 column4">
+
+                                   {{$group->level}}
+
+                                </td>
+
+
+                                <td class="cell100 column6">
+                                   
+                                    
+                                </td>
+                                @endif
 
                             </tr>
                             @endforeach
@@ -58,9 +80,9 @@
 </div>
 
 <script>
-    function changelv(e,id) {
-        var a = document.getElementById("level_Member_"+e);
-        
+    function changelv(e, id) {
+        var a = document.getElementById("level_Member_" + e);
+
         if (a.value > 3)
             a.value = 3;
         if (a.value < 2)
@@ -69,12 +91,33 @@
 
 
         $.ajax({
-            url: '/changelv?email=' + e+'&idgroup='+id+'&level='+a.value,
+            url: '/changelv?email=' + e + '&idgroup=' + id + '&level=' + a.value,
             type: 'GET',
 
         }).done(function(Response) {
-            
-           if(Response=="false")
+
+            if (Response == "false")
+                alert("level khong kha dung");
+
+        });
+
+    }
+
+    function kickmem(e, id) {
+
+
+
+        $.ajax({
+            url: '/kickmember?mem=' + e + '&idgroup=' + id,
+            type: 'GET',
+            data: {
+                mem: e,
+                ig: id
+            },
+
+        }).done(function(Response) {
+
+            if (Response == "false")
                 alert("level khong kha dung");
 
         });
