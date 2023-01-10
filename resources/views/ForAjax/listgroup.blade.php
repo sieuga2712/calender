@@ -17,12 +17,12 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
             <table>
                 <thead>
                     <tr class="row100 head">
-                        <th class="cell100 column1">ten nhom</th>
-                        <th class="cell100 column2">nhom truong</th>
+                        <th class="cell100 column1">tên nhóm</th>
+                        <th class="cell100 column2">nhóm trưởng</th>
 
-                        <th class="cell100 column4">thanh vien</th>
-                        <th class="cell100 column5">gioi han</th>
-                        <th class="cell100 column6">tinh trang</th>
+                        <th class="cell100 column4">thành viên hiện tại</th>
+                        <th class="cell100 column5">giới hạn</th>
+                        <th class="cell100 column6">nộp đơn</th>
                     </tr>
                 </thead>
             </table>
@@ -53,20 +53,21 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                         @endif
                         @if($ismem==0)
                         @php
-                        $ischeck=\App\Http\Controllers\GroupControlller::checked($group->id);
+                        $ischeck=\App\Http\Controllers\GroupController::checked($group->id);
                         @endphp
-                        <td class="cell100 column6">
+                        <td class="cell100 column6" id="checkapp">
                             @if($ischeck==0)
                             <div claas="apped">
-                            <input id='{{$group->id}}'  type="submit" onclick="appliGroup('{{$group->id}}','{{$use}}')" value="xin gia nhap">
+                            <input id='{{$group->id}}'  type="submit" onclick="confimappligroup('{{$group->id}}','{{$use}}')" value="xin gia nhập">
                             </div>@else
-                            <input id='{{$group->id}}' type="submit" onclick="appliGroup('{{$group->id}}','{{$use}}')" value="dang xin" disabled>
+                            <input id='{{$group->id}}' type="submit" onclick="confimappligroup('{{$group->id}}','{{$use}}')" value="hủy đơn xin" >
                             @endif
                         </td>
                         @else
                         <td class="cell100 column6" ">
                         
-                                da gia nhap
+                        <input  type="button" onclick="clickMe('{{$group->id}}')" value="vào nhóm" >
+
 
                             
 

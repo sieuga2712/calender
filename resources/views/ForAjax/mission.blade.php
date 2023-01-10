@@ -35,26 +35,26 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
             </div>
             <div class="mid-calen">
                 <div style="float:right">
-                    loại: sự kiện trong ngay
+                    loại: sự kiện trong ngày
                 </div>
                 bắt đầu: {{$mission->StartTime}}
                 <br>
                 kết thúc: {{$mission->EndTime}}
                 <br>
-                ngay: {{$mission->dateMission}}
+                ngày: {{$mission->dateMission}}
                 <br>
-                so nguoi tham gia:
+                số người tham gia:
                 @if($mission->limit!=NULL)
                 {{$limit}}/{{$mission->limit}}
                 @else
-                khong gioi han
+                số người tham gia: không giới hạn
                 @endif
             </div>
 
         </div>
         <div class=" a2">
             <span class="right-calen">
-                NOTE:
+                ghi chú:
             </span>
             <br>
             {{$mission->Note}}
@@ -95,17 +95,17 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
             </div>
             <div class="mid-calen">
                 <div style="float:right">
-                    loại: sự kiện dài co chu kỳ
+                    loại: sự kiện lặp lại
                 </div>
                 ngày bắt đầu: {{$mission->dateStart}}
                 <br>
                 ngày kết thúc: {{$mission->dateEnd}}
                 <br>
-                so nguoi tham gia:
+                số người tham gia:
                 @if($mission->limit!=NULL)
                 {{$limit}}/{{$mission->limit}}
                 @else
-                khong gioi han
+                số người tham gia: không giới hạn
                 @endif
                 <br>
                 danh sách:
@@ -130,7 +130,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
         <div class=" a2">
             <span class="right-calen">
-                NOTE:
+                ghi chú:
             </span>
             <br>
             {{$mission->Note}}
@@ -176,13 +176,13 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
             </div>
             <div class="mid-calen">
                 <div style="float:right">
-                    loại: sự kiện dài không chu kỳ
+                    loại: sự kiện dài ngày
                 </div>
                 <br>
-                so nguoi tham gia: @if($mission->limit!=NULL)
+                số người tham gia: @if($mission->limit!=NULL)
                 {{$limit}}/{{$mission->limit}}
                 @else
-                khong gioi han
+                số người tham gia: không giới hạn
                 @endif
                 <br>
                 danh sách:

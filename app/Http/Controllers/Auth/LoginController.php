@@ -54,4 +54,12 @@ class LoginController extends Controller
             return 1;
         }
     }
+    public static function userid(){
+        try{
+            return Auth::user()->id;
+            }
+            catch( Exception $e){
+                return 1;
+            }
+    }
 }

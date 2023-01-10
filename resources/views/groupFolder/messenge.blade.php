@@ -6,7 +6,7 @@
     @endphp
     
     @foreach($mess as $me)  
-       <div>-{{$me->subjectA}}<?php echo " da ";?> {{$me->Action}}<?php echo " ";?> {{$me->subjectB}}<?php echo " vao luc ";?>{{$me->created_at}}</div>
+       <div>-{{$me->subjectA}}<?php echo " đã ";?> {{$me->Action}}<?php echo " ";?> {{$me->subjectB}}<?php echo " vào lúc ";?>{{$me->created_at}}</div>
         <br>
     @endforeach 
 </div>

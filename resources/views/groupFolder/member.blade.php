@@ -8,11 +8,11 @@
                         <thead>
                             <tr class="row100 head">
                                 <th class="cell100 column1">email</th>
-                                <th class="cell100 column2">name</th>
+                                <th class="cell100 column2">tên thành viên</th>
 
-                                <th class="cell100 column4">level</th>
+                                <th class="cell100 column4">cấp độ</th>
 
-                                <th class="cell100 column6">tuy chon</th>
+                                <th class="cell100 column6">tùy chọn</th>
                             </tr>
                         </thead>
                     </table>
@@ -36,15 +36,17 @@
                                 <td class="cell100 column2">{{$informem->name}} </td>
                                 @if($m->level==1)
                                 <td class="cell100 column4">
-
+                                @if($group->level !=1)
                                     <input id="level_Member_{{$group->email}}" onchange="changelv('{{$group->email}}','{{$group->idGroup}}')" type="number" min="2" max="3" step="1" value="{{$group->level}}">
-
+                                @else
+                                {{$group->level}}
+                                    @endif
                                 </td>
 
 
                                 <td class="cell100 column6">
-                                    @if($informem->level!=1)
-                                    <button onclick="kickmem({{$informem->id}},'{{$group->idGroup}}')">xoa</button>
+                                   @if($group->level !=1)
+                                    <button class="my-btn-steel-blue" onclick="kickmem({{$informem->id}},'{{$group->idGroup}}')" >xoa</button>
                                     @endif
                                 </td>
                                 @else

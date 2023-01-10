@@ -99,7 +99,7 @@ $member=\App\Http\Controllers\DetailController::showmember();
 @if ($che==1)
 <form action="/changInformation" method="POST" style="margin-left:300px;margin-top:20px;">
 {{csrf_field()}}
-    <h2>nhap thong tin su kien</h2>
+    <h2>nhập thông tin </h2>
 
     <div>
      
@@ -108,17 +108,17 @@ $member=\App\Http\Controllers\DetailController::showmember();
         <br><br>
 
         
-        <label >name: </label>
+        <label >tên: </label>
         <input type="text" class="text"id="name" name="name" value='{{$member->name}}' >
 
 
 
-        
+        <!--
         <br><br>
       
             <label for="birthday">birthday(*) </label>
             <input type="date" class="text" id="birthday" name="birthday" value='{{$member->birthday}}'>
-
+-->
         <input type="submit" id="sudmit">
       
         
@@ -132,7 +132,7 @@ $member=\App\Http\Controllers\DetailController::showmember();
 
 </form>
 @else
-        ban chua dang nhap
+        bạn chưa đăng nhập
         
         @endif
         

@@ -60,5 +60,5 @@ Route::post('/createGroupMission','CreateController@createGroupMission');
 Route::post('/createGroup','CreateController@createGroup');
 Route::post('/changInformation','UserController@changeInformation');
 Route::post('/UpdatePersonalEvent','EventController@UpdatePersonalEvent');
-Route::get('/outgroup','GroupController@outgroup');
+Route::post('/outgroup','GroupController@outgroup');
 

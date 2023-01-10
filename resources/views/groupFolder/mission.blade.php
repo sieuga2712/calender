@@ -1,11 +1,13 @@
 <div>
-
+    @php
+    $m= \App\Http\Controllers\GroupController::checkMembers();
+    @endphp
     <div class="filter-tool" style="background-color: #bcc1df;">
-
-        <button type="button" id="chon" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chon</button>
-        <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9;" onclick="deleteGroupEvent()" disabled>xoa</button>
-        <input id="search_mission" type="text" onchange="searchmission()">
-        <button type="button"><i class="fa fa-search" onclick="searchmission()"></i></button>
+        @if($m->level<=2) <button type="button" id="chon" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chon</button>
+            <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9;" onclick="deleteGroupEvent()" disabled>xoa</button>
+            @endif
+            <input id="search_mission" type="text" onchange="searchmission()">
+            <button type="button"><i class="fa fa-search" onclick="searchmission()"></i></button>
     </div>
 
     <div id="listmission">
@@ -37,26 +39,26 @@
                 </div>
                 <div class="mid-calen">
                     <div style="float:right">
-                        loại: sự kiện trong ngay
+                        loại: sự kiện trong ngày
                     </div>
                     bắt đầu: {{$mission->StartTime}}
                     <br>
                     kết thúc: {{$mission->EndTime}}
                     <br>
-                    ngay: {{$mission->dateMission}}
+                    ngày: {{$mission->dateMission}}
                     <br>
-                    so nguoi tham gia:
+                    số người tham gia:
                     @if($mission->limit!=NULL)
                     {{$limit}}/{{$mission->limit}}
                     @else
-                    khong gioi han
+                    không giới hạn
                     @endif
                 </div>
 
             </div>
             <div class=" a2">
                 <span class="right-calen">
-                    NOTE:
+                    ghi chú:
                 </span>
                 <br>
                 {{$mission->Note}}
@@ -73,10 +75,10 @@
                 <div id="checkMember">
                     @if($isjoin==0)
                     <input type="submit" class="button-joinmission" id="join_{{$mission->id}}" onclick="joinMission('{{$idgroup}}','{{$mission->id}}')" value="tham gia" {{$s}}>
-                    <input type="submit" class="button-joinmission" id="out_{{$mission->id}}" style="display: none;" onclick="quitMission('{{$idgroup}}','{{$mission->id}}')" value="roi khoi">
+                    <input type="submit" class="button-joinmission" id="out_{{$mission->id}}" style="display: none;" onclick="quitMission('{{$idgroup}}','{{$mission->id}}')" value="rời khỏi">
                     @else
                     <input type="submit" class="button-joinmission" id="join_{{$mission->id}}" style="display: none;" onclick="joinMission('{{$idgroup}}','{{$mission->id}}')" value="tham gia" {{$s}}>
-                    <input type="submit" class="button-joinmission" id="out_{{$mission->id}}" onclick="quitMission('{{$idgroup}}','{{$mission->id}}')" value="roi khoi">
+                    <input type="submit" class="button-joinmission" id="out_{{$mission->id}}" onclick="quitMission('{{$idgroup}}','{{$mission->id}}')" value="rời khỏi">
                     @endif
                 </div>
             </div>
@@ -103,14 +105,14 @@
                     <br>
                     ngày kết thúc: {{$mission->dateEnd}}
                     <br>
-                    so nguoi tham gia:
+                    số người tham gia:
                     @if($mission->limit!=NULL)
                     {{$limit}}/{{$mission->limit}}
                     @else
-                    khong gioi han
+                    không giới hạn
                     @endif
                     <br>
-                    danh sách:
+                    thời gian:
                     <!--input type="button" value="xem them" onclick="showListCalen()"-->
                     <br>
                     @php
@@ -120,6 +122,15 @@
 
                     for($i=0;$i< strlen($e);$i++){ if($e[$i]=="@" ) {$levent[]=$g; $g="" ; } else $g=$g.$e[$i]; } @endphp <div>
                         @foreach($levent as $eve)
+                        @php
+                        $eve=str_replace("mon","thứ 2",$eve);
+                        $eve=str_replace("tue","thứ 3",$eve);
+                        $eve=str_replace("web","thứ 4",$eve);
+                        $eve=str_replace("thi","thứ 5",$eve);
+                        $eve=str_replace("fri","thứ 6",$eve);
+                        $eve=str_replace("sat","thứ 7",$eve);
+                        $eve=str_replace("sun","chủ nhật",$eve);
+                   @endphp
                         <li>{{$eve}}</li>
                         @endforeach
                 </div>
@@ -132,7 +143,7 @@
 
         <div class=" a2">
             <span class="right-calen">
-                NOTE:
+                ghi chú:
             </span>
             <br>
             {{$mission->Note}}
@@ -151,10 +162,10 @@
             <div id="checkMember">
                 @if($isjoin==0)
                 <input type="submit" class="button-joinmission" id="join_{{$mission->id}}" onclick="joinMission('{{$idgroup}}','{{$mission->id}}')" value="tham gia" {{$s}}>
-                <input type="submit" class="button-joinmission" id="out_{{$mission->id}}" style="display: none;" onclick="quitMission('{{$idgroup}}','{{$mission->id}}')" value="roi khoi">
+                <input type="submit" class="button-joinmission" id="out_{{$mission->id}}" style="display: none;" onclick="quitMission('{{$idgroup}}','{{$mission->id}}')" value="rời khỏi">
                 @else
                 <input type="submit" class="button-joinmission" id="join_{{$mission->id}}" style="display: none;" onclick="joinMission('{{$idgroup}}','{{$mission->id}}')" value="tham gia" {{$s}}>
-                <input type="submit" class="button-joinmission" id="out_{{$mission->id}}" onclick="quitMission('{{$idgroup}}','{{$mission->id}}')" value="roi khoi">
+                <input type="submit" class="button-joinmission" id="out_{{$mission->id}}" onclick="quitMission('{{$idgroup}}','{{$mission->id}}')" value="rời khỏi">
                 @endif
             </div>
 
@@ -181,13 +192,13 @@
                     loại: sự kiện dài không chu kỳ
                 </div>
                 <br>
-                so nguoi tham gia: @if($mission->limit!=NULL)
+                số người tham gia: @if($mission->limit!=NULL)
                 {{$limit}}/{{$mission->limit}}
                 @else
-                khong gioi han
+                không giới hạn
                 @endif
                 <br>
-                danh sách:
+                thời gian:
                 <!--input type="button" value="xem them" onclick="showListCalen()"-->
                 <br>
                 @php
@@ -195,11 +206,25 @@
                 $e=$mission->listCalen;
 
                 $g="";
-                for($i=0;$i< strlen($e);$i++) { if($e[$i]=="@" ) { $levent[]=$g; $g="" ; } else $g=$g.$e[$i]; } @endphp <div>
+                for($i=0;$i< strlen($e);$i++) { if($e[$i]=="@" ) { $levent[]=$g; $g="" ; } else $g=$g.$e[$i]; }
+                    
+                @endphp <div>
 
 
                     @foreach($levent as $eve)
+                    
+                    
+                    @php
+                        $eve=str_replace("mon","thứ 2",$eve);
+                        $eve=str_replace("tue","thứ 3",$eve);
+                        $eve=str_replace("web","thứ 4",$eve);
+                        $eve=str_replace("thi","thứ 5",$eve);
+                        $eve=str_replace("fri","thứ 6",$eve);
+                        $eve=str_replace("sat","thứ 7",$eve);
+                        $eve=str_replace("sun","chủ nhật",$eve);
+                   @endphp
                     <li>{{$eve}}</li>
+                    
                     @endforeach
             </div>
         </div>
@@ -207,7 +232,7 @@
     </div>
     <div class=" a2">
         <span class="right-calen">
-            NOTE:
+            ghi chú:
         </span>
         <br>
         {{$mission->Note}}
@@ -226,10 +251,10 @@
         <div id="checkMember">
             @if($isjoin==0)
             <input type="submit" class="button-joinmission" id="join_{{$mission->id}}" onclick="joinMission('{{$idgroup}}','{{$mission->id}}')" value="tham gia">
-            <input type="submit" class="button-joinmission" id="out_{{$mission->id}}" style="display: none;" onclick="quitMission('{{$idgroup}}','{{$mission->id}}')" value="roi khoi">
+            <input type="submit" class="button-joinmission" id="out_{{$mission->id}}" style="display: none;" onclick="quitMission('{{$idgroup}}','{{$mission->id}}')" value="rời khỏi">
             @else
             <input type="submit" class="button-joinmission" id="join_{{$mission->id}}" style="display: none;" onclick="joinMission('{{$idgroup}}','{{$mission->id}}')" value="tham gia">
-            <input type="submit" class="button-joinmission" id="out_{{$mission->id}}" onclick="quitMission('{{$idgroup}}','{{$mission->id}}')" value="roi khoi">
+            <input type="submit" class="button-joinmission" id="out_{{$mission->id}}" onclick="quitMission('{{$idgroup}}','{{$mission->id}}')" value="rời khỏi">
             @endif
         </div>
 
@@ -249,7 +274,7 @@
     function joinMission(idg, idm) {
 
         $.ajax({
-            url: '/joinMission?idMission=' + idm+'&idgroup='+'<?php  echo $idgroup?>',
+            url: '/joinMission?idMission=' + idm + '&idgroup=' + '<?php echo $idgroup ?>',
             type: 'GET',
 
         }).done(function(Response) {
@@ -286,9 +311,22 @@
         for (let i = 0; i < listevent.length; i++)
             if (listevent[i] == id) {
                 listevent.splice(i, 1);
+                if (listevent.count != 0) {
+                    xoa.disabled = true;
 
+                } else {
+
+                    xoa.disabled = false;
+                }
                 return;
             }
+        if (listevent.count != 0) {
+            xoa.disabled = true;
+
+        } else {
+
+            xoa.disabled = false;
+        }
         listevent.push(id);
 
     }
@@ -324,7 +362,7 @@
     function searchmission() {
         var e = document.getElementById("search_mission").value;
         $.ajax({
-            url: '/searchmission?mission=' + e+'&idgroup='+'<?php  echo $idgroup?>',
+            url: '/searchmission?mission=' + e + '&idgroup=' + '<?php echo $idgroup ?>',
             type: 'GET',
         }).done(function(response) {
             $("#listmission").empty();

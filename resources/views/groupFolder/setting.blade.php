@@ -12,46 +12,51 @@
     @endphp
 <div style="padding-left:100px ;">
 @if($member->level==1)
-    <h3>doi nhom truong</h3>
+    <h3>đổi nhóm trưởng</h3>
 
     
     <div style="padding-left:50px ;" id="change-lv1">
-        nhom truong moi:
+        email nhóm trưởng mới:
         <input type="text" id="newlv1">
-        <input type="button" onclick="changeadmin()" value="xac nhan" {{$s}}>
-        <br>
+        <input type="button" onclick="changeadmin()" value="xác nhận" {{$s}}>
+        <br><br>
     </div>
 
 
 
-    <h3>xoa group</h3>
+    <h3>xóa nhóm</h3>
+    
     <div style="padding-left:50px ;">
-        bac xac nhap xoa group:
+        xác nhận xóa nhóm:
+        
         <input type="password" id="passlv1">
-        <input type="button" value="xac nhan" onclick="deletegroup()" {{$s}}>
+        <input type="button" value="xác nhận" onclick="deletegroup()" {{$s}}>
     </div>
 
     <br>
-    <h3>doi mat khau nhom</h3>
+    <h3>đổi mật khẩu nhóm</h3>
+
     <div style="padding-left:50px ;">
-        mat khau cu:
+        mật khẩu cũ:
         <input type="password" id="oldpass"><br>
-        mat khau moi:
+        mật khẩu mới:
         <input type="password" id="newpass"><br>
-        xac nhan mat khau moi:
+        xác nhận mật khẩu mới:
         <input type="password" id="newpassre"><br>
-        <input type="button" value="xac nhan" onclick="changepass()" {{$s}}>
+        <input type="button" value="xác nhận" onclick="changepass()" {{$s}}>
     </div>
 
-    <br>
+    
 @endif
-    <h3>thoat group</h3>
+<br>
+    <h3>rời nhóm</h3>
+    
     <div style="padding-left:50px ;">
-    <form action="/outgroup" id="FormCreate" method="POST"  onsubmit="return validateForm()">
+    <form action="/outgroup" id="FormCreate" method="POST" >
     {{csrf_field()}}
         <input type="text" name="id" value={{$id}}  style="display: none;">
         
-        <input type="submit" value="xac nhan" {{$out}}>
+        <input type="submit" value="xác nhận" {{$out}}>
     </form>
     </div>
 </div>

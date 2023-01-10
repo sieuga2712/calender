@@ -33,7 +33,7 @@
 	function chonev() {
 
 		var chon = document.getElementById("chon");
-		
+        var xoa=document.getElementById("xoa");
 		var C2 = "rgb(" + hexToRgb("#C20000") + ")";
 		var D9 = "rgb(" + hexToRgb("#D9D9D9") + ")";
 		if (chon.style.backgroundColor == C2) {
@@ -41,11 +41,13 @@
 
 			chon.style.backgroundColor = "red";
 			chon.style.color = "grey";
+			xoa.style.display="inline-block";
 			showchon();
 		} else {
 
 			chon.style.backgroundColor = C2;
 			chon.style.color = D9;
+			xoa.style.display="none";
 			hiddenchon();
 
 		}
@@ -53,17 +55,17 @@
 	}
 
 	function showchon() {
-		var xoa= document.getElementById("xoa");
+		var xoa = document.getElementById("xoa");
 		const elements = document.querySelectorAll(".chon");
-		xoa.disabled=false;
+		xoa.disabled = false;
 		for (let i = 0; i < elements.length; i++)
 			elements[i].classList.remove('hidden');
 	}
 
 	function hiddenchon() {
 		const elements = document.querySelectorAll(".chon");
-		var xoa= document.getElementById("xoa");
-		xoa.disabled=true;
+		var xoa = document.getElementById("xoa");
+		xoa.disabled = true;
 		for (let i = 0; i < elements.length; i++)
 			elements[i].classList.add('hidden');
 
@@ -171,84 +173,113 @@
 		}
 	}
 	//create
-	function checkck(e) {
-        var ck = document.getElementById("daingay");
-        var n = document.getElementById("trongngay");
+	function checkck() {
+		var type = document.getElementById("typeEvent").value;
+		var ck = document.getElementById("daingay");
+		var n = document.getElementById("trongngay");
+		
+		/*if (document.getElementById(e).checked == true) {
+		    ck.style.visibility = "visible";
+		    n.style.visibility = "hidden";
+		    ck.style.display = "inline-block";
+		    n.style.display = "none";
+		} else {
+		    ck.style.visibility = "hidden";
+		    n.style.visibility = "visible";
+		    ck.style.display = "none";
+		    n.style.display = "inline-block";
+		}*/
+		if (type == "trong ngay") {
+			ck.style.visibility = "hidden";
+			n.style.visibility = "visible";
+			ck.style.display = "none";
+			n.style.display = "inline-block";
+		} else {
+			ck.style.visibility = "visible";
+			n.style.visibility = "hidden";
+			ck.style.display = "inline-block";
+			n.style.display = "none";
 
-        if (document.getElementById(e).checked == true) {
-            ck.style.visibility = "visible";
-            n.style.visibility = "hidden";
-            ck.style.display = "inline-block";
-            n.style.display = "none";
-        } else {
-            ck.style.visibility = "hidden";
-            n.style.visibility = "visible";
-            ck.style.display = "none";
-            n.style.display = "inline-block";
-        }
+			var cck = document.getElementById("cochuky");
+			var kck = document.getElementById("khongchuky");
+			
+			if (type == "Chu Ky") {
+				cck.style.visibility = "visible";
+				kck.style.visibility = "hidden";
+				cck.style.display = "inline-block";
+				kck.style.display = "none";
+			} else if (type == "khong Chu Ky"){
+				
+				cck.style.visibility = "hidden";
+				kck.style.visibility = "visible";
+				cck.style.display = "none";
+				kck.style.display = "inline-block";
 
+			}
+		}
 
-    }
+	}
 
-    function lammoi() {
-        document.getElementById("FormCreate").reset();
+	function lammoi() {
+		document.getElementById("FormCreate").reset();
 
-    }
+	}
 
-    function check_chuky() {
-        var ck = document.getElementById("cochuky");
-        var n = document.getElementById("khongchuky");
-        var radiock = document.getElementById("radio_chuky");
+	function check_chuky() {
+		/*var ck = document.getElementById("cochuky");
+		var n = document.getElementById("khongchuky");
+		var radiock = document.getElementById("radio_chuky");
 
-        if (radiock.checked == true) {
-            ck.style.visibility = "visible";
-            n.style.visibility = "hidden";
-            ck.style.display = "inline-block";
-            n.style.display = "none";
+		if (radiock.checked == true) {
+			ck.style.visibility = "visible";
+			n.style.visibility = "hidden";
+			ck.style.display = "inline-block";
+			n.style.display = "none";
 
-        } else {
-            ck.style.visibility = "hidden";
-            n.style.visibility = "visible";
-            ck.style.display = "none";
-            n.style.display = "inline-block";
+		} else {
+			ck.style.visibility = "hidden";
+			n.style.visibility = "visible";
+			ck.style.display = "none";
+			n.style.display = "inline-block";
 
-        }
-    }
+		}*/
+	}
 
-    function clearlistkck() {
-        document.querySelector('#write-codekck').innerHTML = '';
-    }
+	function clearlistkck() {
+		document.querySelector('#write-codekck').innerHTML = '';
+	}
 
-    function writecodekck() {
-        var start = document.getElementById("kck_starttime").value;
-        var end = document.getElementById("kck_endtime").value;
-        var date = document.getElementById("kck_date").value;
-        if (date != "") {
+	function writecodekck() {
+		var start = document.getElementById("kck_starttime").value;
+		var end = document.getElementById("kck_endtime").value;
+		var date = document.getElementById("kck_date").value;
+		if (date != "") {
 
-            $(".write-codekck").append("<li><span style='color:red;'  onclick='updatelist(this.id)'> x </span><input type='text' style='display:none;'  name='listevkck[]' value='" + start + "-" + end + " " + date + "' >" + start + "-" + end + " " + date + "</li>");
-        } else
-            alert("ban chua chon ngay");
+			$(".write-codekck").append("<li><span style='color:red;'  onclick='updatelist(this.id)'> x </span><input type='text' style='display:none;'  name='listevkck[]' value='" + start + "-" + end + " " + date + "' >" + start + "-" + end + " " + date + "</li>");
+		} else
+			alert("ban chua chon ngay");
 
-    }
+	}
 
-    function clearlistck() {
-        document.querySelector('#write-codeck').innerHTML = '';
-    }
+	function clearlistck() {
+		document.querySelector('#write-codeck').innerHTML = '';
+	}
 
-	var idlist=0;
-    function writecodeck() {
-        var start = document.getElementById("ck_starttime").value;
-        var end = document.getElementById("ck_endtime").value;
-        var thu = document.getElementById("weekday").value;
-        $(".write-codeck").append("<li><span style='color:red;' id=" + idlist + " onclick='updatelist(this.id)'> x </span><input type='text' style='display:none;'  name='listevck[]' value='" + start + "-" + end + " " + thu + "' >" + start + "-" + end + " " + thu + "</li>");
+	var idlist = 0;
 
-        idlist++;
+	function writecodeck() {
+		var start = document.getElementById("ck_starttime").value;
+		var end = document.getElementById("ck_endtime").value;
+		var thu = document.getElementById("weekday").value;
+		$(".write-codeck").append("<li><span style='color:red;' id=" + idlist + " onclick='updatelist(this.id)'> x </span><input type='text' style='display:none;'  name='listevck[]' value='" + start + "-" + end + " " + thu + "' >" + start + "-" + end + " " + thu + "</li>");
 
-    }
+		idlist++;
 
-    function updatelist(e) {
-        document.getElementById(e).parentElement.style.display = "none";
-    }
+	}
+
+	function updatelist(e) {
+		document.getElementById(e).parentElement.style.display = "none";
+	}
 
 
 	//end create

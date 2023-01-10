@@ -7,20 +7,20 @@ $checkmem=\App\Http\Controllers\GroupController::isMember($_GET["id"]);
 <div class="group">
     <div class="menu-for-group">
         <ul>
-            <li class="menugroup" onclick="changeMenuGuild('member')">thanh vien</li>
-            <li class="menugroup" onclick="changeMenuGuild('mission')">nhiem vu</li>
+            <li class="menugroup" onclick="changeMenuGuild('member')">thành viên</li>
+            <li class="menugroup" onclick="changeMenuGuild('mission')">sự kiện nhóm</li>
             @php
             $informem=\App\Http\Controllers\GroupController::checkMembers();
 
             @endphp
             @if($informem->level<=2)
-            <li class="menugroup" onclick="changeMenuGuild('createMission')">tao nhiem vu</li>
+            <li class="menugroup" onclick="changeMenuGuild('createMission')">tạo sự kiện nhóm</li>
             @else
           
             @endif
-            <li class="menugroup" onclick="changeMenuGuild('application')">don xin</li>
-            <li class="menugroup" onclick="changeMenuGuild('messenge')">thong bao</li>
-            <li class="menugroup" onclick="changeMenuGuild('setting')">thiet lap</li>
+            <li class="menugroup" onclick="changeMenuGuild('application')">đơn xin</li>
+            <li class="menugroup" onclick="changeMenuGuild('messenge')">thông báo</li>
+            <li class="menugroup" onclick="changeMenuGuild('setting')">thiết lập</li>
 
         </ul>
 
@@ -79,5 +79,5 @@ $checkmem=\App\Http\Controllers\GroupController::isMember($_GET["id"]);
     </script>
 </div>
 @else
-        ban khong phai thanh vien nhom
+        bạn không phải thành viên nhóm
 @endif

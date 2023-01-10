@@ -89,15 +89,16 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 @endphp
 <form action="/createGroup" method="POST" style="margin-left:300px;margin-top:20px;">
 {{csrf_field()}}
-    <h2>nhap thong tin su kien</h2>
+    <h2>nhập thông tin sự kiện</h2>
 
     <div>
-        <label for="namegroup">ten nhom(*): </label>
+        <label for="namegroup">tên nhóm(*): </label>
         <input type="text" class="text" id="namegroup" name="namegroup">
         <br><br>
-        <label for="maxmember">so thanh vien toi da: </label>
+        <label for="maxmember">số thành viên tối đa: </label>
         <input type="number" class="text" id="maxmember" name="maxmenber">
-        <label for="password">mat khau nhom truong: </label>
+        <br><br>
+        <label for="password">mật khẩu nhóm: </label>
         <input type="number" class="text" id="password" name="password">
         <br><br>
 
@@ -115,7 +116,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         
         <input type="button" onclick="lammoi()" value="lam moi">
         @if ($che!=1)
-       <div>ban chua dang nhap</div>
+       <div>bạn chưa đăng nhập</div>
         
         @endif
     </div>

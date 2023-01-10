@@ -29,11 +29,15 @@ class GroupController extends Controller
     {
         $id = $_GET["id"];
         $email = $_GET["email"];
-        $app = new Applications;
-        $app->idgroup = $id;
-        $app->email = $email;
-        $app->save();
-
+        $check = DB::table("applications")->where("idgroup", $id)->where("email", $email)->count();
+        if ($check == 0) {
+            $app = new Applications;
+            $app->idgroup = $id;
+            $app->email = $email;
+            $app->save();
+        } else {
+            DB::table("applications")->where("idgroup", $id)->where("email", $email)->delete();
+        }
         return view('MenuRight.Listgroup');
     }
     public function checkApplication()
@@ -43,7 +47,7 @@ class GroupController extends Controller
         $group = DB::table("applications")->where("id", $id)->first();
         $name = DB::table('groups')->where("id", $group->idgroup)->first()->name;
         if ($check == 1) {
-           
+
             $member = $group->email;
             $membergroup = new memberGroup;
             $membergroup->email = $member;
@@ -52,13 +56,12 @@ class GroupController extends Controller
             $membergroup->save();
             $email = $member;
 
-           
-            $idgroupmess = CreateController::CreateMess($email, "tham gia nhom", $name);
+
+            $idgroupmess = CreateController::CreateMess($email, $group->idgroup, "tham gia nhóm", $name);
             CreateController::CreateGroupMess($group->idgroup, $idgroupmess);
-        }
-        else{
-        $idgroupmess = CreateController::CreateMess($group->email, "bi tu choi tham gia nhom", $name);
-        CreateController::CreatePerMess($group->email, $idgroupmess,-1);
+        } else {
+            $idgroupmess = CreateController::CreateMess($group->email, "bị từ chối tham gia nhóm", $name);
+            CreateController::CreatePerMess($group->email, $idgroupmess, -1);
         }
         DB::table("applications")->where("id", $id)->delete();;
     }
@@ -84,15 +87,15 @@ class GroupController extends Controller
     }
     public static function getGroup()
     {
-        $group = DB::table('groups')->get();
+        $group = DB::table('groups')->limit(30)->get();
         return $group;
     }
     public static function getNameGroup($idgroup)
     {
         $name = DB::table('groups')->where('id', $idgroup)->first();
-        try{
-        return $name->name;
-        }catch(Exception $e){
+        try {
+            return $name->name;
+        } catch (Exception $e) {
             //return redirect("home");
         }
     }
@@ -163,12 +166,20 @@ class GroupController extends Controller
 
         if ($pass == $g->passwordGroup) {
             DB::table('groups')->where('id', $id)->delete();
-            DB::table('member_groups')->where('idGroup', $id)->delete();
+            $listmember = DB::table('member_groups')->where('idGroup', $id)->get();
             $mem = DB::table('mission_groups')->where('idgroup', $id)->get();
             foreach ($mem as $m) {
                 DB::table('mission_members')->where('idMission', $m->id)->delete();
+                DB::table('detail_events')->where('ChainOfId', "G-" . $m->id)->delete();
             }
             DB::table('mission_groups')->where('idgroup', $id)->delete();
+            $idmess = CreateController::CreateMess(LoginController::userlogin(), "", "xóa nhóm", $g->name);
+
+
+            CreateController::CreatePerMess("", $idmess, $g->id);
+
+
+            DB::table('member_groups')->where('idGroup', $id)->delete();
             return redirect("home");
         }
         return "false";
@@ -194,13 +205,13 @@ class GroupController extends Controller
             return "false";
         } else {
             DB::table('member_groups')->where('idGroup', $id)->where("level", 1)->update(['level' => 2]);
-          
+
             $mem->update(['level' => 1]);
-            
-            $email = $mem->first(  )->email;
+
+            $email = $mem->first()->email;
 
             $name = DB::table('groups')->where("id", $id)->first()->name;
-            $idgroupmess = CreateController::CreateMess($email,"", "thanh truong nhom", $name);
+            $idgroupmess = CreateController::CreateMess($email, "", "thành trưởng nhóm", $name);
             CreateController::CreateGroupMess($id, $idgroupmess);
             return redirect("home");
         }
@@ -231,7 +242,7 @@ class GroupController extends Controller
         $mem = DB::table('member_Groups')->where('idGroup', $id)->where('email', LoginController::userlogin())->first();
         if ($mem->level == 1) {
             echo '<script type ="text/JavaScript">';
-            echo 'alert("admin khong duoc roi nhom")';
+            echo 'alert("admin không được rời nhóm")';
             echo '</script>';
             return redirect("home");
         } else {
@@ -241,7 +252,7 @@ class GroupController extends Controller
             $email = LoginController::userlogin();
 
             $name = DB::table('groups')->where("id", $id)->first()->name;
-            $idgroupmess = CreateController::CreateMess($email,"", "roi khoi nhom", $name);
+            $idgroupmess = CreateController::CreateMess($email, "", "ròi khỏi nhóm", $name);
             CreateController::CreateGroupMess($id, $idgroupmess);
 
 
@@ -250,21 +261,22 @@ class GroupController extends Controller
             return redirect("home");
         }
     }
-    public static function kickmem(Request $request){
+    public static function kickmem(Request $request)
+    {
         $id = $request->mem;
-        $group=$request->ig;
-        $mem = DB::table('member_Groups')->where('idGroup', $id)->where('email', LoginController::userlogin())->first();
+        $group = $request->ig;
+        $mem = DB::table('member_groups')->where('idGroup', $group)->where('email', LoginController::userlogin())->first();
         if ($mem->level != 1) {
-           
+
             return "false";
         } else {
-            $email=DB::table('detail_users')->where('id',$id)->first()->email;
+            $email = DB::table('detail_users')->where('id', $id)->first()->email;
             DB::table('member_groups')->where('idGroup', $group)->where('email', $email)->delete();
             $listmission = DB::table('mission_groups')->where('idGroup', $id)->get();
 
-           
-            $name = DB::table('groups')->where("id", $id)->first()->name;
-            $idgroupmess = CreateController::CreateMess($email,"", "roi khoi nhom", $name);
+
+            $name = DB::table('groups')->where("id", $group)->first()->name;
+            $idgroupmess = CreateController::CreateMess($email, "", "ròi khỏi nhóm", $name);
             CreateController::CreateGroupMess($id, $idgroupmess);
 
 

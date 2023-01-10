@@ -13,9 +13,9 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
     <div class="filter-tool" style="background-color: #bcc1df; padding-left: 5px;padding-top: 4px;">
         <button type="button" class="my-btn-steel-blue" style="border:solid 1px;"><a href="/create" style="color:white;">tao su kien</a> </button>
         <button type="button" id="chon" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chon</button>
-        <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9;" onclick="deleteEvent()" disabled>xoa</button>
+        <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9; display:none;" onclick="deleteEvent()" disabled>xoa</button>
         <input type="date" class="text" id="searchDate" onchange="searchevent()">
-        <input id="search_event"  type="text" onchange="searchevent()">
+        <input id="search_event" type="text" onchange="searchevent()">
         <button type="button"><i class="fa fa-search" onclick="searchevent()"></i></button>
     </div>
 
@@ -71,14 +71,14 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
                 @if($g>0)
 
-                su kien con <?php echo $e ?> ngay nua bat dau"
+                sự kiện còn <?php echo $e ?> ngày nữa bắt đầu"
 
                 @elseif($g==0)
-                su kien dang dien ra
+                sự kiện đang diễn ra
                 @else
 
 
-                su kien da qua
+                sự kiện đã qua
                 @endif
 
 
@@ -89,16 +89,16 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                 </div>
                 <div class="mid-calen">
                     @if($event->timeEnd==NULL && $event->timeStart!=NULL)
-                    start time:{{$event->timeStart}}
+                    bắt đầu:{{$event->timeStart}}
                     @elseif($event->timeEnd!=NULL && $event->timeStart==NULL)
-                    endtime:{{$event->timeStart}}
+                    kết thúc:{{$event->timeStart}}
                     @elseif($event->timeEnd==NULL && $event->timeStart==NULL)
-                    time: all day
+                    thời gian: cả ngày
                     @else
-                    time:{{$event->timeStart}}-{{$event->timeEnd}}
+                    thời gian:{{$event->timeStart}}-{{$event->timeEnd}}
                     @endif
                     <div style="float:right">
-                        date:{{$event->dateOfEvent}}
+                        ngày:{{$event->dateOfEvent}}
                     </div>
                 </div>
 
@@ -107,14 +107,14 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                 $gname=\App\Http\Controllers\GroupController::getNameGroup($event->group);
                 @endphp
                 <div class="under-calen">
-                    group:{{$gname}}
+                    nhóm:{{$gname}}
                 </div>
                 @endif
 
             </div>
             <div class=" a2">
                 <span class="right-calen">
-                    NOTE:
+                    ghi chú:
                 </span>
                 <br>
                 {{$event->Note}}
@@ -125,13 +125,13 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
 
         <div class="loadmore">
-            <button type="button" class="buttonload" onclick="loadmore()" style="background-color:#318ab7;">Tai them</button>
+            <button type="button" class="buttonload" onclick="loadmore()" style="background-color:#318ab7;">tải thêm</button>
         </div>
     </div>
 
 
     @else
-    <div>ban chua dang nhap</div>
+    <div>bạn chưa đăng nhập</div>
 
     @endif
 
@@ -146,35 +146,35 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
         <label for="wrap" class="wrap-menuin">a</label>
         <div style="padding-left:20px ; padding-top:20px">
-            <form action="/UpdatePersonalEvent" id="FormPUpdate" method="POST">
+            <form action="/UpdatePersonalEvent" id="FormPUpdate" method="POST" onsubmit="return checkid()">
                 {{csrf_field()}}
-                <h2>chinh sua su kien</h2>
+                <h2>chỉnh sửa sự kiện</h2>
                 <input type="text" class="text" id="Id_Update" name="Id_Update" style="display:none;">
-                <label for="Update_Event_Name">ten su kien(*): </label>
+                <label for="Update_Event_Name">tên sự kiện(*): </label>
                 <input type="text" class="text" id="Update_Event_Name" name="Update_Event_Name">
                 <br><br>
 
                 <br><br>
-                <label for="Update_Start_Time">thoi gian bat dau: </label>
+                <label for="Update_Start_Time">thời gian bắt đầu: </label>
                 <input type="time" class="text" id="Update_Start_Time" name="Update_Start_Time" onchange="checktime()">
                 <br><br>
-                <label for="Update_End_Time">thoi gian ket thuc:</label>
+                <label for="Update_End_Time">thời gian kết thúc:</label>
                 <input type="time" class="text" id="Update_End_Time" name="Update_End_Time" onchange="checktime()">
                 <br>
 
 
-                <label for="Update_Event_Date">ngay(*) </label>
+                <label for="Update_Event_Date">ngày(*) </label>
                 <input type="date" class="text" id="Update_Event_Date" name="Update_Event_Date">
 
 
                 <br>
 
-                <label>ghi chu: <textarea id="Update_Note" class="text" name="Update_Note" rows="4" cols="38">
+                <label>ghi chú: <textarea id="Update_Note" class="text" name="Update_Note" rows="4" cols="38">
 
                                     </textarea>
                 </label>
                 <br>
-                <button type="submit"  onclick="return checkid()"class="btn btn-primary"> update</button>
+                <button type="submit" class="btn btn-primary"> update</button>
             </form>
         </div>
 
@@ -187,6 +187,21 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 <script>
     var idcheck = null;
 
+    function checktime(e) {
+
+        var timestart = document.getElementById("Update_Start_Time");
+        var timeend = document.getElementById("Update_End_Time");
+
+
+
+        if (timeend.value < timestart.value && timestart.value != "" && timeend.value != "") {
+            alert("gio ket thuc phai hon gio bat dau");
+            timeend.value = timestart.value;
+
+        }
+
+    }
+
     function clickevent(elm, na, da, st, et, no) {
 
         var check = document.querySelector('#wrap');
@@ -194,13 +209,13 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
         if (check.checked == false) {
             check.checked = true;
-            ChangeInfoRightArea(elm,na, da, st, et, no);
+            ChangeInfoRightArea(elm, na, da, st, et, no);
 
         } else {
             if (idcheck == elm)
                 check.checked = false;
             else {
-                ChangeInfoRightArea(elm,na, da, st, et, no);
+                ChangeInfoRightArea(elm, na, da, st, et, no);
             }
         }
 
@@ -209,7 +224,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
     }
 
-    function ChangeInfoRightArea(elm,na, da, st, et, no) {
+    function ChangeInfoRightArea(elm, na, da, st, et, no) {
         document.getElementById("Id_Update").value = elm;
         document.getElementById("Update_Event_Name").value = na;
 
@@ -225,17 +240,27 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
     function checkid() {
         var d = document.getElementById('Update_Event_Date').value;
-        var n=document.getElementById("Update_Event_Name").value = na;
+        var n = document.getElementById("Update_Event_Name").value;
         if (idcheck == null)
             return false;
-        if (d == null){
+        if (d == null) {
             alert("ngay su kien khong duoc de trong");
             return false;
         }
-        if (n == ''){
+        if (n == '') {
             alert("ten su kien khong duoc de trong");
             return false;
         }
+
+
+        let text = "cập nhật sự kiện!\nchọn OK hoặc Hủy.";
+        if (confirm(text) == true) {
+            return true;
+        } else {
+            return false;
+        }
+
+
         return true;
     }
 
@@ -243,15 +268,33 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
     var listevent = [];
 
     function addList(id) {
-
+        var C2 = "rgb(" + hexToRgb("#C20000") + ")";
+        var D9 = "rgb(" + hexToRgb("#D9D9D9") + ")";
+        xoa = document.getElementById("xoa");
         for (let i = 0; i < listevent.length; i++)
             if (listevent[i] == id) {
                 listevent.splice(i, 1);
+                if (listevent.count != 0) {
+                    xoa.disabled = true;
 
+                } else {
+
+                    xoa.disabled = false;
+                }
                 return;
             }
+
         listevent.push(id);
 
+        if (listevent.count != 0) {
+         
+            xoa.disabled = true;
+        } else {
+
+           
+            xoa.disabled = false;
+
+        }
     }
     var load = 10;
 
@@ -269,19 +312,20 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
 
     }
-    function searchevent(){
-        var e=document.getElementById("search_event").value;
-        var date=document.getElementById("searchDate").value;
+
+    function searchevent() {
+        var e = document.getElementById("search_event").value;
+        var date = document.getElementById("searchDate").value;
         $.ajax({
-            url: '/searchevent?event='+e +'&date='+date,
+            url: '/searchevent?event=' + e + '&date=' + date,
             type: 'GET',
-        }).done(function(response){
+        }).done(function(response) {
             $("#listevent").empty();
             $("#listevent").html(response);
-            
+
         });
     }
-    
+
 
 
     function deleteEvent() {

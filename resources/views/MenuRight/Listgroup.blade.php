@@ -11,8 +11,8 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 @if($che==1)
 <div class="detail-event">
 
-    <div class="filter-tool" style="background-color: red;">
-        <button type="button" style="background-color: green;"><a href="/createGroup">tao nhom</a> </button>
+    <div class="filter-tool" style="background-color: #bcc1df;padding-left: 5px;padding-top: 4px;">
+        <button type="button" class="my-btn-steel-blue"><a href="/createGroup" style="color:white;">tao nhom</a> </button>
         <input id="search_group" type="text" onchange="searchgroup()">
         <button type="button"><i class="fa fa-search" onclick="searchgroup()"></i></button>
     </div>
@@ -28,12 +28,12 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                     <table>
                         <thead>
                             <tr class="row100 head">
-                                <th class="cell100 column1">ten nhom</th>
-                                <th class="cell100 column2">nhom truong</th>
+                                <th class="cell100 column1">tên nhóm</th>
+                                <th class="cell100 column2">nhóm trưởng</th>
 
-                                <th class="cell100 column4">thanh vien</th>
-                                <th class="cell100 column5">gioi han</th>
-                                <th class="cell100 column6">tinh trang</th>
+                                <th class="cell100 column4">thành viên hiện tại</th>
+                                <th class="cell100 column5">giới hạn thành viên</th>
+                                <th class="cell100 column6">nộp đơn</th>
                             </tr>
                         </thead>
                     </table>
@@ -67,20 +67,21 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                                 @php
                                 $ischeck=\App\Http\Controllers\GroupController::checked($group->id);
                                 @endphp
-                                <td class="cell100 column6">
+                                <td class="cell100 column6" id="checkapp">
+
                                     @if($ischeck==0)
                                     <div claas="apped">
-                                    <input id='{{$group->id}}'  type="submit" onclick="appliGroup('{{$group->id}}','{{$use}}')" value="xin gia nhap">
+                                        <input id='{{$group->id}}' type="submit" onclick="confimappligroup('{{$group->name}}','{{$group->id}}','{{$use}}')" value="xin gia nhập">
                                     </div>@else
-                                    <input id='{{$group->id}}' type="submit" onclick="appliGroup('{{$group->id}}','{{$use}}')" value="dang xin" disabled>
+                                    <input id='{{$group->id}}' type="submit" onclick="confimappligroup('{{$group->name}}','{{$group->id}}','{{$use}}')" value="hủy đơn xin">
                                     @endif
                                 </td>
                                 @else
-                                <td class="cell100 column6" ">
-                                
-                                <input  type="button" onclick="clickMe('{{$group->id}}')" value="vao" >
+                                <td class="cell100 column6">
 
-                                    
+                                    <input type="button" onclick="clickMe('{{$group->id}}')" value="vào nhóm">
+
+
 
                                 </td>
                                 @endif
@@ -99,7 +100,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
 
     @else
-    <div>ban chua dang nhap</div>
+    <div>bạn chưa đăng nhập</div>
 
     @endif
 
@@ -108,7 +109,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 </div>
 
 @else
-<div>ban chua dang nhap</div>
+<div>bạn chưa đăng nhập</div>
 
 @endif
 
@@ -118,12 +119,26 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         window.location.href = "/gogroup?id=" + e;
 
     }
-   
+
+    function confimappligroup(name, id, email) {
+        var input = document.getElementById(id);
+        if (input.value == "xin gia nhập") {
+            let text = "nộp đơn xin vào nhóm " + name + "!\nchọn OK hoặc Hủy.";
+            if (confirm(text) == true) {
+                appliGroup(id, email);
+            } 
+        }
+        else{
+            let text = "rút đơn xin vào nhóm " + name + "!\nchọn OK hoặc Hủy.";
+            if (confirm(text) == true) {
+                appliGroup(id, email);
+            } 
+        }
+    }
 
     function appliGroup(id, email) {
-        var input= document.getElementById(id);
-        input.disabled=true;
-        input.value="dang xin"
+        var input = document.getElementById(id);
+
         var userdata = {
             'id': id,
             'email': email
@@ -132,30 +147,30 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         $.ajax({
             url: "/ApplicationGroup",
             type: "GET",
-            data:userdata,
-           
+            data: userdata,
+
         }).done(function(Response) {
-           
-           // $("#detail-event").empty();
-           // $("#detail-event").html(Response);
-        }
-        );
-          
-    
-        }
-    function searchgroup(){
-        var e=document.getElementById("search_group").value;
-        $.ajax({
-            url: '/searchgroup?group='+e ,
-            type: 'GET',
-        }).done(function(response){
-            $("#listgroup").empty();
-            $("#listgroup").html(response);
-            
+
+
         });
+
+        if (input.value == "xin gia nhập")
+            input.value = "hủy đơn xin";
+        else
+            input.value = "xin gia nhập";
     }
 
+    function searchgroup() {
+        var e = document.getElementById("search_group").value;
+        $.ajax({
+            url: '/searchgroup?group=' + e,
+            type: 'GET',
+        }).done(function(response) {
+            $("#listgroup").empty();
+            $("#listgroup").html(response);
 
+        });
+    }
 </script>
 
 <style>
@@ -176,7 +191,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
 
     .column4 {
-        width: 10%;
+        width: 15%;
     }
 
     .column5 {

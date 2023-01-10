@@ -30,8 +30,10 @@ class CreateController extends Controller
         return view('createGroup');
     }
     public function createPersonalEvent(Request $request)
-    {
-        if (!isset($_POST['cycle'])) {
+    {   $typeEvent= $request->typeEvent;
+
+        
+        if ($typeEvent=="trong ngay") {
             $name = $request->Eventname;
             $start = $request->startname;
             $end = $request->endname;
@@ -58,7 +60,7 @@ class CreateController extends Controller
             $longevent->email = LoginController::userlogin();
             $listevent = "";
             $i = 1;
-            if ($request->radio_chuky == true) {
+            if ($typeEvent=="Chu Ky") {
                 $longevent->TypeEvent = 1;
                 $longevent->save();
                 if (isset($_POST['listevck']))
@@ -97,11 +99,12 @@ class CreateController extends Controller
                     }
                 $longevent->ListEvent = $listevent;
                 $longevent->save();
-            } else {
+            } else if($typeEvent=="khong Chu Ky"){
+                
                 $longevent->TypeEvent = 2;
                 $longevent->nameEvent = $request->Eventname;
-
-                if (isset($_POST['listevkck']))
+                $longevent->save();
+              
                     foreach ($_POST['listevkck'] as $le) {
                         $lisytevent = $this->detachedStringUncycle($le);
 
@@ -140,6 +143,7 @@ class CreateController extends Controller
 
         //return redirect("home");
         return view("detail");
+        
     }
     public function createGroup(Request $request)
     {
@@ -187,6 +191,8 @@ class CreateController extends Controller
     }*/
     public function createGroupMission(Request $request)
     {
+        $typeEvent= $request->typeEvent;
+
         $name = $request->Group_Mission_Name;
         $group = $request->GroupMission;
         $checklimit = $request->limitMember;
@@ -196,12 +202,12 @@ class CreateController extends Controller
         $event->idgroup = $group;
         $event->NameMission = $name;
         $event->Note = $note;
-
+        
         if ($checklimit == true)
             $event->limit = $limit;
         else
             $event->limit = null;
-        if (!isset($_POST['cycle'])) {
+        if ($typeEvent=="trong ngay") {
 
             $start = $request->startname;
             $end = $request->endname;
@@ -216,8 +222,8 @@ class CreateController extends Controller
 
             $listmission = "";
 
-            if ($request->radio_chuky == true) {
-
+            if ($typeEvent=="Chu Ky") {
+                
                 if (isset($_POST['listevck']))
                     foreach ($_POST['listevck'] as $le) {
 
@@ -234,19 +240,24 @@ class CreateController extends Controller
                 $event->ListCalen = $listmission;
                 $event->save();
             } else {
-
+                foreach ($_POST['listevkck'] as $le) {
+                   echo $le;
+                }
+                
                 if (isset($_POST['listevkck']))
                     foreach ($_POST['listevkck'] as $le) {
                         $listmission = $listmission . $le . "@";
                     }
+               
                 $event->TypeOfMission = 2;
                 $event->ListCalen = $listmission;
                 $event->save();
             }
         }
+        
         $email = LoginController::userlogin();
         $namegroup = DB::table('groups')->where('id', $group)->first()->name;
-        $idmess = $this->CreateMess($email,$namegroup, "them su kien", $name);
+        $idmess = $this->CreateMess($email, $namegroup, "thêm sự kiện", $name);
         $this->CreatePerMess("", $idmess, $group);
         $this->CreateGroupMess($group, $idmess);
         //return redirect("home");
@@ -384,7 +395,7 @@ class CreateController extends Controller
         $mm->save();
 
         $email = LoginController::userlogin();
-        $idgroupmess = $this->CreateMess($email,"", "tham gia su kien", $name);
+        $idgroupmess = $this->CreateMess($email, "", "tham gia sự kiện", $name);
         $this->CreateGroupMess($mission->idgroup, $idgroupmess);
         return redirect()->back();
     }
@@ -400,8 +411,8 @@ class CreateController extends Controller
 
         $email = LoginController::userlogin();
         $name = DB::table('mission_groups')->where("id", $mission)->first()->NameMission;
-        $idgroupmess = CreateController::CreateMess($email,"", "roi khoi su kien", $name);
-        CreateController::CreateGroupMess($name->idgroup, $idgroupmess);
+        $idgroupmess = CreateController::CreateMess($email, "", "rời khỏi sự kiện", $name);
+        CreateController::CreateGroupMess($name->idGroup, $idgroupmess);
         return redirect()->back();
     }
     public function deletePersonalEvent()
@@ -418,12 +429,12 @@ class CreateController extends Controller
         $email = LoginController::userlogin();
         foreach ($list as $idevent) {
             $name = DB::table('mission_groups')->where("id", $idevent)->first();
-           
-            
+
+
 
 
             $namegroup = DB::table('groups')->where('id', $name->idgroup)->first()->name;
-            $idmess =  CreateController::CreateMess($email,$namegroup, "xoa su kien", $name);
+            $idmess =  CreateController::CreateMess($email, $namegroup, "xóa sự kiện", $name);
             CreateController::CreatePerMess("", $idmess, $name->idgroup);
             CreateController::CreateGroupMess($name->idgroup, $idmess);
 
@@ -614,11 +625,11 @@ class CreateController extends Controller
         }
         return $list;
     }
-    public static function CreateMess($suba,$ingroup, $action, $subb)
+    public static function CreateMess($suba, $ingroup, $action, $subb)
     {
         $mess = new Messenge;
         $mess->subjectA = $suba;
-        $mess->ingroup=$ingroup;
+        $mess->ingroup = $ingroup;
         $mess->action = $action;
         $mess->subjectB = $subb;
         $mess->save();
@@ -647,5 +658,28 @@ class CreateController extends Controller
         $mess->idgroup = $idgroup;
         $mess->idmess = $id;
         $mess->save();
+    }
+    public static function Sukiengan()
+    {
+        $email = LoginController::userlogin();
+        $data = DB::table('detail_events')->where('email', $email)->get();
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $today = date("Y/m/d");
+        $t = new DateTime($today);
+        foreach ($data as $event) {
+
+            $date = new DateTime($event->dateOfEvent);
+            $g = $t->diff($date)->format('%R%a days');
+            $e= $t->diff($date)->format('%d');  
+            if ($g >= 0) {
+                if ($g >0 && $g<=3) {
+                    echo "sự kiện <span style='color:blue;'>" . $event->nameEvent . "</span> còn <span style='color:blue;'>" . $e . "</span> ngày nữa bắt đầu<br>";
+                }
+                else if($g==0)
+                {
+                    echo "sự kiện <span style='color:blue;'>" . $event->nameEvent . "</span> đang diễn ra<br> " ;
+                }
+            }
+        }
     }
 }

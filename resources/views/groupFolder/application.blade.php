@@ -27,9 +27,9 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                         <thead>
                             <tr class="row100 head">
                                 <th class="cell100 column1">email </th>
-                                <th class="cell100 column2">name</th>
+                                <th class="cell100 column2">tên</th>
 
-                                <th class="cell100 column4">xac nhan</th>
+                                <th class="cell100 column4">xác nhận</th>
                                 
                             </tr>
                         </thead>
@@ -52,9 +52,9 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
                                 <td class="cell100 column4" >
                                  <div id="checkMember">
-                                <input id='{{$group->id}}'  type="submit" onclick="checkMember('{{$group->id}}','1')" value="yes">
+                                <input id='{{$group->id}}'  type="submit" onclick="checkMember('{{$group->id}}','1')" value="đồng ý">
                                     
-                                 <input id='{{$group->id}}' type="submit" onclick="checkMember('{{$group->id}}','2')" value="no">
+                                 <input id='{{$group->id}}' type="submit" onclick="checkMember('{{$group->id}}','2')" value="từ chối">
                                    
                                  </div>
                                 
@@ -78,7 +78,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
 
     @else
-    <div>ban chua dang nhap</div>
+    <div>bạn chưa đăng nhập</div>
 
     @endif
 
@@ -87,7 +87,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 </div>
 
 @else
-<div>ban chua dang nhap</div>
+<div>bạn chưa đăng nhập</div>
 
 @endif
 

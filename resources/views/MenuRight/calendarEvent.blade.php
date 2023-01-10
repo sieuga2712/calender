@@ -8,19 +8,24 @@ $che=\App\Http\Controllers\Auth\loginController::checklogin();
     @php
     $use=\App\Http\Controllers\Auth\loginController::userlogin();
     $mess=\App\Http\Controllers\messengeController::messPerson($use);
-     
+    $id=\App\Http\Controllers\Auth\loginController::userid();
+    
     @endphp
+    
     @if(count($mess)>0)
     <div>
+        @php
+        \App\Http\Controllers\CreateController::Sukiengan();
+        @endphp
     @foreach($mess as $me)
-       <div>-{{$me->subjectA}}
-       <?php echo " cua nhom ";?>{{$me->ingroup}}
+       <div>-<span style="color:blue;">{{$me->subjectA}}</span>
+       <?php echo " của nhóm ";?> <span style="color:blue;">{{$me->ingroup}}</span> 
            
-       <?php echo " da ";?> {{$me->Action}}<?php echo " ";?> {{$me->subjectB}}</div>
+       <?php echo " đã ";?> {{$me->Action}}<?php echo " ";?><span style="color:blue;"> {{$me->subjectB}}</span> </div>
         <br>
     @endforeach 
     @else
-     khong co su kien
+    không có sự kiện
      @endif
     </div>
 @else
@@ -30,7 +35,7 @@ $che=\App\Http\Controllers\Auth\loginController::checklogin();
 
     <!--event right-->
 
-    ban chua dang nhap
+    bạn chưa đăng nhập
     <!-- end event right-->
 
     <!--end calendar right-->

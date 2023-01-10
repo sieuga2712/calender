@@ -26,14 +26,14 @@
            
             @if($g>0)
            
-            su kien con <?php echo $e ?>  ngay nua bat dau"
+            còn <?php echo $e ?>  ngày nữa bắt đầu"
             
             @elseif($g==0)
-            su kien dang dien ra
+            sự kiện đang diễn ra
             @else
            
            
-             su kien da qua
+             sự kiện đã kết thúc
             @endif
 
         </div>
@@ -43,16 +43,16 @@
             </div>
             <div class="mid-calen">
                 @if($event->timeEnd==NULL && $event->timeStart!=NULL)
-                start time:{{$event->timeStart}}
+                thời gian: bắt đầu lúc {{$event->timeStart}}
                 @elseif($event->timeEnd!=NULL && $event->timeStart==NULL)
-                endtime:{{$event->timeStart}}
+                thời gian: kết thúc lúc {{$event->timeStart}}
                 @elseif($event->timeEnd==NULL && $event->timeStart==NULL)
-                time: all day
+                cả ngày
                 @else
-                time:{{$event->timeStart}}-{{$event->timeEnd}}
+                thời gian:{{$event->timeStart}}-{{$event->timeEnd}}
                 @endif
                 <div style="float:right">
-                    date:{{$event->dateOfEvent}}
+                    ngày:{{$event->dateOfEvent}}
                 </div>
             </div>
 
@@ -61,14 +61,14 @@
             $name=\App\Http\Controllers\GroupController::getNameGroup($event->group);
             @endphp
             <div class="under-calen">
-                group:{{$name}}
+               nhóm:{{$name}}
             </div>
             @endif
 
         </div>
         <div class=" a2">
             <span class="right-calen">
-                NOTE:
+                ghi chú:
             </span>
             <br>
             {{$event->Note}}
@@ -80,10 +80,10 @@
 
     <div class="loadmore">
         @if($limit>$load)
-        <button type="button" class="buttonload" onclick="loadmore()" style="background-color:#318ab7;">Tai them</button>
+        <button type="button" class="buttonload" onclick="loadmore()" style="background-color:#318ab7;">tải thêm</button>
         @else
         <div>
-            ---------------------------------------het su kien---------------------------------------------
+            ---------------------------------------hết sự kiện---------------------------------------------
         </div>
         @endif
     </div>
