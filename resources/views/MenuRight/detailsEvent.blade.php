@@ -11,9 +11,10 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 <div class="detail-event">
 
     <div class="filter-tool" style="background-color: #bcc1df; padding-left: 5px;padding-top: 4px;">
-        <button type="button" class="my-btn-steel-blue" style="border:solid 1px;"><a href="/create" style="color:white;">tao su kien</a> </button>
-        <button type="button" id="chon" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chon</button>
-        <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9; display:none;" onclick="deleteEvent()" disabled>xoa</button>
+        <button type="button" class="my-btn-steel-blue" style="border:solid 1px;"><a href="/create" style="color:white;">tạo sự kiện</a> </button>
+        <button type="button" id="chon" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chọn</button>
+        <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9; display:none;" onclick="deleteEvent()" disabled>xóa</button>
+        <button type="button" id="selectall" style="background-color:#C20000;color:#D9D9D9;display:none;" onclick="selectall()">chọn hết</button>
         <input type="date" class="text" id="searchDate" onchange="searchevent()">
         <input id="search_event" type="text" onchange="searchevent()">
         <button type="button"><i class="fa fa-search" onclick="searchevent()"></i></button>
@@ -24,8 +25,10 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     $today = date("Y/m/d");
     $t=new DateTime($today);
+    $totalEvent=\App\Http\Controllers\EventController::CountEvent();
     @endphp
 
+    @if($totalEvent!=0)
     <div class="List-event" id="listevent">
 
 
@@ -59,7 +62,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
 
                 @if($event->group==NULL)
                 <div class="chon hidden">
-                    <input type="checkbox" onchange="addList('{{$event->id}}')">
+                    <input type="checkbox" onchange="addList('{{$event->id}}')" name="evet"id='{{$event->id}}'>
                 </div>
                 @endif
                 @php
@@ -128,7 +131,9 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
             <button type="button" class="buttonload" onclick="loadmore()" style="background-color:#318ab7;">tải thêm</button>
         </div>
     </div>
-
+    @else
+    bạn chưa có sự kiện nào
+    @endif
 
     @else
     <div>bạn chưa đăng nhập</div>
@@ -273,13 +278,13 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         xoa = document.getElementById("xoa");
         for (let i = 0; i < listevent.length; i++)
             if (listevent[i] == id) {
-                listevent.splice(i, 1);
+                listevent.splice(i - 1, 1);
                 if (listevent.count != 0) {
-                    xoa.disabled = true;
+                    xoa.disabled = false;
 
                 } else {
 
-                    xoa.disabled = false;
+                    xoa.disabled = true;
                 }
                 return;
             }
@@ -287,14 +292,15 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         listevent.push(id);
 
         if (listevent.count != 0) {
-         
-            xoa.disabled = true;
+
+            xoa.disabled = false;
         } else {
 
-           
-            xoa.disabled = false;
+
+            xoa.disabled = true;
 
         }
+        console.log(id);
     }
     var load = 10;
 
@@ -316,6 +322,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
     function searchevent() {
         var e = document.getElementById("search_event").value;
         var date = document.getElementById("searchDate").value;
+        
         $.ajax({
             url: '/searchevent?event=' + e + '&date=' + date,
             type: 'GET',
@@ -346,5 +353,29 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         location.reload(true);
 
 
+    }
+
+    function selectall() {
+        checkboxes = document.getElementsByName('evet');
+        var choiced = 0;
+        for (var i = 0, n = checkboxes.length; i < n; i++)
+            if (checkboxes[i].checked == true)
+            choiced++;
+        
+        if (choiced < checkboxes.length) {
+            listevent.splice(0,listevent.count);
+            for (var i = 0, n = checkboxes.length; i < n; i++) {
+                checkboxes[i].checked = true;
+                listevent.push(checkboxes[i].id);
+            }
+
+        } else {
+            listevent.splice(0,listevent.count);
+            for (var i = 0, n = checkboxes.length; i < n; i++) {
+                checkboxes[i].checked = false;
+            }
+
+        }
+        console.log(choiced);
     }
 </script>

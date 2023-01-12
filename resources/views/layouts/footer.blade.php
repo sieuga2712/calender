@@ -34,6 +34,7 @@
 
 		var chon = document.getElementById("chon");
         var xoa=document.getElementById("xoa");
+		var select=document.getElementById("selectall");
 		var C2 = "rgb(" + hexToRgb("#C20000") + ")";
 		var D9 = "rgb(" + hexToRgb("#D9D9D9") + ")";
 		if (chon.style.backgroundColor == C2) {
@@ -42,12 +43,14 @@
 			chon.style.backgroundColor = "red";
 			chon.style.color = "grey";
 			xoa.style.display="inline-block";
+			select.style.display="inline-block";
 			showchon();
 		} else {
 
 			chon.style.backgroundColor = C2;
 			chon.style.color = D9;
 			xoa.style.display="none";
+			select.style.display="none";
 			hiddenchon();
 
 		}

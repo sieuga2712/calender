@@ -141,8 +141,8 @@ class CreateController extends Controller
 
 
 
-        //return redirect("home");
-        return view("detail");
+        return redirect("detail");
+        //return view("detail");
         
     }
     public function createGroup(Request $request)
@@ -261,7 +261,7 @@ class CreateController extends Controller
         $this->CreatePerMess("", $idmess, $group);
         $this->CreateGroupMess($group, $idmess);
         //return redirect("home");
-        return redirect("home");
+        return redirect()->back();
     }
     public function joinMission()
     {

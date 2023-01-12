@@ -9,9 +9,10 @@
         border-radius: 4px;
         box-sizing: border-box;
     }
-    input[type=text]{
+
+    input[type=text] {
         width: 30%;
-        
+
     }
 
     input[type=submit] {
@@ -80,7 +81,8 @@
         margin: 4px 2px;
         cursor: pointer;
     }
-    img{
+
+    img {
         width: 350px;
         height: 350px;
     }
@@ -98,32 +100,32 @@ $member=\App\Http\Controllers\DetailController::showmember();
 @endphp
 @if ($che==1)
 <form action="/changInformation" method="POST" style="margin-left:300px;margin-top:20px;">
-{{csrf_field()}}
+    {{csrf_field()}}
     <h2>nhập thông tin </h2>
 
     <div>
-     
-        <label >email: </label>
-        <input type="text" class="text" value='{{$member->email}}' id="email" name ="email" disabled>
+
+        <label>email: </label>
+        <input type="text" class="text" value='{{$member->email}}' id="email" name="email" disabled>
         <br><br>
 
-        
-        <label >tên: </label>
-        <input type="text" class="text"id="name" name="name" value='{{$member->name}}' >
+
+        <label>tên: </label>
+        <input type="text" class="text" id="name" name="name" value='{{$member->name}}'>
 
 
 
+
+        <br><br>
         <!--
-        <br><br>
-      
             <label for="birthday">birthday(*) </label>
             <input type="date" class="text" id="birthday" name="birthday" value='{{$member->birthday}}'>
 -->
         <input type="submit" id="sudmit">
-      
-        
-        <input type="button" onclick="lammoi()" value="lam moi">
+
+
        
+
     </div>
 
 
@@ -132,7 +134,6 @@ $member=\App\Http\Controllers\DetailController::showmember();
 
 </form>
 @else
-        bạn chưa đăng nhập
-        
-        @endif
-        
+bạn chưa đăng nhập
+
+@endif

@@ -21,9 +21,9 @@ class UserController extends Controller
         $birthday = $request->birthday;
 
         DB::update('update detail_users set name ="'.$name.'" where email = ?' ,[LoginController::userlogin()]);
-        DB::update('update detail_users set birthday ="'  .$birthday. '" where email = ?' ,[LoginController::userlogin()]);
+        DB::update('update users set name ="'.$name.'" where email = ?' ,[LoginController::userlogin()]);
         
-        return view('detailsUser');
+        return redirect()->back();
    }
    
 }

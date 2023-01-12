@@ -94,4 +94,8 @@ class EventController extends Controller
         $limit=$event->count();
         return view('ForAjax.event',compact('events', 'limit', 'load'));
     }
+    public static function CountEvent(){
+        $total=DB::table('detail_events')->where('email', LoginController::userlogin())->count();
+        return $total;
+    }
 }

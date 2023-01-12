@@ -6,15 +6,29 @@
     @endphp
 
     @foreach($events as $event)
+    @php
+        $na=$event->nameEvent;
+
+        $dat= $event->dateOfEvent;
+
+        $st=$event->timeStart;
+        if($st==NULL)
+        $st="-1";
+        $et=$event->timeEnd;
+        if($et==NULL)
+        $et="-1";
+        $no=$event->Note;
+        if($no==NULL)
+        $no="-1";
+        @endphp
 
 
-
-    <div class="a1">
+    <div class="a1"onclick="clickevent(this.id,'{{$na}}','{{$dat}}','{{$st}}','{{$et}}','{{$no}}')" id='{{$event->id}}'>
         <div class=" a2 left-calen">
 
             @if($event->group==NULL)
             <div class="chon hidden">
-                <input type="checkbox" onchange="addList({{$event->id}})">
+                <input type="checkbox" onchange="addList({{$event->id}})" name="evet" id='{{$event->id}}'>
             </div>
             @endif
             @php
