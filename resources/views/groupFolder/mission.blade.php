@@ -5,6 +5,7 @@
     <div class="filter-tool" style="background-color: #bcc1df;">
         @if($m->level<=2) <button type="button" id="chon" style="background-color:#C20000;color:#D9D9D9;" onclick="chonev()">chon</button>
             <button type="button" id="xoa" style="background-color:#C20000;color:#D9D9D9;" onclick="deleteGroupEvent()" disabled>xoa</button>
+            <button type="button" id="selectall" style="background-color:#C20000;color:#D9D9D9;display:none;" onclick="selectall()">chọn hết</button>
             @endif
             <input id="search_mission" type="text" onchange="searchmission()">
             <button type="button"><i class="fa fa-search" onclick="searchmission()"></i></button>
@@ -29,7 +30,7 @@
         <div class="a1-group">
             <div class="a2">
                 <div class="chon hidden">
-                    <input type="checkbox" onchange="addList({{$mission->id}})">
+                    <input type="checkbox" onchange="addList({{$mission->id}})" name="evet"id='{{$mission->id}}'>
                 </div>
 
             </div>
@@ -47,11 +48,14 @@
                     <br>
                     ngày: {{$mission->dateMission}}
                     <br>
-                    số người tham gia:
+                    số người tham gia tối đa:
                     @if($mission->limit!=NULL)
-                    {{$limit}}/{{$mission->limit}}
+                    {{$mission->limit}}
+                    <br>
+                    số người tham gia hiện tại:{{$limit}}
                     @else
-                    không giới hạn
+                    không giới hạn số
+                    số người tham gia hiện tại:{{$limit}}
                     @endif
                 </div>
 
@@ -218,7 +222,7 @@
                         $eve=str_replace("mon","thứ 2",$eve);
                         $eve=str_replace("tue","thứ 3",$eve);
                         $eve=str_replace("web","thứ 4",$eve);
-                        $eve=str_replace("thi","thứ 5",$eve);
+                        $eve=str_replace("thu","thứ 5",$eve);
                         $eve=str_replace("fri","thứ 6",$eve);
                         $eve=str_replace("sat","thứ 7",$eve);
                         $eve=str_replace("sun","chủ nhật",$eve);
@@ -308,27 +312,35 @@
 
     function addList(id) {
 
+        var C2 = "rgb(" + hexToRgb("#C20000") + ")";
+        var D9 = "rgb(" + hexToRgb("#D9D9D9") + ")";
+        xoa = document.getElementById("xoa");
         for (let i = 0; i < listevent.length; i++)
             if (listevent[i] == id) {
-                listevent.splice(i, 1);
+                listevent.splice(i - 1, 1);
                 if (listevent.count != 0) {
-                    xoa.disabled = true;
+                    xoa.disabled = false;
 
                 } else {
 
-                    xoa.disabled = false;
+                    xoa.disabled = true;
                 }
                 return;
             }
-        if (listevent.count != 0) {
-            xoa.disabled = true;
 
-        } else {
-
-            xoa.disabled = false;
-        }
         listevent.push(id);
 
+        if (listevent.count != 0) {
+
+            xoa.disabled = false;
+        } else {
+
+
+            xoa.disabled = true;
+
+        }
+        for (let i = 0; i < listevent.length; i++)
+        console.log(listevent[i]);
     }
 
     function showListCalen() {
@@ -369,5 +381,28 @@
             $("#listmission").html(response);
 
         });
+    }
+    function selectall() {
+        checkboxes = document.getElementsByName('evet');
+        var choiced = 0;
+        for (var i = 0, n = checkboxes.length; i < n; i++)
+            if (checkboxes[i].checked == true)
+            choiced++;
+        
+        if (choiced < checkboxes.length) {
+            listevent.splice(0,listevent.count);
+            for (var i = 0, n = checkboxes.length; i < n; i++) {
+                checkboxes[i].checked = true;
+                listevent.push(checkboxes[i].id);
+            }
+
+        } else {
+            listevent.splice(0,listevent.count);
+            for (var i = 0, n = checkboxes.length; i < n; i++) {
+                checkboxes[i].checked = false;
+            }
+
+        }
+        console.log(choiced);
     }
 </script>

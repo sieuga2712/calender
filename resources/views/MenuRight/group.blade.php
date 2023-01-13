@@ -7,20 +7,21 @@ $checkmem=\App\Http\Controllers\GroupController::isMember($_GET["id"]);
 <div class="group">
     <div class="menu-for-group">
         <ul>
-            <li class="menugroup" onclick="changeMenuGuild('member')">thành viên</li>
-            <li class="menugroup" onclick="changeMenuGuild('mission')">sự kiện nhóm</li>
-            @php
+        @php
             $informem=\App\Http\Controllers\GroupController::checkMembers();
 
             @endphp
+            <li class="menugroup" onclick="changeMenuGuild('member',{{$informem->level}})">thành viên</li>
+            <li class="menugroup" onclick="changeMenuGuild('mission',{{$informem->level}})">sự kiện nhóm</li>
+            
             @if($informem->level<=2)
-            <li class="menugroup" onclick="changeMenuGuild('createMission')">tạo sự kiện nhóm</li>
-            @else
+            <li class="menugroup" onclick="changeMenuGuild('createMission',{{$informem->level}})">tạo sự kiện nhóm</li>
+            
           
             @endif
-            <li class="menugroup" onclick="changeMenuGuild('application')">đơn xin</li>
-            <li class="menugroup" onclick="changeMenuGuild('messenge')">thông báo</li>
-            <li class="menugroup" onclick="changeMenuGuild('setting')">thiết lập</li>
+            <li class="menugroup" onclick="changeMenuGuild('application',{{$informem->level}})">đơn xin</li>
+            <li class="menugroup" onclick="changeMenuGuild('messenge',{{$informem->level}})">thông báo</li>
+            <li class="menugroup" onclick="changeMenuGuild('setting',{{$informem->level}})">thiết lập</li>
 
         </ul>
 
@@ -56,7 +57,8 @@ $checkmem=\App\Http\Controllers\GroupController::isMember($_GET["id"]);
         </div>
     </div>
     <script>
-        function allHidden() {
+        function allHidden(lv) {
+            if(lv<=2){
             const listmenu = ["member", "application", "createMission", "mission","messenge", "setting"];
             for (let i = 0; i < 6; i++) {
                 var a = document.getElementById(listmenu[i]);
@@ -64,12 +66,22 @@ $checkmem=\App\Http\Controllers\GroupController::isMember($_GET["id"]);
                     a.style.display = "none";
                 a.style.display = "none";
             }
+        }
+        else{
+            const listmenu = ["member", "application", "mission","messenge", "setting"];
+            for (let i = 0; i < 5; i++) {
+                var a = document.getElementById(listmenu[i]);
+                if (a.style.display != "none")
+                    a.style.display = "none";
+                a.style.display = "none";
+            }
+        }
 
 
         }
 
-        function changeMenuGuild(e) {
-            allHidden();
+        function changeMenuGuild(e,lv) {
+            allHidden(lv);
             var a = document.getElementById(e);
             
             a.style.display="block";

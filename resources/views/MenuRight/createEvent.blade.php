@@ -96,9 +96,9 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
         <input type="text" class="text" id="Eventname" name="Eventname">
         <br><br>
         <select name="typeEvent" id="typeEvent" onchange="checkck()">
-            <option value="trong ngay"  selected >trong Ngay</option>
-            <option value="Chu Ky"  >co chu ky</option>
-            <option value="khong Chu Ky"  >khong chu ky</option>
+            <option value="trong ngay"  selected >trong ngày</option>
+            <option value="Chu Ky"  >lặp lại</option>
+            <option value="khong Chu Ky"  >không có chu kỳ</option>
             
         </select>
        <br>
@@ -123,10 +123,10 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
                     <option value="mon" selected>thứ 2</option>
                     <option value="tue">thứ 3</option>
                     <option value="wed">thứ 4</option>
-                    <option value="thứ">thứ 5</option>
+                    <option value="thu">thứ 5</option>
                     <option value="fri">thứ 6</option>
                     <option value="sat">thứ 7</option>
-                    <option value="sun">chu nhat</option>
+                    <option value="sun">chủ nhật</option>
                 </select>
                 <br>
                 <label for="ck_starttime">thời gian bắt đầu: </label>

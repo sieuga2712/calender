@@ -260,7 +260,7 @@
 
 			$(".write-codekck").append("<li><span style='color:red;'  onclick='updatelist(this.id)'> x </span><input type='text' style='display:none;'  name='listevkck[]' value='" + start + "-" + end + " " + date + "' >" + start + "-" + end + " " + date + "</li>");
 		} else
-			alert("ban chua chon ngay");
+			alert("bạn chưa chọn ngày");
 
 	}
 

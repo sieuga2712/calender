@@ -433,8 +433,8 @@ class CreateController extends Controller
 
 
 
-            $namegroup = DB::table('groups')->where('id', $name->idgroup)->first()->name;
-            $idmess =  CreateController::CreateMess($email, $namegroup, "xóa sự kiện", $name);
+            $namegroup = DB::table('groups')->where('id', $name->idgroup)->first();
+            $idmess =  CreateController::CreateMess($email, $namegroup->name, "xóa sự kiện", $name->NameMission);
             CreateController::CreatePerMess("", $idmess, $name->idgroup);
             CreateController::CreateGroupMess($name->idgroup, $idmess);
 
@@ -666,13 +666,16 @@ class CreateController extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $today = date("Y/m/d");
         $t = new DateTime($today);
+        if($data->count()==0)
+        echo "không có sự kiện sắp diễn ra";
+        else
         foreach ($data as $event) {
 
             $date = new DateTime($event->dateOfEvent);
             $g = $t->diff($date)->format('%R%a days');
             $e= $t->diff($date)->format('%d');  
             if ($g >= 0) {
-                if ($g >0 && $g<=3) {
+                if ($g =0 && $g<=3) {
                     echo "sự kiện <span style='color:blue;'>" . $event->nameEvent . "</span> còn <span style='color:blue;'>" . $e . "</span> ngày nữa bắt đầu<br>";
                 }
                 else if($g==0)

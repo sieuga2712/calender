@@ -300,7 +300,7 @@ $use=\App\Http\Controllers\Auth\loginController::userlogin();
             xoa.disabled = true;
 
         }
-        console.log(id);
+        
     }
     var load = 10;
 

@@ -29,8 +29,8 @@ $informem=\App\Http\Controllers\GroupController::checkMembers();
         <br>
         <select name="typeEvent" id="typeEvent" onchange="checkck()">
             <option value="trong ngay"  selected >trong ngày</option>
-            <option value="Chu Ky"  >có chu kỳ</option>
-            <option value="khong Chu Ky"  >lặp lại</option>
+            <option value="Chu Ky"  >lặp lại</option>
+            <option value="khong Chu Ky"  >không có chu kỳ</option>
             
         </select>
         <br>

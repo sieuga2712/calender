@@ -11,12 +11,19 @@ $che=\App\Http\Controllers\Auth\loginController::checklogin();
     $id=\App\Http\Controllers\Auth\loginController::userid();
     
     @endphp
-    
-    @if(count($mess)>0)
     <div>
-        @php
+    <h2>sự kiện 3 ngày tới:</h2><br><br>
+    @php
         \App\Http\Controllers\CreateController::Sukiengan();
         @endphp
+        <hr>
+        <h2> thông báo:</h2><br>
+    @if(count($mess)>0)
+    
+    
+    
+        
+       
     @foreach($mess as $me)
        <div>-<span style="color:blue;">{{$me->subjectA}}</span>
        <?php echo " của nhóm ";?> <span style="color:blue;">{{$me->ingroup}}</span> 
@@ -28,6 +35,7 @@ $che=\App\Http\Controllers\Auth\loginController::checklogin();
     không có sự kiện
      @endif
     </div>
+    
 @else
    
 
